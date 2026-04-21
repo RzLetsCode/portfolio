@@ -1,211 +1,9 @@
 .section {
   margin: 0;
-}
-
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 0.85rem;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  background: rgba(15, 23, 42, 0.9);
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #94a3b8; /* muted */
-}
-
-.pill::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: radial-gradient(circle, #22d3ee, #0ea5e9);
-  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.27);
-}
-
-.hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.05fr);
-  gap: 2.5rem;
-  align-items: center;
-}
-
-.heroTitle {
-  font-size: clamp(2.8rem, 5vw, 4.2rem);
-  line-height: 1.02;
-  letter-spacing: -0.04em;
-  margin: 1rem 0 0.75rem;
-  color: #f9fafb; /* ensure heading text is white */
-}
-
-.heroTitle span {
-  color: #22d3ee; /* accent color just for the span */
-}
-
-.heroSub {
-  max-width: 32rem;
-  color: #94a3b8; /* muted */
-  font-size: 0.98rem;
-}
-
- 
-.heroActions {
-  display: flex;
-  flex-direction: row;       /* force row */
-  flex-wrap: nowrap;         /* no wrapping until very narrow screens */
-  gap: 0.8rem;
-  margin-top: 1.75rem;
-}
-
-/* Optional: allow wrap only on very small screens */
-@media (max-width: 480px) {
-  .heroActions {
-    flex-wrap: wrap;
-  }
-}
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  border-radius: 999px;
-  padding: 0.7rem 1.15rem;
-  font-size: 0.9rem;
-  border: 1px solid rgba(51, 65, 85, 0.8); /* border-soft */
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.btnPrimary {
-  background: linear-gradient(135deg, #22d3ee, #38bdf8);
-  color: #020617; /* dark text on cyan button */
-  border-color: transparent;
-  font-weight: 600;
-}
-
-.btnSecondary {
-  background: rgba(15, 23, 42, 0.9);
-  color: #e5e7eb; /* light gray text */
-  font-weight: 500;
-}
-
-/* Right side card */
- .heroSide {
-  border-radius: 24px;
-  border: 1px solid rgba(30, 64, 175, 0.9);
-  background:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 60%),
-    rgba(15, 23, 42, 0.97);
-  padding: 1.5rem 1.4rem 1.3rem;
-}
-
-/* header area */
-.heroSideHead {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1.1rem;
-  padding-bottom: 0.9rem;
-  border-bottom: 1px dashed rgba(148, 163, 184, 0.4);
-}
-
-.heroSideEyebrow {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: #64748b;
-  margin-bottom: 0.3rem;
-}
-
-.heroSideHead h3 {
-  font-size: 0.93rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #94a3b8;
-}
-
-.heroSideTitle {
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #e5e7eb;
-}
-
-.heroSideChip {
-  border-radius: 999px;
-  border: 1px solid rgba(22, 163, 74, 0.65);
-  background: rgba(22, 163, 74, 0.16);
-  color: #bbf7d0;
-  padding: 0.3rem 0.7rem;
-  font-size: 0.72rem;
-  white-space: nowrap;
-}
-
-
-.heroSide ul {
-  list-style: none;
-  display: grid;
-  gap: 0.7rem;
-  font-size: 0.86rem;
-  color: #94a3b8;
-}
-
-.heroSide li {
-  padding: 0.8rem 0.75rem;
-  border-radius: 14px;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  background: rgba(15, 23, 42, 0.96);
-}
-
-.heroSide li strong {
-  display: block;
-  color: #e5e7eb;
-  font-size: 0.9rem;
-  margin-bottom: 0.15rem;
-}
-
-/* list of benefits */
-.heroSideList {
-  list-style: none;
-  display: grid;
-  gap: 0.75rem;
-  font-size: 0.86rem;
-}
-
-.heroSideList li {
-  padding: 0.8rem 0.75rem;
-  border-radius: 14px;
-  border: 1px solid rgba(51, 65, 85, 0.9);
-  background: rgba(15, 23, 42, 0.98);
-}
-
-.heroSideList li h4 {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #f9fafb;
-  margin-bottom: 0.2rem;
-}
-
-.heroSideList li p {
-  font-size: 0.84rem;
-  color: #94a3b8;
-}
-
-@media (max-width: 980px) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-.section {
-  margin: 0;
   position: relative;
 }
 
+/* subtle glow behind hero */
 .section::before {
   content: '';
   position: absolute;
@@ -233,7 +31,7 @@
   max-width: 34rem;
 }
 
-/* Pill above heading */
+/* pill above heading */
 .pill {
   display: inline-flex;
   align-items: center;
@@ -257,7 +55,7 @@
   box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.27);
 }
 
-/* Heading */
+/* heading */
 .heroTitle {
   font-size: clamp(2.8rem, 5vw, 4.2rem);
   line-height: 1.04;
@@ -266,21 +64,22 @@
   color: #f9fafb;
 }
 
-.heroTitle span {
-  color: #22d3ee;
+.heroTitle strong {
+  font-weight: 800;
 }
 
-/* Subtext */
+/* subtext */
 .heroSub {
   max-width: 32rem;
   color: #94a3b8;
   font-size: 0.98rem;
 }
 
-/* Buttons row */
+/* buttons row */
 .heroActions {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
+  flex-wrap: nowrap;
   gap: 0.8rem;
   margin-top: 1.75rem;
 }
@@ -298,8 +97,10 @@
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 0.14em;
+  white-space: nowrap;
 }
 
+/* primary CTA style – match Get in Touch / Initiate Contact */
 .btnPrimary {
   background: linear-gradient(135deg, #22d3ee, #38bdf8);
   color: #020617;
@@ -332,31 +133,41 @@
   font-weight: 500;
 }
 
-/* Right side card (keep as you had, or from earlier) */
+/* right side card */
 .heroSide {
   border-radius: 24px;
-  border: 1px solid rgba(51, 65, 85, 0.9);
+  border: 1px solid rgba(30, 64, 175, 0.9);
   background:
-    radial-gradient(circle at top, rgba(59, 130, 246, 0.18), transparent 60%),
-    rgba(15, 23, 42, 0.95);
-  padding: 1.25rem 1.15rem 1.15rem;
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 60%),
+    rgba(15, 23, 42, 0.97);
+  padding: 1.5rem 1.4rem 1.3rem;
 }
 
+/* header area inside card */
 .heroSideHead {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
   padding-bottom: 0.9rem;
   border-bottom: 1px dashed rgba(148, 163, 184, 0.4);
 }
 
-.heroSideHead h3 {
-  font-size: 0.93rem;
-  letter-spacing: 0.12em;
+.heroSideEyebrow {
+  font-size: 0.7rem;
   text-transform: uppercase;
-  color: #94a3b8;
+  letter-spacing: 0.16em;
+  color: #64748b;
+  margin-bottom: 0.3rem;
+}
+
+.heroSideTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #e5e7eb;
 }
 
 .heroSideChip {
@@ -364,32 +175,39 @@
   border: 1px solid rgba(22, 163, 74, 0.65);
   background: rgba(22, 163, 74, 0.16);
   color: #bbf7d0;
-  padding: 0.28rem 0.6rem;
+  padding: 0.3rem 0.7rem;
   font-size: 0.72rem;
+  white-space: nowrap;
 }
 
-.heroSide ul {
+/* list of benefits */
+.heroSideList {
   list-style: none;
   display: grid;
-  gap: 0.7rem;
+  gap: 0.75rem;
   font-size: 0.86rem;
+}
+
+.heroSideList li {
+  padding: 0.8rem 0.75rem;
+  border-radius: 14px;
+  border: 1px solid rgba(51, 65, 85, 0.9);
+  background: rgba(15, 23, 42, 0.98);
+}
+
+.heroSideList li h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f9fafb;
+  margin-bottom: 0.2rem;
+}
+
+.heroSideList li p {
+  font-size: 0.84rem;
   color: #94a3b8;
 }
 
-.heroSide li {
-  padding: 0.8rem 0.75rem;
-  border-radius: 14px;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  background: rgba(15, 23, 42, 0.96);
-}
-
-.heroSide li strong {
-  display: block;
-  color: #e5e7eb;
-  font-size: 0.9rem;
-  margin-bottom: 0.15rem;
-}
-
+/* responsive */
 @media (max-width: 980px) {
   .hero {
     grid-template-columns: minmax(0, 1fr);
@@ -400,4 +218,8 @@
   }
 }
 
-
+@media (max-width: 480px) {
+  .heroActions {
+    flex-wrap: wrap;
+  }
+}
