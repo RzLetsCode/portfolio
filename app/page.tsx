@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+// 1. Import your new Hero component
+import Hero from '../components/Hero'; 
 import { 
   Github, Linkedin, Mail, ArrowRight, Code, Database, Zap, 
   Youtube, Server, Globe, ChevronRight, Sparkles, Compass, 
@@ -91,7 +93,8 @@ export default function Home() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-110 transition-transform">
               <Code className="text-white w-5 h-5" />
             </div>
-            <span className="text-xl font-bold tracking-tighter text-white">code2caree_ai</span>
+            {/* Fixed the missing 'r' in code2career_ai here */}
+            <span className="text-xl font-bold tracking-tighter text-white">code2career_ai</span>
           </div>
           
           <div className="hidden md:flex items-center space-x-8">
@@ -113,75 +116,8 @@ export default function Home() {
       </nav>
 
       <main>
-        {/* Hero Section */}
-        <section id="about" className="relative pt-40 pb-24 px-6 overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cyan-500/10 blur-[120px] rounded-full" />
-            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/10 blur-[120px] rounded-full" />
-          </div>
-
-          <div className="max-w-7xl mx-auto relative">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-widest mb-8">
-              <Sparkles className="w-3 h-3" />
-              Start with AI, Build Real Projects.
-            </div>
-            
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h1 className="text-6xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter mb-8">
-                Learn AI. <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600">Grow with AI.</span>
-                </h1>
-                <p className="text-xl text-slate-400 max-w-xl leading-relaxed mb-10">
-                  A beginner-friendly platform for students and aspiring builders to learn AI, build projects, strengthen resumes, prepare for interviews.
-                </p>
-                
-                <div className="flex flex-wrap gap-4 items-center">
-                  <Link href="#journey" className="group px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-2xl font-bold flex items-center gap-2 transition-all hover:scale-105 shadow-xl shadow-cyan-500/20">
-                    Explore Ecosystem
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                  <div className="flex -space-x-4">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className="w-12 h-12 rounded-full border-4 border-[#020617] bg-slate-800 bg-cover bg-center shadow-lg" style={{ backgroundImage: `url('https://i.pravatar.cc/150?u=${i+10}')` }} />
-                    ))}
-                    <div className="pl-6 flex flex-col justify-center">
-                      <span className="text-xs font-bold text-white leading-none">500+ Students & Aspirants Have Started</span>
-                      <span className="text-[10px] text-slate-500">Building AI Together</span> 
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
-                <div className="relative bg-slate-900/50 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 overflow-hidden">
-                  <div className="flex items-center justify-between mb-8">
-                    <div className="flex gap-1.5"><div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/50" /><div className="w-3 h-3 rounded-full bg-amber-500/20 border border-amber-500/50" /><div className="w-3 h-3 rounded-full bg-emerald-500/20 border border-emerald-500/50" /></div>
-                    <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Live Status: Stable</span>
-                    </div>
-                  </div>
-                  <div className="space-y-6">
-                    <div className="p-6 rounded-2xl bg-slate-950/50 border border-slate-800">
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Production Deploy</span>
-                        <span className="text-xs font-bold text-cyan-400">85% Ready</span>
-                      </div>
-                      <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                        <div className="w-[85%] h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full relative"><div className="absolute top-0 right-0 h-full w-20 bg-white/20 animate-shimmer" /></div>
-                      </div>
-                    </div>
-                    <div className="p-4 rounded-xl bg-slate-950 font-mono text-[10px] text-slate-400 border border-slate-800">
-                      <pre className="text-cyan-400/80">{`class AgenticFramework:\n  def execute_task(self, prompt):\n    context = await self.memory.get(prompt)\n    return await agents.resolve(context)`}</pre>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* 2. Replaced the entire hardcoded Hero Section with your new Component */}
+        <Hero />
 
         {/* AI Journey Section */}
         <section id="journey" className="py-12 px-6">
@@ -194,7 +130,7 @@ export default function Home() {
                   </div>
                   <div>
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-widest mb-2">6 Steps</div>
-                    <h3 className="text-3xl md:text-4xl font-black text-white tracking-tighter">How code2caree_ai helps you – Your AI Journey</h3>
+                    <h3 className="text-3xl md:text-4xl font-black text-white tracking-tighter">How code2career_ai helps you – Your AI Journey</h3>
                   </div>
                 </div>
                 <div className={`w-12 h-12 rounded-full border border-slate-800 flex items-center justify-center transition-all duration-500 ${showJourney ? 'rotate-180 bg-white text-slate-950' : 'text-slate-500'}`}>
@@ -228,7 +164,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Featured Freshman Work - Restored Card Design */}
+        {/* Featured Freshman Work Section */}
         <section id="projects" className="py-24 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
@@ -331,13 +267,11 @@ export default function Home() {
         </section>
       </main>
 
-     
-
       <footer className="py-12 px-6 border-t border-slate-900 bg-slate-950">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center"><Code className="text-white w-4 h-4" /></div>
-            <span className="text-lg font-bold text-white tracking-tighter">code2caree_ai</span>
+            <span className="text-lg font-bold text-white tracking-tighter">code2career_ai</span>
           </div>
           <div className="text-[10px] font-bold text-slate-600 uppercase tracking-[0.2em]">© {new Date().getFullYear()} ALL RIGHTS RESERVED</div>
           <div className="text-[10px] text-slate-500 font-medium">Architected for Freshers & AI Enthusiasts</div>
