@@ -1,3 +1,4 @@
+// components/Projects.tsx
 import styles from './Projects.module.css';
 
 const projects = [
@@ -30,22 +31,34 @@ const projects = [
 export default function Projects() {
   return (
     <section id="projects" className={styles.section}>
-      <div className={styles.sectionHead}>
-        <div className={styles.sectionEyebrow}>Project ecosystem</div>
-        <h2 className={styles.sectionTitle}>Learn by building what actually helps your career.</h2>
-        <p className={styles.sectionSub}>Each project is designed to teach real skills and give you something concrete to show on GitHub and in interviews.</p>
-      </div>
-      <div className={styles.projectsGrid}>
+      <header className={styles.header}>
+        <p className={styles.eyebrow}>Project ecosystem</p>
+        <h2 className={styles.title}>
+          Learn by building what actually helps your career.
+        </h2>
+        <p className={styles.subtitle}>
+          Each project is designed to teach real skills and give you something
+          concrete to show on GitHub and in interviews.
+        </p>
+      </header>
+
+      <div className={styles.grid}>
         {projects.map((p) => (
-          <article key={p.title} className={styles.projCard}>
-            <div className={styles.projLabel}>{p.label}</div>
-            <h3>{p.title}</h3>
-            <p>{p.desc}</p>
-            <div className={styles.projMeta}>
-              <div><span>Learn </span><strong>{p.learn}</strong></div>
-              <div><span>Best for </span><strong>{p.best}</strong></div>
-              <div><span>Career value </span><strong>{p.value}</strong></div>
-            </div>
+          <article key={p.title} className={styles.card}>
+            <p className={styles.label}>{p.label}</p>
+            <h3 className={styles.cardTitle}>{p.title}</h3>
+            <p className={styles.desc}>{p.desc}</p>
+            <ul className={styles.meta}>
+              <li>
+                <strong>Learn:</strong> {p.learn}
+              </li>
+              <li>
+                <strong>Best for:</strong> {p.best}
+              </li>
+              <li>
+                <strong>Career value:</strong> {p.value}
+              </li>
+            </ul>
           </article>
         ))}
       </div>
