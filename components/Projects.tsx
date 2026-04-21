@@ -30,7 +30,7 @@ const projects = [
 
 export default function Projects() {
   return (
-    <section id="projects" className={styles.section}>
+    <section className={styles.section}>
       <header className={styles.header}>
         <p className={styles.eyebrow}>Project ecosystem</p>
         <h2 className={styles.title}>
