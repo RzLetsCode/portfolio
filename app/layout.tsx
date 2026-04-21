@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Chatbot from './components/Chatbot';
+import Chatbot from '../components/Chatbot';
 
 export const metadata: Metadata = {
   title: 'code2career_ai | Where boundaries break, breakthroughs happen .....',
