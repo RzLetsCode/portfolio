@@ -1,4 +1,6 @@
-.section { margin-bottom: 3.75rem; }
+.section {
+  margin: 0; /* outer section spacing is controlled by page.tsx */
+}
 
 .pill {
   display: inline-flex;
@@ -31,13 +33,15 @@
 }
 
 .heroTitle {
-  font-size: clamp(2.6rem, 4.6vw, 3.7rem);
+  font-size: clamp(2.8rem, 5vw, 4.2rem);
   line-height: 1.02;
   letter-spacing: -0.04em;
   margin: 1rem 0 0.75rem;
 }
 
-.heroTitle span { color: var(--accent); }
+.heroTitle span {
+  color: var(--accent);
+}
 
 .heroSub {
   max-width: 32rem;
@@ -81,7 +85,9 @@
 .heroSide {
   border-radius: var(--radius-xl);
   border: 1px solid var(--border);
-  background: radial-gradient(circle at top, rgba(59,130,246,0.18), transparent 60%), rgba(15,23,42,0.95);
+  background:
+    radial-gradient(circle at top, rgba(59, 130, 246, 0.18), transparent 60%),
+    rgba(15, 23, 42, 0.95);
   padding: 1.25rem 1.15rem 1.15rem;
 }
 
@@ -134,5 +140,7 @@
 }
 
 @media (max-width: 980px) {
-  .hero { grid-template-columns: minmax(0, 1fr); }
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
