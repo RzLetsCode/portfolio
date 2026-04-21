@@ -68,6 +68,15 @@
   font-weight: 800;
 }
 
+/* Middle line: accent, single line */
+.heroAccent {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.9em;        /* slightly smaller so it fits on one line */
+  color: #22d3ee;          /* same cyan accent as before */
+  white-space: nowrap;     /* prevent wrapping */
+}
+
 /* subtext */
 .heroSub {
   max-width: 32rem;
