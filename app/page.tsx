@@ -26,6 +26,7 @@ import {
 import Hero from '../components/Hero';
 import Journey from '../components/Journey';
 import Projects from '../components/Projects';
+import Audience from '../components/Audience';
 
 export default function Home() {
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
@@ -123,6 +124,13 @@ export default function Home() {
             <Hero />
           </div>
         </section>
+
+          {/* Audience */}
+          <section id="audience" className="py-16 px-6">
+            <div className="max-w-7xl mx-auto">
+              <Audience />
+            </div>
+          </section>
 
         {/* Journey – component version, but keep anchor id for nav */}
         <section id="journey" className="py-20 px-6">
