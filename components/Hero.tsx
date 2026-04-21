@@ -13,11 +13,11 @@ export default function Hero() {
           </span>
 
           <h1 className={styles.heroTitle}>
-            Learn AI.
+            <strong>Learn AI.</strong>
             <br />
-            <span>Build real projects.</span>
+            <strong><span>Build real projects.</span></strong>
             <br />
-            Get career-ready.
+            <strong>Get career-ready.</strong>
           </h1>
 
           <p className={styles.heroSub}>
@@ -41,6 +41,8 @@ export default function Hero() {
             </Link>
           </div>
         </div>
+
+        
 
         {/* Right side: “what you get” card */}
         <aside className={styles.heroSide} aria-label="What learners get">
