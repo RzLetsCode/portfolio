@@ -7,7 +7,7 @@ export default function Hero() {
     <section className={styles.section}>
       <div className={styles.hero}>
         {/* Left side: main copy */}
-        <div>
+        <div className={styles.left}>
           <span className={styles.pill}>
             Built for students, freshers, and AI aspirants
           </span>
@@ -27,10 +27,16 @@ export default function Hero() {
           </p>
 
           <div className={styles.heroActions}>
-            <Link href="#journey" className={`${styles.btn} ${styles.btnPrimary}`}>
+            <Link
+              href="#journey"
+              className={`${styles.btn} ${styles.btnPrimary}`}
+            >
               Start your AI journey
             </Link>
-            <Link href="#projects" className={`${styles.btn} ${styles.btnSecondary}`}>
+            <Link
+              href="#projects"
+              className={`${styles.btn} ${styles.btnSecondary}`}
+            >
               Explore project ecosystem
             </Link>
           </div>
@@ -53,8 +59,8 @@ export default function Hero() {
             <li>
               <strong>Projects that truly count</strong>
               <span>
-                Build systems you can ship to GitHub, break down in interviews, and
-                keep upgrading.
+                Build systems you can ship to GitHub, break down in interviews,
+                and keep upgrading.
               </span>
             </li>
             <li>
