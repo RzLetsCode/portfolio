@@ -53,11 +53,18 @@
  
 .heroActions {
   display: flex;
-  flex-wrap: wrap;  /* allows wrapping only on very small screens */
+  flex-direction: row;       /* force row */
+  flex-wrap: nowrap;         /* no wrapping until very narrow screens */
   gap: 0.8rem;
   margin-top: 1.75rem;
 }
 
+/* Optional: allow wrap only on very small screens */
+@media (max-width: 480px) {
+  .heroActions {
+    flex-wrap: wrap;
+  }
+}
 .btn {
   display: inline-flex;
   align-items: center;
@@ -85,23 +92,32 @@
 }
 
 /* Right side card */
-.heroSide {
+ .heroSide {
   border-radius: 24px;
-  border: 1px solid rgba(51, 65, 85, 0.9);
+  border: 1px solid rgba(30, 64, 175, 0.9);
   background:
-    radial-gradient(circle at top, rgba(59, 130, 246, 0.18), transparent 60%),
-    rgba(15, 23, 42, 0.95);
-  padding: 1.25rem 1.15rem 1.15rem;
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 60%),
+    rgba(15, 23, 42, 0.97);
+  padding: 1.5rem 1.4rem 1.3rem;
 }
 
+/* header area */
 .heroSideHead {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
   padding-bottom: 0.9rem;
   border-bottom: 1px dashed rgba(148, 163, 184, 0.4);
+}
+
+.heroSideEyebrow {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #64748b;
+  margin-bottom: 0.3rem;
 }
 
 .heroSideHead h3 {
@@ -111,14 +127,24 @@
   color: #94a3b8;
 }
 
+.heroSideTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #e5e7eb;
+}
+
 .heroSideChip {
   border-radius: 999px;
   border: 1px solid rgba(22, 163, 74, 0.65);
   background: rgba(22, 163, 74, 0.16);
   color: #bbf7d0;
-  padding: 0.28rem 0.6rem;
+  padding: 0.3rem 0.7rem;
   font-size: 0.72rem;
+  white-space: nowrap;
 }
+
 
 .heroSide ul {
   list-style: none;
@@ -140,6 +166,33 @@
   color: #e5e7eb;
   font-size: 0.9rem;
   margin-bottom: 0.15rem;
+}
+
+/* list of benefits */
+.heroSideList {
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+  font-size: 0.86rem;
+}
+
+.heroSideList li {
+  padding: 0.8rem 0.75rem;
+  border-radius: 14px;
+  border: 1px solid rgba(51, 65, 85, 0.9);
+  background: rgba(15, 23, 42, 0.98);
+}
+
+.heroSideList li h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f9fafb;
+  margin-bottom: 0.2rem;
+}
+
+.heroSideList li p {
+  font-size: 0.84rem;
+  color: #94a3b8;
 }
 
 @media (max-width: 980px) {
