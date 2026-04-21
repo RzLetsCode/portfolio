@@ -48,7 +48,7 @@ const steps = [
 
 export default function Journey() {
   return (
-    <section id="journey" className={styles.section}>
+    <section className={styles.section}>
       <header className={styles.header}>
         <p className={styles.eyebrow}>Your AI journey</p>
         <h2 className={styles.title}>
