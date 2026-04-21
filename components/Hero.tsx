@@ -11,14 +11,17 @@ export default function Hero() {
           <span className={styles.pill}>
             Built for students, freshers, and AI aspirants
           </span>
+          
 
           <h1 className={styles.heroTitle}>
             <strong>Learn AI.</strong>
             <br />
-            <strong>Build real projects.</strong>
+            <strong><span>Build real projects.</span></strong>
             <br />
             <strong>Get career-ready.</strong>
           </h1>
+
+        
 
           <p className={styles.heroSub}>
             A beginner-friendly platform for students, freshers, and career
