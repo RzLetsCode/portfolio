@@ -27,6 +27,7 @@ import Hero from '../components/Hero';
 import Journey from '../components/Journey';
 import Projects from '../components/Projects';
 import Audience from '../components/Audience';
+import Mentorship from '../components/Mentorship';
 
 export default function Home() {
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
@@ -146,80 +147,13 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Mentorship Section (from your original page) */}
-        <section id="mentorship" className="py-12 px-6">
+        <section className="py-12 px-6">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 rounded-[40px] overflow-hidden">
-              <button
-                onClick={() => toggleAccordion('mentor')}
-                className="w-full flex items-center justify-between p-10 text-left focus:outline-none"
-              >
-                <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-widest mb-4">
-                    Direct Results
-                  </div>
-                  <h3 className="text-4xl font-black text-white tracking-tighter">
-                    Career Strategy Mentorship
-                  </h3>
-                </div>
-                <div
-                  className={`w-12 h-12 rounded-full border border-slate-800 flex items-center justify-center transition-transform duration-500 ${
-                    openAccordion === 'mentor'
-                      ? 'rotate-180 bg-white text-slate-950'
-                      : 'text-slate-500'
-                  }`}
-                >
-                  <ChevronRight className="w-6 h-6 rotate-90" />
-                </div>
-              </button>
-              <div
-                className={`transition-all duration-700 ${
-                  openAccordion === 'mentor' ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
-                } overflow-hidden`}
-              >
-                <div className="p-10 pt-0 grid md:grid-cols-3 gap-6">
-                  {mentorshipSteps.map((step, idx) => (
-                    <div
-                      key={idx}
-                      className="p-8 rounded-3xl bg-slate-950/50 border border-slate-800 hover:border-cyan-500/30 transition-all group"
-                    >
-                      <div className="text-5xl font-black text-slate-800 mb-6 group-hover:text-cyan-500/20 transition-colors">
-                        {step.num}
-                      </div>
-                      <h4 className="text-xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors">
-                        {step.title}
-                      </h4>
-                      <p className="text-sm text-slate-400 leading-relaxed mb-6">{step.desc}</p>
-                      <div className="space-y-4 pt-6 border-t border-slate-800">
-                        <div className="flex flex-wrap gap-2">
-                          {step.tools.map((t, i) => (
-                            <span
-                              key={i}
-                              className="px-3 py-1 rounded-lg bg-cyan-500/5 border border-cyan-500/10 text-cyan-400 text-[10px] font-bold"
-                            >
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                        <ul className="space-y-2">
-                          {step.bullets.map((b, i) => (
-                            <li
-                              key={i}
-                              className="flex items-start gap-2 text-xs text-slate-500"
-                            >
-                              <div className="w-1 h-1 rounded-full bg-cyan-500 mt-1.5" />
-                              {b}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <Mentorship />
           </div>
         </section>
+
+    
 
         {/* CTA Section */}
         <section className="py-24 px-6">
