@@ -52,14 +52,11 @@ export default function Audience() {
               idx % 2 === 0 ? styles.audCardRaised : ''
             }`}
           >
-            <div className={styles.audTopRow}>
-              <div className={styles.audAvatar}>
-                <span>{a.label[0].toUpperCase()}</span>
-              </div>
-              <div>
-                <p className={styles.audLabel}>{a.label}</p>
-                <p className={styles.audTag}>{a.tag}</p>
-              </div>
+            <div className={styles.accent} aria-hidden="true" />
+
+            <div className={styles.audHeader}>
+              <span className={styles.audLabel}>{a.label}</span>
+              <span className={styles.audTag}>{a.tag}</span>
             </div>
 
             <h3 className={styles.audTitle}>{a.title}</h3>
