@@ -10,7 +10,7 @@
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: var(--muted-soft);
+  color: #64748b;
   margin-bottom: 0.75rem;
 }
 
@@ -18,67 +18,130 @@
   font-size: clamp(1.8rem, 3vw, 2.4rem);
   line-height: 1.1;
   letter-spacing: -0.03em;
-  color: var(--text);
+  color: #f9fafb;
   margin-bottom: 0.75rem;
 }
 
 .subtitle {
-  color: var(--muted);
+  color: #94a3b8;
   max-width: 36rem;
   font-size: 0.98rem;
 }
 
+/* Base timeline layout */
 .timeline {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 1.5rem;
+  gap: 1.4rem;
 }
 
+/* Step cards */
 .step {
   position: relative;
   border-radius: 18px;
-  border: 1px solid var(--border);
-  background: rgba(15, 23, 42, 0.96);
-  padding: 1.4rem 1.3rem 1.3rem;
+  border: 1px solid rgba(51, 65, 85, 0.9);
+  background: rgba(15, 23, 42, 0.97);
+  padding: 1.3rem 1.2rem 1.2rem;
+  overflow: hidden;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.stepEven {
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 60%),
+    rgba(15, 23, 42, 0.98);
+}
+
+.stepOdd {
+  background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.16), transparent 60%),
+    rgba(15, 23, 42, 0.98);
+}
+
+.step:hover {
+  transform: translateY(-3px);
+  border-color: rgba(56, 189, 248, 0.7);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
 }
 
 .stepNumber {
-  position: absolute;
-  top: 0.9rem;
-  right: 1.1rem;
-  font-size: 2.75rem;
-  font-weight: 800;
-  color: rgba(15, 23, 42, 0.9);
-  text-shadow: 0 0 40px rgba(15, 23, 42, 1);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #e5e7eb;
+  margin-bottom: 0.4rem;
 }
 
 .stepBody {
   position: relative;
-  z-index: 1;
 }
 
 .stepTag {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: var(--muted-soft);
-  margin-bottom: 0.4rem;
+  color: #64748b;
+  margin-bottom: 0.35rem;
 }
 
 .stepTitle {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--text);
-  margin-bottom: 0.35rem;
+  color: #f9fafb;
+  margin-bottom: 0.3rem;
 }
 
 .stepDesc {
   font-size: 0.88rem;
-  color: var(--muted);
-  margin-bottom: 0.5rem;
+  color: #94a3b8;
+  margin-bottom: 0.45rem;
 }
 
 .stepOutcome {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.1rem;
   font-size: 0.8rem;
-  color: var(--accent);
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(8, 47, 73, 0.7);
+  border: 1px solid rgba(56, 189, 248, 0.6);
+  color: #e0f2fe;
+}
+
+/* Desktop vertical timeline spine */
+@media (min-width: 900px) {
+  .timeline {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    padding-left: 2.5rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.65rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      rgba(148, 163, 184, 0.5),
+      rgba(30, 64, 175, 0.6)
+    );
+  }
+
+  .step {
+    margin-left: 0;
+  }
+
+  .stepNumber {
+    position: absolute;
+    left: -2.4rem;
+    top: 1rem;
+    font-size: 0.68rem;
+    color: #cbd5f5;
+  }
 }
