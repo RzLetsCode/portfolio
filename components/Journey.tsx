@@ -55,15 +55,17 @@ export default function Journey() {
           Turn “I am lost in AI” into “I know what to do next.”
         </h2>
         <p className={styles.subtitle}>
-          This is not a playlist of random videos. It is a guided path from
-          confusion to a clear roadmap, solid projects, and a story that works
-          in interviews.
+          This is not a playlist of random videos. It is a guided path from confusion
+          to a clear roadmap, solid projects, and a story that works in interviews.
         </p>
       </header>
 
       <div className={styles.timeline}>
-        {steps.map((s) => (
-          <article key={s.num} className={styles.step}>
+        {steps.map((s, index) => (
+          <article
+            key={s.num}
+            className={`${styles.step} ${index % 2 === 0 ? styles.stepEven : styles.stepOdd}`}
+          >
             <div className={styles.stepNumber}>{s.num}</div>
             <div className={styles.stepBody}>
               <p className={styles.stepTag}>{s.tag}</p>
