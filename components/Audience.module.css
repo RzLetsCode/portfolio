@@ -62,7 +62,7 @@
 
 .audCard {
   position: relative;
-  padding: 1.25rem 1.1rem 1.1rem;
+  padding: 1.35rem 1.1rem 1.1rem 1.3rem;
   border-radius: 20px;
   border: 1px solid rgba(51, 65, 85, 0.95);
   background: linear-gradient(
@@ -106,38 +106,46 @@
   opacity: 1;
 }
 
-.audTopRow {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 0.65rem;
+/* Left accent bar */
+.accent {
+  position: absolute;
+  left: 0;
+  top: 0.85rem;
+  bottom: 0.85rem;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, #22d3ee, #38bdf8);
+  opacity: 0.8;
 }
 
-.audAvatar {
-  width: 2.2rem;
-  height: 2.2rem;
-  border-radius: 999px;
-  background: radial-gradient(circle at top, #22d3ee, #0ea5e9);
+/* Header row inside card */
+
+.audHeader {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #020617;
-  font-size: 0.9rem;
-  font-weight: 700;
-  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.9);
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 0.7rem;
 }
 
 .audLabel {
-  font-size: 0.74rem;
-  letter-spacing: 0.14em;
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #e2e8f0;
+  padding: 0.18rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(8, 47, 73, 0.85);
+  border: 1px solid rgba(34, 211, 238, 0.65);
+  color: #e0f2fe;
 }
 
 .audTag {
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   color: #64748b;
 }
+
+/* Body */
 
 .audTitle {
   font-size: 0.98rem;
