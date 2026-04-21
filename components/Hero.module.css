@@ -1,5 +1,5 @@
 .section {
-  margin: 0; /* outer section spacing is controlled by page.tsx */
+  margin: 0;
 }
 
 .pill {
@@ -13,7 +13,7 @@
   font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: #94a3b8; /* muted */
 }
 
 .pill::before {
@@ -37,15 +37,16 @@
   line-height: 1.02;
   letter-spacing: -0.04em;
   margin: 1rem 0 0.75rem;
+  color: #f9fafb; /* ensure heading text is white */
 }
 
 .heroTitle span {
-  color: var(--accent);
+  color: #22d3ee; /* accent color just for the span */
 }
 
 .heroSub {
   max-width: 32rem;
-  color: var(--muted);
+  color: #94a3b8; /* muted */
   font-size: 0.98rem;
 }
 
@@ -64,27 +65,28 @@
   border-radius: 999px;
   padding: 0.7rem 1.15rem;
   font-size: 0.9rem;
-  border: 1px solid var(--border-soft);
+  border: 1px solid rgba(51, 65, 85, 0.8); /* border-soft */
   cursor: pointer;
   text-decoration: none;
 }
 
 .btnPrimary {
   background: linear-gradient(135deg, #22d3ee, #38bdf8);
-  color: #020617;
+  color: #020617; /* dark text on cyan button */
   border-color: transparent;
   font-weight: 600;
 }
 
 .btnSecondary {
   background: rgba(15, 23, 42, 0.9);
-  color: var(--text);
+  color: #e5e7eb; /* light gray text */
   font-weight: 500;
 }
 
+/* Right side card */
 .heroSide {
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--border);
+  border-radius: 24px;
+  border: 1px solid rgba(51, 65, 85, 0.9);
   background:
     radial-gradient(circle at top, rgba(59, 130, 246, 0.18), transparent 60%),
     rgba(15, 23, 42, 0.95);
@@ -105,7 +107,7 @@
   font-size: 0.93rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--muted-soft);
+  color: #94a3b8;
 }
 
 .heroSideChip {
@@ -122,7 +124,7 @@
   display: grid;
   gap: 0.7rem;
   font-size: 0.86rem;
-  color: var(--muted);
+  color: #94a3b8;
 }
 
 .heroSide li {
@@ -134,7 +136,7 @@
 
 .heroSide li strong {
   display: block;
-  color: var(--text);
+  color: #e5e7eb;
   font-size: 0.9rem;
   margin-bottom: 0.15rem;
 }
