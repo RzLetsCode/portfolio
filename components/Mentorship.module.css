@@ -141,14 +141,6 @@
   box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
 }
 
-.cardNumber {
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #64748b;
-}
-
 .cardTitle {
   font-size: 1.05rem;
   font-weight: 600;
