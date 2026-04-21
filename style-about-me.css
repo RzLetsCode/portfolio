@@ -1,0 +1,150 @@
+/* ===== THEME COLORS ===== */
+:root {
+    --bg-main: #050816;
+    --bg-elevated: #0b1020;
+    --bg-elevated-soft: #111827;
+    --accent: #22d3ee;
+    --accent-soft: rgba(34, 211, 238, 0.15);
+    --accent-strong: #38bdf8;
+    --text-main: #e5e7eb;
+    --text-muted: #9ca3af;
+    --border-subtle: #1f2933;
+    --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== ABOUT PAGE HERO ===== */
+.section-hero {
+    align-items: center;
+    gap: 2rem;
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+}
+
+/* ===== SECTION BACKGROUNDS ===== */
+.section-alt {
+    background: radial-gradient(circle at top left, rgba(34, 211, 238, 0.06), transparent 55%);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.section-card {
+    padding: 3rem 1.5rem;
+}
+
+/* ===== MEDIA OVERWRITE AND NEW SETTINGS ===== */
+@media screen and (max-width: 950px) {
+    .main-title-large {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 950px) and (min-width: 510px) {
+        .max-width {
+            max-width: 300px;
+        }
+    }
+
+@media screen and (max-width: 950px) and (min-width: 510px) {
+        .main-title-large {
+            font-size: 2rem;
+        }
+    }
+
+@media screen and (max-width: 510px) {
+        .max-width {
+            max-width: 300px;
+        }
+    }
+
+/* ===== RESPONSIVE GRID ===== */
+.grid-system-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 950px) {
+    .grid-system-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.grid-system-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    align-items: start;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 1024px) {
+    .grid-system-4 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .grid-system-4 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .grid-system-4 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* ===== CARD STYLING ===== */
+.small-card {
+    min-height: 300px;
+}
+
+/* ===== SECTION STYLING ===== */
+.w-900 {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.padding {
+    padding: 3rem 1.5rem;
+}
+
+/* ===== FUTURE PLANS CARD ===== */
+.baby-pink-light {
+    background: radial-gradient(circle at top right, rgba(34, 211, 238, 0.09), var(--bg-elevated));
+    border-radius: 1.5rem;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
+    padding: 2.5rem 2rem;
+}
+
+@media screen and (max-width: 768px) {
+    .baby-pink-light {
+        padding: 1.5rem 1.25rem;
+    }
+}
+
+/* ===== HOBBY CARDS ===== */
+.hobby-card {
+    background: var(--bg-elevated-soft);
+    border-radius: 1.2rem;
+    border: 1px solid rgba(55, 65, 81, 0.9);
+    padding: 1.5rem 1.25rem 1.75rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75);
+    transition: transform 0.18s ease, box-shadow 0.2s ease, border-color 0.18s ease;
+}
+
+.hobby-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85);
+    border-color: var(--accent);
+}
+
+.hobbies-section {
+    padding: 3rem 1.5rem 4rem;
+}
