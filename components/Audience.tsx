@@ -40,7 +40,11 @@ export default function Audience() {
 
       <div className={styles.audienceGrid}>
         {audiences.map((a) => (
-          <article key={a.label} className={styles.audCard}>
+          <article
+            key={a.label}
+            className={styles.audCard}
+            data-initial={a.label[0].toUpperCase()}
+          >
             <p className={styles.audLabel}>{a.label}</p>
             <h3>{a.title}</h3>
             <p>{a.desc}</p>
