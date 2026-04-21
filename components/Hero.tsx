@@ -16,10 +16,11 @@ export default function Hero() {
           <h1 className={styles.heroTitle}>
             <strong>Learn AI.</strong>
             <br />
-            <strong><span>Build real projects.</span></strong>
+             <span className={styles.heroAccent}>Build real projects.</span>
             <br />
             <strong>Get career-ready.</strong>
           </h1>
+ 
 
         
 
