@@ -4,21 +4,25 @@ import styles from './Audience.module.css';
 const audiences = [
   {
     label: 'Students',
+    tag: 'Starting from zero',
     title: 'Start AI from scratch with a clear sequence.',
     desc: 'Learn foundations, tools, and projects in an order that feels manageable instead of chaotic.',
   },
   {
     label: 'Freshers',
+    tag: 'Early projects',
     title: 'Turn your first projects into real portfolio assets.',
     desc: 'Focus on practical work that improves GitHub and resume strength for internships and entry-level roles.',
   },
   {
     label: 'Career switchers',
+    tag: 'Changing tracks',
     title: 'Move into AI with a realistic transition plan.',
     desc: 'Understand your gaps, pick the right starting point, and reposition your background for AI roles.',
   },
   {
     label: 'Builders',
+    tag: 'Leveling up',
     title: 'Refine projects to feel production-minded.',
     desc: 'Improve architecture clarity, documentation, and explanations so projects look recruiter-ready.',
   },
@@ -27,6 +31,8 @@ const audiences = [
 export default function Audience() {
   return (
     <section className={styles.section}>
+      <div className={styles.backGlow} aria-hidden="true" />
+
       <header className={styles.sectionHead}>
         <p className={styles.sectionEyebrow}>Who this is for</p>
         <h2 className={styles.sectionTitle}>
@@ -39,15 +45,25 @@ export default function Audience() {
       </header>
 
       <div className={styles.audienceGrid}>
-        {audiences.map((a) => (
+        {audiences.map((a, idx) => (
           <article
             key={a.label}
-            className={styles.audCard}
-            data-initial={a.label[0].toUpperCase()}
+            className={`${styles.audCard} ${
+              idx % 2 === 0 ? styles.audCardRaised : ''
+            }`}
           >
-            <p className={styles.audLabel}>{a.label}</p>
-            <h3>{a.title}</h3>
-            <p>{a.desc}</p>
+            <div className={styles.audTopRow}>
+              <div className={styles.audAvatar}>
+                <span>{a.label[0].toUpperCase()}</span>
+              </div>
+              <div>
+                <p className={styles.audLabel}>{a.label}</p>
+                <p className={styles.audTag}>{a.tag}</p>
+              </div>
+            </div>
+
+            <h3 className={styles.audTitle}>{a.title}</h3>
+            <p className={styles.audDesc}>{a.desc}</p>
           </article>
         ))}
       </div>
