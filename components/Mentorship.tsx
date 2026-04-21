@@ -7,21 +7,18 @@ import { ChevronRight } from 'lucide-react';
 
 const mentorshipSteps = [
   {
-    num: 'A',
     title: 'Career Pivot Audit',
     desc: 'A 30-minute high-impact session to map your background to a 3-month actionable AI plan.',
     tools: ['Personalized Roadmap'],
     bullets: ['Kill the tutorial hell confusion.', 'Focus only on what the market needs.'],
   },
   {
-    num: 'B',
     title: 'AI-Optimized Narrative',
     desc: 'Transforming your LinkedIn and Resume to pass the specific filters of modern AI firms.',
     tools: ['ATS Mastery', 'Storytelling'],
     bullets: ['Highlight RAG & Agentic expertise.', 'Fix mistakes that block shortlisting.'],
   },
   {
-    num: 'C',
     title: 'Production Code Review',
     desc: 'Code-level scrutiny of your GitHub repos. We ensure your projects look like professional work.',
     tools: ['Code Quality', 'Architecture'],
@@ -57,8 +54,7 @@ export default function MentorshipSection() {
         <div className={`${styles.body} ${open ? styles.bodyOpen : ''}`}>
           <div className={styles.grid}>
             {mentorshipSteps.map((step) => (
-              <article key={step.num} className={styles.card}>
-                <div className={styles.cardNumber}>{step.num}</div>
+              <article key={step.title} className={styles.card}>
                 <h4 className={styles.cardTitle}>{step.title}</h4>
                 <p className={styles.cardDesc}>{step.desc}</p>
                 <div className={styles.cardFooter}>
