@@ -9,6 +9,7 @@ const projects = [
     learn: 'RAG flow, prompt design, UI thinking',
     best: 'first serious AI project',
     value: 'strong portfolio talking point',
+    badge: 'RAG + UX',
   },
   {
     label: 'Resume-focused',
@@ -17,6 +18,7 @@ const projects = [
     learn: 'text matching, scoring, practical ML thinking',
     best: 'resume and internship positioning',
     value: 'shows problem-solving on real hiring problems',
+    badge: 'Hiring Insight',
   },
   {
     label: 'Portfolio polish',
@@ -25,6 +27,7 @@ const projects = [
     learn: 'repo quality, documentation, architecture clarity',
     best: 'students with existing projects',
     value: 'improves how hiring managers read your work',
+    badge: 'Production Mindset',
   },
 ];
 
@@ -37,28 +40,39 @@ export default function Projects() {
           Learn by building what actually helps your career.
         </h2>
         <p className={styles.subtitle}>
-          Each project is designed to teach real skills and give you something
-          concrete to show on GitHub and in interviews.
+          Each project is designed to teach real skills and give you something concrete
+          to show on GitHub and in interviews.
         </p>
       </header>
 
       <div className={styles.grid}>
         {projects.map((p) => (
           <article key={p.title} className={styles.card}>
-            <p className={styles.label}>{p.label}</p>
-            <h3 className={styles.cardTitle}>{p.title}</h3>
-            <p className={styles.desc}>{p.desc}</p>
-            <ul className={styles.meta}>
-              <li>
-                <strong>Learn:</strong> {p.learn}
-              </li>
-              <li>
-                <strong>Best for:</strong> {p.best}
-              </li>
-              <li>
-                <strong>Career value:</strong> {p.value}
-              </li>
-            </ul>
+            <div className={styles.glow} aria-hidden="true" />
+            <div className={styles.cardInner}>
+              <div className={styles.cardHeader}>
+                <span className={styles.label}>{p.label}</span>
+                <span className={styles.badge}>{p.badge}</span>
+              </div>
+
+              <h3 className={styles.cardTitle}>{p.title}</h3>
+              <p className={styles.desc}>{p.desc}</p>
+
+              <div className={styles.meta}>
+                <div>
+                  <p className={styles.metaLabel}>You&apos;ll learn</p>
+                  <p className={styles.metaValue}>{p.learn}</p>
+                </div>
+                <div>
+                  <p className={styles.metaLabel}>Best for</p>
+                  <p className={styles.metaValue}>{p.best}</p>
+                </div>
+                <div>
+                  <p className={styles.metaLabel}>Career value</p>
+                  <p className={styles.metaValue}>{p.value}</p>
+                </div>
+              </div>
+            </div>
           </article>
         ))}
       </div>
