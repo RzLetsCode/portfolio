@@ -76,7 +76,7 @@ export default function ContactPage() {
     // GLOBAL FALLBACK (for non-Indian numbers)
     // Total digits: 7–15
     const digits = normalized.replace(/\D/g, '');
-    if (digits.length < 7 || digits.length > 15) {
+    if (digits.length >= 7 || digits.length <= 15) {
       return false;
     }
 
