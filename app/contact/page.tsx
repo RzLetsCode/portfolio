@@ -32,8 +32,82 @@ export default function ContactPage() {
     }));
   };
 
+  // Name: allow letters, spaces, and common separators; at least 2 letters total
+  const isValidName = (name: string) => {
+    const trimmed = name.trim();
+
+    // Only letters, spaces, apostrophes, hyphens and periods
+    if (!/^[A-Za-z\s'.-]+$/.test(trimmed)) {
+      return false;
+    }
+
+    // Require at least 2 alphabetic characters
+    const letterCount = (trimmed.match(/[A-Za-z]/g) || []).length;
+    return letterCount >= 2;
+  };
+
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase());
+  };
+
+  // India-first, global-friendly phone validation
+  const isValidPhone = (phone: string) => {
+    // Normalize: remove spaces and hyphens
+    const normalized = phone.replace(/[\s-]/g, '');
+
+    // INDIAN MOBILE (primary audience)
+    // Accept:
+    //  - +91XXXXXXXXXX
+    //  - 0XXXXXXXXXX   (leading 0 + 10 digits)
+    //  - XXXXXXXXXX    (10 digits)
+    const plus91Pattern = /^\+91[6-9]\d{9}$/;
+    const leadingZeroPattern = /^0[6-9]\d{9}$/;
+    const plainIndiaPattern = /^[6-9]\d{9}$/;
+
+    const isIndian =
+      plus91Pattern.test(normalized) ||
+      leadingZeroPattern.test(normalized) ||
+      plainIndiaPattern.test(normalized);
+
+    if (isIndian) {
+      return true;
+    }
+
+    // GLOBAL FALLBACK (for non-Indian numbers)
+    // Total digits: 7–15
+    const digits = normalized.replace(/\D/g, '');
+    if (digits.length < 7 || digits.length > 15) {
+      return false;
+    }
+
+    // Very relaxed: optional +, then 6–14 digits
+    const intlPattern = /^\+?\d{6,14}$/;
+    return intlPattern.test(normalized);
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // validations in order
+    if (!isValidName(formData.name)) {
+      setErrorMessage(
+        'Please enter a valid name using only letters and spaces (no numbers).'
+      );
+      return;
+    }
+
+    if (!isValidEmail(formData.email)) {
+      setErrorMessage('Please enter a valid email address.');
+      return;
+    }
+
+    if (!isValidPhone(formData.phone)) {
+      setErrorMessage(
+        'Please enter a valid phone number. For India, use a 10-digit mobile (e.g. +91 9876543210).'
+      );
+      return;
+    }
+
     setIsSubmitting(true);
     setErrorMessage('');
 
@@ -65,7 +139,11 @@ export default function ContactPage() {
       }
     } catch (error: any) {
       console.error('EmailJS Error Object:', error);
-      setErrorMessage(`Error: ${error.text || 'Failed to send message. Please try again.'}`);
+      setErrorMessage(
+        `Error: ${
+          error?.text || 'Failed to send message. Please try again.'
+        }`
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -79,14 +157,20 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 py-20 px-6">
       <div className="max-w-2xl mx-auto">
-        <Link href="/#contact" className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-8 transition-colors">
+        <Link
+          href="/#contact"
+          className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-8 transition-colors"
+        >
           <ArrowLeft size={20} /> Back to Home
         </Link>
 
         <div className="mb-12">
           <h1 className="text-5xl font-bold mb-4">Get in Touch</h1>
           <p className="text-lg text-slate-400">
-            Whether you're building GenAI solutions, RAG pipelines, MCP frameworks, LLMOps workflows, or multi-agent systems—or charting your AI career path—I'd love to hear from you. Share your details and I'll get back to you within 24 hours.
+            Whether you&apos;re building GenAI solutions, RAG pipelines, MCP frameworks,
+            LLMOps workflows, or multi-agent systems—or charting your AI career path—I&apos;d
+            love to hear from you. Share your details and I&apos;ll get back to you within
+            24 hours.
           </p>
         </div>
 
@@ -97,7 +181,8 @@ export default function ContactPage() {
             </div>
             <h2 className="text-3xl font-bold mb-4 text-white">Message Sent!</h2>
             <p className="text-slate-400 mb-8 text-lg">
-              Thank you for reaching out. I've received your message and will get back to you within 24 hours.
+              Thank you for reaching out. I&apos;ve received your message and will get
+              back to you within 24 hours.
             </p>
             <button
               onClick={handleReset}
@@ -113,7 +198,9 @@ export default function ContactPage() {
             className="space-y-6 bg-gradient-to-br from-slate-900 to-slate-950 p-8 rounded-3xl border border-slate-800 shadow-2xl"
           >
             <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-2">Full Name *</label>
+              <label htmlFor="name" className="block text-sm font-medium mb-2">
+                Full Name *
+              </label>
               <input
                 id="name"
                 type="text"
@@ -127,7 +214,9 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-2">Email Address *</label>
+              <label htmlFor="email" className="block text-sm font-medium mb-2">
+                Email Address *
+              </label>
               <input
                 id="email"
                 type="email"
@@ -141,7 +230,9 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium mb-2">Phone Number *</label>
+              <label htmlFor="phone" className="block text-sm font-medium mb-2">
+                Phone Number *
+              </label>
               <input
                 id="phone"
                 type="tel"
@@ -150,12 +241,14 @@ export default function ContactPage() {
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
-                placeholder="Your phone number"
+                placeholder="+91 9876543210 or your country format"
               />
             </div>
 
             <div>
-              <label htmlFor="purpose" className="block text-sm font-medium mb-2">Purpose/Message *</label>
+              <label htmlFor="purpose" className="block text-sm font-medium mb-2">
+                Purpose/Message *
+              </label>
               <textarea
                 id="purpose"
                 name="purpose"
