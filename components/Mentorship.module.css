@@ -1,6 +1,6 @@
 .section {
   margin: 0;
-  padding-inline: 0;
+    padding: 3rem 1.5rem 4rem;
 }
 
 .shell {
