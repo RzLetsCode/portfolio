@@ -212,7 +212,7 @@ export default function Pricing() {
             Not sure which plan fits you? Start with{' '}
             <strong style={{ color: '#f9fafb' }}>Explore</strong> — it is
             free forever.{' '}
-            <a href="/contact">Reach out</a> if you have questions.
+            <a href="/portfolio/contact">Reach out</a> if you have questions.
           </p>
         </div>
       </div>
