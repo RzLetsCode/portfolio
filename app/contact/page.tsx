@@ -85,11 +85,14 @@ function ContactForm() {
     if (/^\+91[6-9]\d{9}$/.test(normalized)) return true;
     if (/^0[6-9]\d{9}$/.test(normalized)) return true;
     if (/^[6-9]\d{9}$/.test(normalized)) return true;
+
     const digits = normalized.replace(/\D/g, '');
     return digits.length >= 7 && digits.length <= 15;
   };
 
-  const selectedPlan = PLANS.find((p) => p.id === formData.plan) ?? PLANS.find((p) => p.id === 'general');
+  const selectedPlan =
+    PLANS.find((p) => p.id === formData.plan) ||
+    PLANS.find((p) => p.id === 'general');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -136,6 +139,8 @@ function ContactForm() {
         }
       );
 
+      console.log('EmailJS success response:', response);
+
       if (response.status === 200) {
         setIsSuccess(true);
         setFormData({
@@ -147,8 +152,12 @@ function ContactForm() {
         });
       }
     } catch (error: any) {
+      console.error('EmailJS full error:', error);
+      console.error('EmailJS error text:', error?.text);
+      console.error('EmailJS template params sent:', templateParams);
+
       setErrorMessage(
-        `Error: ${error?.text || 'Failed to send message. Please try again.'}`
+        error?.text || 'Failed to send message. Please try again.'
       );
     } finally {
       setIsSubmitting(false);
@@ -342,7 +351,6 @@ export default function ContactPage() {
         </Link>
 
         <h1 className="text-4xl font-bold mb-3">Get in Touch</h1>
-
         <p className="text-slate-400 mb-10 leading-relaxed">
           Whether you are building GenAI solutions, RAG pipelines, MCP
           frameworks, LLMOps workflows, or multi-agent systems, or charting your
