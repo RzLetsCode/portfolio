@@ -255,7 +255,7 @@ export default function ContactPage() {
     <div className="min-h-screen bg-[#020617] text-white">
       <div className="max-w-2xl mx-auto px-6 py-16">
         <Link
-          href="/portfolio/"
+          href="/"
           className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-10 text-sm transition"
         >
           <ArrowLeft size={16} />
