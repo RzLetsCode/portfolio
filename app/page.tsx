@@ -46,24 +46,33 @@ export default function Home() {
   };
 
   const mentorshipSteps = [
-    {
-      title: 'Career Pivot Audit',
-      desc: 'A 30-minute high-impact session to map your background to a 3-month actionable AI plan.',
-      tools: ['Personalized Roadmap'],
-      bullets: ['Kill the tutorial hell confusion.', 'Focus only on what the market needs.'],
-    },
-    {
-      title: 'AI-Optimized Narrative',
-      desc: 'Transforming your LinkedIn and Resume to pass the specific filters of modern AI firms.',
-      tools: ['ATS Mastery', 'Storytelling'],
-      bullets: ['Highlight RAG & Agentic expertise.', 'Fix mistakes that block shortlisting.'],
-    },
-    {
-      title: 'Production Code Review',
-      desc: 'Code-level scrutiny of your GitHub repos. We ensure your projects look like professional work.',
-      tools: ['Code Quality', 'Architecture'],
-      bullets: ['Make your projects recruiter-ready.', 'Validate scalability and security.'],
-    },
+{
+  title: '90-Day AI Blueprint',
+  desc: 'Kill the confusion. We’ll map out exactly what you need to learn to land a high-paying AI role in 3 months.',
+  tools: ['Roadmap to Hire'],
+  bullets: [
+    'Stop gathering certificates; start building production-ready apps.',
+    'Focus 100% on the tech that actually gets people hired right now.'
+  ],
+},
+{
+  title: 'Hiring-Filter Bypass',
+  desc: 'Your LinkedIn and Resume are likely getting ghosted by AI filters. We’ll fix that so you actually get the interview.',
+  tools: ['ATS Signal-Booster'],
+  bullets: [
+    'Turn "I know Python" into "I build Agentic AI Workflows."',
+    'Position your RAG projects as essential business solutions.'
+  ],
+},
+{
+  title: 'GitHub "Senior-Level" Audit',
+  desc: 'We’ll tear down your code and rebuild it. Move from "student projects" to code that looks like professional work.',
+  tools: ['Code Quality Polish'],
+  bullets: [
+    'Architecture reviews that prove you understand scale and security.',
+    'Make your repos the reason recruiters say "Yes."'
+  ],
+}
   ];
 
   return (
