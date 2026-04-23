@@ -52,6 +52,10 @@ function ContactForm() {
     plan: 'general',
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
+
   useEffect(() => {
     const planParam = searchParams.get('plan');
     if (planParam && PLANS.find((p) => p.id === planParam)) {
@@ -59,18 +63,16 @@ function ContactForm() {
     }
   }, [searchParams]);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const isValidName = (name: string) => {
     const trimmed = name.trim();
-    if (!/^[A-Za-z\s'.\-]+$/.test(trimmed)) return false;
+    if (!/^[A-Za-z\s'.-]+$/.test(trimmed)) return false;
     const letterCount = (trimmed.match(/[A-Za-z]/g) || []).length;
     return letterCount >= 2;
   };
@@ -79,7 +81,7 @@ function ContactForm() {
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase());
 
   const isValidPhone = (phone: string) => {
-    const normalized = phone.replace(/[\s\-]/g, '');
+    const normalized = phone.replace(/[\s-]/g, '');
     if (/^\+91[6-9]\d{9}$/.test(normalized)) return true;
     if (/^0[6-9]\d{9}$/.test(normalized)) return true;
     if (/^[6-9]\d{9}$/.test(normalized)) return true;
@@ -87,35 +89,40 @@ function ContactForm() {
     return digits.length >= 7 && digits.length <= 15;
   };
 
-  const selectedPlan = PLANS.find((p) => p.id === formData.plan);
+  const selectedPlan = PLANS.find((p) => p.id === formData.plan) ?? PLANS.find((p) => p.id === 'general');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     if (!isValidName(formData.name)) {
-      setErrorMessage('Please enter a valid name using only letters and spaces (no numbers).');
+      setErrorMessage(
+        'Please enter a valid name using only letters and spaces (no numbers).'
+      );
       return;
     }
+
     if (!isValidEmail(formData.email)) {
       setErrorMessage('Please enter a valid email address.');
       return;
     }
+
     if (!isValidPhone(formData.phone)) {
-      setErrorMessage('Please enter a valid phone number. For India, use a 10-digit mobile (e.g. +91 9876543210).');
+      setErrorMessage(
+        'Please enter a valid phone number. For India, use a 10-digit mobile (e.g. +91 9876543210).'
+      );
       return;
     }
 
     setIsSubmitting(true);
     setErrorMessage('');
 
-    const planLabel = selectedPlan
-      ? `${selectedPlan.label}${selectedPlan.badge ? ' (' + selectedPlan.badge + ')' : ''}`
-      : 'General Inquiry';
-
     const templateParams = {
       from_name: formData.name,
       from_email: formData.email,
       phone_number: formData.phone,
-      selected_plan: planLabel,
+      selected_plan: selectedPlan?.label ?? 'General Inquiry',
+      selected_plan_tagline:
+        selectedPlan?.desc ?? 'Not sure yet - just want to connect',
       message: formData.purpose,
     };
 
@@ -124,14 +131,25 @@ function ContactForm() {
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
         templateParams,
-        { publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY! }
+        {
+          publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
+        }
       );
+
       if (response.status === 200) {
         setIsSuccess(true);
-        setFormData({ name: '', phone: '', email: '', purpose: '', plan: 'general' });
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          purpose: '',
+          plan: 'general',
+        });
       }
     } catch (error: any) {
-      setErrorMessage(`Error: ${error?.text || 'Failed to send message. Please try again.'}`);
+      setErrorMessage(
+        `Error: ${error?.text || 'Failed to send message. Please try again.'}`
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -148,7 +166,8 @@ function ContactForm() {
         <CheckCircle className="mx-auto mb-4 text-green-400" size={56} />
         <h2 className="text-2xl font-bold mb-2">Message Sent!</h2>
         <p className="text-slate-400 mb-8">
-          Thank you for reaching out. I have received your message and will get back to you within 24 hours.
+          Thank you for reaching out. I have received your message and will get
+          back to you within 24 hours.
         </p>
         <button
           onClick={handleReset}
@@ -170,6 +189,7 @@ function ContactForm() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {PLANS.map((plan) => {
             const isActive = formData.plan === plan.id;
+
             return (
               <label
                 key={plan.id}
@@ -189,7 +209,11 @@ function ContactForm() {
                 />
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className={`font-semibold text-sm ${isActive ? 'text-cyan-300' : 'text-white'}`}>
+                    <span
+                      className={`font-semibold text-sm ${
+                        isActive ? 'text-cyan-300' : 'text-white'
+                      }`}
+                    >
                       {plan.label}
                     </span>
                     {plan.badge && (
@@ -198,7 +222,11 @@ function ContactForm() {
                       </span>
                     )}
                   </div>
-                  <p className={`text-xs mt-0.5 ${isActive ? 'text-cyan-400/80' : 'text-slate-400'}`}>
+                  <p
+                    className={`text-xs mt-0.5 ${
+                      isActive ? 'text-cyan-400/80' : 'text-slate-400'
+                    }`}
+                  >
                     {plan.desc}
                   </p>
                 </div>
@@ -209,38 +237,89 @@ function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-1">Full Name *</label>
-        <input id="name" type="text" name="name" value={formData.name} onChange={handleChange} required
+        <label
+          htmlFor="name"
+          className="block text-sm font-medium text-slate-300 mb-1"
+        >
+          Full Name *
+        </label>
+        <input
+          id="name"
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
           className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
-          placeholder="Your full name" />
+          placeholder="Your full name"
+        />
       </div>
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-1">Email Address *</label>
-        <input id="email" type="email" name="email" value={formData.email} onChange={handleChange} required
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-slate-300 mb-1"
+        >
+          Email Address *
+        </label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
           className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
-          placeholder="your.email@example.com" />
+          placeholder="your.email@example.com"
+        />
       </div>
 
       <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-slate-300 mb-1">Phone Number *</label>
-        <input id="phone" type="tel" name="phone" value={formData.phone} onChange={handleChange} required
+        <label
+          htmlFor="phone"
+          className="block text-sm font-medium text-slate-300 mb-1"
+        >
+          Phone Number *
+        </label>
+        <input
+          id="phone"
+          type="tel"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          required
           className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
-          placeholder="+91 9876543210 or your country format" />
+          placeholder="+91 9876543210 or your country format"
+        />
       </div>
 
       <div>
-        <label htmlFor="purpose" className="block text-sm font-medium text-slate-300 mb-1">Purpose / Message *</label>
-        <textarea id="purpose" name="purpose" value={formData.purpose} onChange={handleChange} required
+        <label
+          htmlFor="purpose"
+          className="block text-sm font-medium text-slate-300 mb-1"
+        >
+          Purpose / Message *
+        </label>
+        <textarea
+          id="purpose"
+          name="purpose"
+          value={formData.purpose}
+          onChange={handleChange}
+          required
           className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition resize-none h-32"
-          placeholder="Tell me about your goals or any questions..." />
+          placeholder="Tell me about your goals or any questions..."
+        />
       </div>
 
       {errorMessage && (
-        <div className="p-4 rounded-lg bg-red-900/30 border border-red-700 text-red-200">{errorMessage}</div>
+        <div className="p-4 rounded-lg bg-red-900/30 border border-red-700 text-red-200">
+          {errorMessage}
+        </div>
       )}
 
-      <button type="submit" disabled={isSubmitting}
+      <button
+        type="submit"
+        disabled={isSubmitting}
         className="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-slate-700 disabled:to-slate-600 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
       >
         <Mail size={20} />
@@ -261,12 +340,16 @@ export default function ContactPage() {
           <ArrowLeft size={16} />
           Back to Home
         </Link>
+
         <h1 className="text-4xl font-bold mb-3">Get in Touch</h1>
+
         <p className="text-slate-400 mb-10 leading-relaxed">
-          Whether you are building GenAI solutions, RAG pipelines, MCP frameworks, LLMOps
-          workflows, or multi-agent systems, or charting your AI career path, I would love to hear
-          from you. Share your details and I will get back to you within 24 hours.
+          Whether you are building GenAI solutions, RAG pipelines, MCP
+          frameworks, LLMOps workflows, or multi-agent systems, or charting your
+          AI career path, I would love to hear from you. Share your details and
+          I will get back to you within 24 hours.
         </p>
+
         <Suspense fallback={<div className="text-slate-400">Loading form...</div>}>
           <ContactForm />
         </Suspense>
