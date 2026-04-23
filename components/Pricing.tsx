@@ -127,7 +127,7 @@ export default function Pricing() {
               Annual
             </span>
             {isAnnual && (
-              <span className={styles.saveBadge}>Save ~25%</span>
+              <span className={styles.saveBadge}>Save Up to ~50%</span>
             )}
           </div>
 
