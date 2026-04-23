@@ -1,24 +1,63 @@
 'use client';
 
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Mail, ArrowLeft, CheckCircle, RefreshCcw } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+
+const PLANS = [
+  {
+    id: 'explore',
+    label: 'Explore',
+    badge: 'Free forever',
+    desc: 'Starter — just getting into AI',
+  },
+  {
+    id: 'career-focus',
+    label: 'Career Focus',
+    badge: 'Most Popular',
+    desc: '499 / month — build a real AI portfolio',
+  },
+  {
+    id: 'mentor-loop',
+    label: 'Mentor Loop',
+    badge: '1:1 Deep Dive',
+    desc: '1,999 / month — serious builders',
+  },
+  {
+    id: 'general',
+    label: 'General Inquiry',
+    badge: '',
+    desc: 'Not sure yet — just want to connect',
+  },
+];
 
 interface FormData {
   name: string;
   phone: string;
   email: string;
   purpose: string;
+  plan: string;
 }
 
 export default function ContactPage() {
+  const searchParams = useSearchParams();
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     phone: '',
     email: '',
     purpose: '',
+    plan: 'general',
   });
+
+  useEffect(() => {
+    const planParam = searchParams.get('plan');
+    if (planParam && PLANS.find((p) => p.id === planParam)) {
+      setFormData((prev) => ({ ...prev, plan: planParam }));
+    }
+  }, [searchParams]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -26,95 +65,57 @@ export default function ContactPage() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Name: allow letters, spaces, and common separators; at least 2 letters total
   const isValidName = (name: string) => {
     const trimmed = name.trim();
-
-    // Only letters, spaces, apostrophes, hyphens and periods
-    if (!/^[A-Za-z\s'.-]+$/.test(trimmed)) {
-      return false;
-    }
-
-    // Require at least 2 alphabetic characters
+    if (!/^[A-Za-z\s'.\-]+$/.test(trimmed)) return false;
     const letterCount = (trimmed.match(/[A-Za-z]/g) || []).length;
     return letterCount >= 2;
   };
 
-  const isValidEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase());
-  };
+  const isValidEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase());
 
-  // India-first, global-friendly phone validation
   const isValidPhone = (phone: string) => {
-    // Normalize: remove spaces and hyphens
-    const normalized = phone.replace(/[\s-]/g, '');
-
-    // INDIAN MOBILE (primary audience)
-    // Accept:
-    //  - +91XXXXXXXXXX
-    //  - 0XXXXXXXXXX   (leading 0 + 10 digits)
-    //  - XXXXXXXXXX    (10 digits)
-    const plus91Pattern = /^\+91[6-9]\d{9}$/;
-    const leadingZeroPattern = /^0[6-9]\d{9}$/;
-    const plainIndiaPattern = /^[6-9]\d{9}$/;
-
-    const isIndian =
-      plus91Pattern.test(normalized) ||
-      leadingZeroPattern.test(normalized) ||
-      plainIndiaPattern.test(normalized);
-
-    if (isIndian) {
-      return true;
-    }
-
-    // GLOBAL FALLBACK (for non-Indian numbers)
-    // Total digits: 7–15
+    const normalized = phone.replace(/[\s\-]/g, '');
+    if (/^\+91[6-9]\d{9}$/.test(normalized)) return true;
+    if (/^0[6-9]\d{9}$/.test(normalized)) return true;
+    if (/^[6-9]\d{9}$/.test(normalized)) return true;
     const digits = normalized.replace(/\D/g, '');
-    if (digits.length >= 7 || digits.length <= 15) {
-      return false;
-    }
-
-    // Very relaxed: optional +, then 6–14 digits
-    const intlPattern = /^\+?\d{6,14}$/;
-    return intlPattern.test(normalized);
+    return digits.length >= 7 && digits.length <= 15;
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const selectedPlan = PLANS.find((p) => p.id === formData.plan);
 
-    // validations in order
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
     if (!isValidName(formData.name)) {
-      setErrorMessage(
-        'Please enter a valid name using only letters and spaces (no numbers).'
-      );
+      setErrorMessage('Please enter a valid name using only letters and spaces (no numbers).');
       return;
     }
-
     if (!isValidEmail(formData.email)) {
       setErrorMessage('Please enter a valid email address.');
       return;
     }
-
     if (!isValidPhone(formData.phone)) {
-      setErrorMessage(
-        'Please enter a valid phone number. For India, use a 10-digit mobile (e.g. +91 9876543210).'
-      );
+      setErrorMessage('Please enter a valid phone number. For India, use a 10-digit mobile (e.g. +91 9876543210).');
       return;
     }
 
     setIsSubmitting(true);
     setErrorMessage('');
 
+    const planLabel = selectedPlan
+      ? `${selectedPlan.label}${selectedPlan.badge ? ' (' + selectedPlan.badge + ')' : ''}`
+      : 'General Inquiry';
+
     const templateParams = {
       from_name: formData.name,
       from_email: formData.email,
       phone_number: formData.phone,
+      selected_plan: planLabel,
       message: formData.purpose,
     };
 
@@ -123,27 +124,14 @@ export default function ContactPage() {
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
         templateParams,
-        {
-          publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
-        }
+        { publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY! }
       );
-
       if (response.status === 200) {
         setIsSuccess(true);
-        setFormData({
-          name: '',
-          phone: '',
-          email: '',
-          purpose: '',
-        });
+        setFormData({ name: '', phone: '', email: '', purpose: '', plan: 'general' });
       }
     } catch (error: any) {
-      console.error('EmailJS Error Object:', error);
-      setErrorMessage(
-        `Error: ${
-          error?.text || 'Failed to send message. Please try again.'
-        }`
-      );
+      setErrorMessage(`Error: ${error?.text || 'Failed to send message. Please try again.'}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -155,50 +143,97 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 py-20 px-6">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-[#020617] text-white">
+      <div className="max-w-2xl mx-auto px-6 py-16">
         <Link
-          href="/#contact"
-          className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-8 transition-colors"
+          href="/portfolio/"
+          className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-10 text-sm transition"
         >
-          <ArrowLeft size={20} /> Back to Home
+          <ArrowLeft size={16} />
+          Back to Home
         </Link>
 
-        <div className="mb-12">
-          <h1 className="text-5xl font-bold mb-4">Get in Touch</h1>
-          <p className="text-lg text-slate-400">
-            Whether you&apos;re building GenAI solutions, RAG pipelines, MCP frameworks,
-            LLMOps workflows, or multi-agent systems—or charting your AI career path—I&apos;d
-            love to hear from you. Share your details and I&apos;ll get back to you within
-            24 hours.
-          </p>
-        </div>
+        <h1 className="text-4xl font-bold mb-3">Get in Touch</h1>
+        <p className="text-slate-400 mb-10 leading-relaxed">
+          Whether you are building GenAI solutions, RAG pipelines, MCP frameworks, LLMOps
+          workflows, or multi-agent systems, or charting your AI career path, I would love to hear
+          from you. Share your details and I will get back to you within 24 hours.
+        </p>
 
         {isSuccess ? (
-          <div className="bg-gradient-to-br from-slate-900 to-slate-950 p-12 rounded-3xl border border-slate-800 shadow-2xl text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-cyan-900/30 mb-6">
-              <CheckCircle className="text-cyan-400 w-10 h-10" />
-            </div>
-            <h2 className="text-3xl font-bold mb-4 text-white">Message Sent!</h2>
-            <p className="text-slate-400 mb-8 text-lg">
-              Thank you for reaching out. I&apos;ve received your message and will get
-              back to you within 24 hours.
+          <div className="text-center py-16">
+            <CheckCircle className="mx-auto mb-4 text-green-400" size={56} />
+            <h2 className="text-2xl font-bold mb-2">Message Sent!</h2>
+            <p className="text-slate-400 mb-8">
+              Thank you for reaching out. I have received your message and will get back to you
+              within 24 hours.
             </p>
             <button
               onClick={handleReset}
-              className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-cyan-400 font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 mx-auto border border-slate-700 hover:border-cyan-500/50"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-slate-600 text-slate-300 hover:border-cyan-500 hover:text-cyan-300 transition"
             >
-              <RefreshCcw size={18} />
+              <RefreshCcw size={16} />
               Send another message
             </button>
           </div>
         ) : (
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-6 bg-gradient-to-br from-slate-900 to-slate-950 p-8 rounded-3xl border border-slate-800 shadow-2xl"
-          >
+          <form onSubmit={handleSubmit} className="space-y-6">
+
             <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-2">
+              <label className="block text-sm font-medium text-slate-300 mb-3">
+                Which plan are you interested in? *
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {PLANS.map((plan) => {
+                  const isActive = formData.plan === plan.id;
+                  return (
+                    <label
+                      key={plan.id}
+                      className={`relative flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
+                        isActive
+                          ? 'border-cyan-400 bg-cyan-950/40'
+                          : 'border-slate-700 bg-slate-800/50 hover:border-slate-500'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="plan"
+                        value={plan.id}
+                        checked={isActive}
+                        onChange={handleChange}
+                        className="mt-1 accent-cyan-400 shrink-0"
+                      />
+                      <div>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span
+                            className={`font-semibold text-sm ${
+                              isActive ? 'text-cyan-300' : 'text-white'
+                            }`}
+                          >
+                            {plan.label}
+                          </span>
+                          {plan.badge && (
+                            <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-900/60 text-cyan-400 border border-cyan-800">
+                              {plan.badge}
+                            </span>
+                          )}
+                        </div>
+                        <p
+                          className={`text-xs mt-0.5 ${
+                            isActive ? 'text-cyan-400/80' : 'text-slate-400'
+                          }`}
+                        >
+                          {plan.desc}
+                        </p>
+                      </div>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-1">
                 Full Name *
               </label>
               <input
@@ -214,7 +249,7 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-1">
                 Email Address *
               </label>
               <input
@@ -230,7 +265,7 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium mb-2">
+              <label htmlFor="phone" className="block text-sm font-medium text-slate-300 mb-1">
                 Phone Number *
               </label>
               <input
@@ -246,8 +281,8 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <label htmlFor="purpose" className="block text-sm font-medium mb-2">
-                Purpose/Message *
+              <label htmlFor="purpose" className="block text-sm font-medium text-slate-300 mb-1">
+                Purpose / Message *
               </label>
               <textarea
                 id="purpose"
@@ -256,7 +291,7 @@ export default function ContactPage() {
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition resize-none h-32"
-                placeholder="Tell me about your project or inquiry..."
+                placeholder="Tell me about your goals or any questions..."
               />
             </div>
 
