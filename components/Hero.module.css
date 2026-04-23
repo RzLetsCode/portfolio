@@ -1,6 +1,8 @@
 .section {
   margin: 0;
   position: relative;
+  /* Push hero content below the fixed navbar (~72px tall) */
+  padding-top: 5rem;
 }
 
 /* subtle glow behind hero */
@@ -25,6 +27,7 @@
   grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.05fr);
   gap: 2.5rem;
   align-items: center;
+  padding: 3rem 4rem 5rem;
 }
 
 .left {
@@ -72,9 +75,9 @@
 .heroAccent {
   display: inline-block;
   font-weight: 700;
-  font-size: 0.9em;        /* slightly smaller so it fits on one line */
-  color: #22d3ee;          /* same cyan accent as before */
-  white-space: nowrap;     /* prevent wrapping */
+  font-size: 0.9em;
+  color: #22d3ee;
+  white-space: nowrap;
 }
 
 /* subtext */
@@ -109,7 +112,7 @@
   white-space: nowrap;
 }
 
-/* primary CTA style – match Get in Touch / Initiate Contact */
+/* primary CTA style */
 .btnPrimary {
   background: linear-gradient(135deg, #22d3ee, #38bdf8);
   color: #020617;
@@ -146,10 +149,10 @@
 .heroSide {
   border-radius: 24px;
   border: 1px solid rgba(30, 64, 175, 0.9);
-  background:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 60%),
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 60%),
     rgba(15, 23, 42, 0.97);
   padding: 1.5rem 1.4rem 1.3rem;
+  align-self: center;
 }
 
 /* header area inside card */
@@ -220,6 +223,7 @@
 @media (max-width: 980px) {
   .hero {
     grid-template-columns: minmax(0, 1fr);
+    padding: 2rem 2rem 4rem;
   }
 
   .left {
@@ -228,6 +232,10 @@
 }
 
 @media (max-width: 480px) {
+  .hero {
+    padding: 1.5rem 1.25rem 3rem;
+  }
+
   .heroActions {
     flex-wrap: wrap;
   }
