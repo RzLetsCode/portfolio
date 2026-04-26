@@ -133,9 +133,6 @@ export default function Home() {
         {/* Career Path / Journey */}
         <section id="career-path" style={{ scrollMarginTop: '70px' }}>
           <Journey />
-           <div className="text-center pb-20">
-               <Link href="/portfolio/contact" </Link>
-           </div>
         </section>
 
  
