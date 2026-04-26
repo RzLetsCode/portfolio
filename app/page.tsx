@@ -107,7 +107,7 @@ export default function Home() {
             ))}
           </div>
           <Link
-            href="/portfolio/contact/"
+            href="/contact/"
             className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2 rounded-full text-sm transition-colors"
           >
             GET IN TOUCH
@@ -178,7 +178,7 @@ export default function Home() {
             {/* Primary CTA */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                href="/portfolio/contact/"
+                href="/contact/"
                 className="group bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-4 rounded-full text-lg transition-all duration-200 flex items-center gap-2"
               >
                 Initiate Contact
@@ -189,10 +189,10 @@ export default function Home() {
 
             {/* Social row */}
             <div className="flex items-center justify-center gap-6 mt-16">
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-red-400 transition-colors">
+              <a href="https://www.youtube.com/@Code2Career_AI" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-red-400 transition-colors">
                 <Youtube className="w-5 h-5" />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-400 transition-colors">
+              <a href="https://www.linkedin.com/company/code2career-ai/" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-400 transition-colors">
                 <Linkedin className="w-5 h-5" />
               </a>
               <a href="https://github.com/RzLetsCode" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors">
