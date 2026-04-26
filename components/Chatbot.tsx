@@ -1,12 +1,18 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import { Send, MessageSquare, X, Trash2, ExternalLink } from 'lucide-react';
+
+// ====== TYPES & DATA ======
 
 interface Message {
   text: string;
   from: 'user' | 'bot';
   suggestions?: string[];
   intentId?: string | null;
+  link?: { label: string; href: string };
+  timestamp: number;
 }
 
 interface Intent {
@@ -15,6 +21,7 @@ interface Intent {
   patterns: string[];
   answer: string;
   nextSteps: string[];
+  link?: { label: string; href: string };
 }
 
 const DEFAULT_SUGGESTIONS = [
@@ -35,6 +42,28 @@ const CATEGORY_STARTERS: Record<Intent['category'], string[]> = {
 };
 
 const INTENTS: Intent[] = [
+  {
+    id: 'greeting',
+    category: 'intro',
+    patterns: ['hi', 'hello', 'hey', 'hii', 'heyy', 'namaste', 'yo'],
+    answer: 'Hi there! I’m your **Code2Career_AI** assistant. I can help you with AI roadmaps, project builds, and career mentorship.',
+    nextSteps: ['What is Code2Career_AI?', 'How do I get started with AI?', 'What services do you provide?']
+  },
+  {
+    id: 'start_ai',
+    category: 'learning',
+    patterns: ['how do i get started with ai', 'how to start ai', 'where should i start'],
+    answer: 'A strong starting path is:\n\n1. **Foundations** (Python & Math)\n2. **Machine Learning**\n3. **Deep Learning**\n4. **LLMs & RAG Pipelines**\n5. **MLOps/Deployment**',
+    nextSteps: ['Give me a beginner roadmap', 'What projects should I build?', 'Do I need math for AI?']
+  },
+  {
+    id: 'project_development_help',
+    category: 'projects',
+    patterns: ['help me build a project', 'project development support', 'i want to build an ai project'],
+    answer: 'I can help you architect AI projects using **LangChain, RAG, and Agentic workflows**. \n\nWhat specific AI problem are you trying to solve?',
+    nextSteps: ['What technologies are you using?', 'What projects should I build?'],
+    link: { label: 'Get Architecture Help →', href: '/contact' }
+  },
   {
     id: 'greeting',
     category: 'intro',
@@ -471,20 +500,47 @@ const INTENTS: Intent[] = [
     answer:
       'You’re welcome! If you want, I can help you pick the next step based on learning, projects, mentorship, or career growth.',
     nextSteps: ['Give me a beginner roadmap', 'What projects should I build?', 'How can this help my resume?']
+  },
+  {
+  id: 'project_development_help',
+  category: 'projects',
+  patterns: [
+    'can you help me with project development',
+    'help me with project development',
+    'can you help with my project',
+    'can you help me build a project',
+    'can you help me with ai project',
+    'project development support',
+    'project guidance',
+    'need help in project development',
+    'can you help with development of my project',
+    'i need help building an ai project',
+    'help me develop my ai project',
+    'i want to build an ai project',
+    'how can i build an ai project',
+    'guide me to build an ai project'
+  ],
+  answer:
+    'Yes! I can help you with AI-focused project development. If your project involves Python, LangChain, RAG pipelines, vector databases, agentic workflows, or any GenAI stack, share a short description of what you want to build, your current skill level, and which tools you prefer — and I can suggest the right architecture, components, and next steps. For deeper 1:1 guidance, click the button below to send a detailed message directly.',
+  nextSteps: [
+    'What technologies are you planning to use?',
+    'Are you building this for resume, college, or a real client?',
+    'What AI problem are you trying to solve?',
+    'What projects should I build?'
+  ],
+  link: {
+    label: 'Get in Touch →',
+    href: '/contact'
   }
+}
 ];
 
-// ====== ENHANCED MATCHING HELPERS ======
+// ====== UTILS ======
 
 const SYNONYM_MAP: { pattern: RegExp; replacement: string }[] = [
   { pattern: /\bcareer change\b/g, replacement: 'switch into ai' },
-  { pattern: /\bchange career\b/g, replacement: 'switch into ai' },
-  { pattern: /\btransition to ai\b/g, replacement: 'switch into ai' },
-  { pattern: /\bmove into ai\b/g, replacement: 'switch into ai' },
   { pattern: /\bget a job\b/g, replacement: 'placements' },
-  { pattern: /\bjob support\b/g, replacement: 'placements' },
-  { pattern: /\bgithub profile\b/g, replacement: 'github' },
-  { pattern: /\bprojects for resume\b/g, replacement: 'resume project' }
+  { pattern: /\bgithub profile\b/g, replacement: 'github' }
 ];
 
 function normalize(text: string): string {
@@ -492,412 +548,197 @@ function normalize(text: string): string {
   SYNONYM_MAP.forEach(({ pattern, replacement }) => {
     cleaned = cleaned.replace(pattern, replacement);
   });
-  cleaned = cleaned.replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
-  return cleaned;
+  return cleaned.replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 function getPatternScore(query: string, pattern: string): number {
-  const normalizedQuery = normalize(query);
-  const normalizedPattern = normalize(pattern);
-  if (!normalizedQuery || !normalizedPattern) return 0;
-
-  if (normalizedQuery === normalizedPattern) return 1;
-  if (normalizedQuery.includes(normalizedPattern)) return 0.92;
-
-  const queryWords = normalizedQuery.split(' ').filter(Boolean);
-  const patternWords = normalizedPattern.split(' ').filter(Boolean);
-  if (!queryWords.length || !patternWords.length) return 0;
-
-  let matches = 0;
-  patternWords.forEach((word) => {
-    if (queryWords.includes(word)) matches += 1;
-  });
-
-  const overlap = matches / patternWords.length;
-  const coverage = matches / queryWords.length;
-  return overlap * 0.76 + coverage * 0.24;
+  const nQ = normalize(query);
+  const nP = normalize(pattern);
+  if (!nQ || !nP) return 0;
+  if (nQ === nP) return 1;
+  if (nQ.includes(nP)) return 0.92;
+  const qWords = nQ.split(' ');
+  const pWords = nP.split(' ');
+  const matches = pWords.filter(w => qWords.includes(w)).length;
+  return (matches / pWords.length) * 0.76 + (matches / qWords.length) * 0.24;
 }
 
-function dedupeSuggestions(items: string[]): string[] {
-  return Array.from(new Set(items)).slice(0, 6);
-}
-
-function findBestIntent(query: string): { intent: Intent | null; score: number } {
-  let bestMatch: { score: number; intent: Intent | null } = { score: 0, intent: null };
-
-  INTENTS.forEach((intent) => {
-    intent.patterns.forEach((pattern) => {
-      const score = getPatternScore(query, pattern);
-      if (score > bestMatch.score) {
-        bestMatch = { score, intent };
-      }
-    });
-  });
-
-  return bestMatch;
-}
-
-function buildFallbackSuggestions(query: string): string[] {
-  const normalized = normalize(query);
-
-  if (
-    normalized.includes('resume') ||
-    normalized.includes('linkedin') ||
-    normalized.includes('interview') ||
-    normalized.includes('cv')
-  ) {
-    return [
-      'How can this help my resume?',
-      'Can you help with LinkedIn?',
-      'How can this help with interviews?',
-      'Does this help with placements?'
-    ];
-  }
-
-  if (normalized.includes('project') || normalized.includes('github') || normalized.includes('repo')) {
-    return [
-      'What projects should I build?',
-      'Can you help with GitHub?',
-      'What project is good for resume?',
-      'Do you provide mentorship?'
-    ];
-  }
-
-  if (
-    normalized.includes('learn') ||
-    normalized.includes('roadmap') ||
-    normalized.includes('start') ||
-    normalized.includes('ai') ||
-    normalized.includes('beginner')
-  ) {
-    return [
-      'How do I get started with AI?',
-      'Give me a beginner roadmap',
-      'Can you help me switch into AI?',
-      'Do I need coding for AI?'
-    ];
-  }
-
-  if (normalized.includes('mentor') || normalized.includes('guidance') || normalized.includes('switch')) {
-    return [
-      'Do you provide mentorship?',
-      'Can you help me switch into AI?',
-      'What is career strategy mentorship?',
-      'How can I contact you?'
-    ];
-  }
-
-  return DEFAULT_SUGGESTIONS;
-}
-
-function getBotReply(query: string): { answer: string; suggestions: string[]; intentId: string | null } {
-  const { intent, score } = findBestIntent(query);
-
-  if (intent && score >= 0.48) {
-    const categorySuggestions = CATEGORY_STARTERS[intent.category] ?? [];
-    return {
-      answer: intent.answer,
-      intentId: intent.id,
-      suggestions: dedupeSuggestions([...intent.nextSteps, ...categorySuggestions])
-    };
-  }
-
-  if (intent && score >= 0.3) {
-    const categorySuggestions = CATEGORY_STARTERS[intent.category] ?? [];
-    return {
-      answer:
-        'I might not have the exact answer for that, but here’s how Code2Career_AI can support you across learning, projects, mentorship, and career growth.',
-      intentId: intent.id,
-      suggestions: dedupeSuggestions([...intent.nextSteps, ...categorySuggestions])
-    };
-  }
-
-  return {
-    answer:
-      'I’m not fully sure about that yet, but I can still help with AI learning, roadmaps, projects, mentorship, resume support, interview preparation, internships, and placements.',
-    intentId: null,
-    suggestions: dedupeSuggestions(buildFallbackSuggestions(query))
-  };
-}
-
-// ====== COMPONENT ======
+// ====== MAIN COMPONENT ======
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      text:
-        'Hi! I’m your Code2Career_AI assistant. Ask me about AI roadmaps, projects, mentorship, career switching, resume, interviews, or where to find my content.',
-      from: 'bot',
-      suggestions: DEFAULT_SUGGESTIONS,
-      intentId: 'welcome'
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
 
-  const scrollToBottom = () => {
+  // Load history on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('c2c_chat_history');
+    if (saved) {
+      setMessages(JSON.parse(saved));
+    } else {
+      setMessages([{
+        text: 'Hi! I’m your **Code2Career_AI** assistant. How can I help your AI journey today?',
+        from: 'bot',
+        suggestions: DEFAULT_SUGGESTIONS,
+        intentId: 'welcome',
+        timestamp: Date.now()
+      }]);
+    }
+  }, []);
+
+  // Save history on change
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem('c2c_chat_history', JSON.stringify(messages));
+    }
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
   }, [messages, isTyping]);
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    window.history.pushState({ chatbotOpen: true }, '');
-    const timer = setTimeout(() => inputRef.current?.focus(), 180);
-
-    const handlePopState = () => {
-      setIsOpen(false);
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsOpen(false);
-        triggerRef.current?.focus();
-      }
-    };
-
-    const handlePointerDown = (event: MouseEvent | TouchEvent) => {
-      const target = event.target as Node;
-      const clickedInsidePanel = panelRef.current?.contains(target);
-      const clickedTrigger = triggerRef.current?.contains(target);
-
-      if (!clickedInsidePanel && !clickedTrigger) {
-        setIsOpen(false);
-      }
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('mousedown', handlePointerDown);
-    document.addEventListener('touchstart', handlePointerDown);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('popstate', handlePopState);
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('mousedown', handlePointerDown);
-      document.removeEventListener('touchstart', handlePointerDown);
-    };
-  }, [isOpen]);
-
-  const closeChat = () => {
-    setIsOpen(false);
-    triggerRef.current?.focus();
-  };
-
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
 
   const handleSend = (customText?: string) => {
     const text = (customText ?? input).trim();
     if (!text || isTyping) return;
 
-    const userMessage: Message = { text, from: 'user' };
-    setMessages((prev) => [...prev, userMessage]);
+    const userMsg: Message = { text, from: 'user', timestamp: Date.now() };
+    setMessages(prev => [...prev, userMsg]);
     setInput('');
     setIsTyping(true);
 
     setTimeout(() => {
-      const reply = getBotReply(text);
-      const botMessage: Message = {
-        text: reply.answer,
+      let bestMatch = { score: 0, intent: null as Intent | null };
+      INTENTS.forEach(intent => {
+        intent.patterns.forEach(p => {
+          const score = getPatternScore(text, p);
+          if (score > bestMatch.score) bestMatch = { score, intent };
+        });
+      });
+
+      const reply: Message = {
         from: 'bot',
-        suggestions: reply.suggestions,
-        intentId: reply.intentId
+        timestamp: Date.now(),
+        text: bestMatch.score >= 0.48 
+          ? (bestMatch.intent?.answer || '') 
+          : "I'm not sure about that, but I can help with AI roadmaps, projects, or career switching.",
+        suggestions: bestMatch.intent 
+          ? Array.from(new Set([...bestMatch.intent.nextSteps, ...CATEGORY_STARTERS[bestMatch.intent.category]])) 
+          : DEFAULT_SUGGESTIONS,
+        link: bestMatch.intent?.link
       };
-      setMessages((prev) => [...prev, botMessage]);
+
+      setMessages(prev => [...prev, reply]);
       setIsTyping(false);
-    }, 380);
+    }, 600);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleSend();
-    }
+  const clearChat = () => {
+    localStorage.removeItem('c2c_chat_history');
+    window.location.reload();
   };
-
-  const latestBotMessageWithSuggestions = (() => {
-    for (let i = messages.length - 1; i >= 0; i -= 1) {
-      const msg = messages[i];
-      if (msg.from === 'bot' && msg.suggestions?.length) return msg;
-    }
-    return undefined;
-  })();
-
-  const visibleQuickPrompts =
-    (latestBotMessageWithSuggestions?.suggestions ?? DEFAULT_SUGGESTIONS).slice(0, 6);
 
   return (
     <div className="fixed bottom-6 right-6 z-[9999] font-sans">
+      {/* Trigger Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-tr from-cyan-600 to-blue-600 text-white shadow-lg transition-transform hover:scale-110 active:scale-95"
+      >
+        {isOpen ? <X size={24} /> : <MessageSquare size={24} />}
+        {!isOpen && (
+          <span className="absolute -top-1 -right-1 flex h-4 w-4">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75"></span>
+            <span className="relative inline-flex h-4 w-4 rounded-full bg-cyan-500"></span>
+          </span>
+        )}
+      </button>
+
+      {/* Chat Window */}
       {isOpen && (
-        <div
-          ref={panelRef}
-          className="mb-4 w-[360px] sm:w-[390px] max-w-[calc(100vw-24px)] h-[600px] max-h-[80vh] bg-[#020617]/95 backdrop-blur-2xl rounded-[28px] shadow-[0_20px_80px_rgba(0,0,0,0.45)] border border-cyan-500/20 overflow-hidden flex flex-col animate-in slide-in-from-bottom-4 duration-300"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Code2Career AI assistant"
-        >
-          {/* Header (shutter removed, only title + close) */}
-          <div className="relative bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 px-4 py-4 flex items-center justify-between">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.25),transparent_35%)] pointer-events-none" />
-            <div className="relative flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center shadow-inner">
-                <span className="text-sm font-bold text-white">AI</span>
-              </div>
-              <div>
-                <h3 className="text-white font-semibold text-sm leading-none">AI Career Assistant</h3>
-                <div className="mt-1 flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse" />
-                  <span className="text-[10px] uppercase tracking-[0.18em] text-white/75 font-semibold">
-                    Always Active
-                  </span>
-                </div>
-              </div>
+        <div className="absolute bottom-20 right-0 flex h-[600px] w-[380px] max-w-[calc(100vw-48px)] flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#020617]/95 shadow-2xl backdrop-blur-xl animate-in slide-in-from-bottom-5">
+          {/* Header */}
+          <div className="flex items-center justify-between bg-white/5 p-4 border-b border-white/5">
+            <div>
+              <h3 className="text-sm font-bold text-white">Code2Career Assistant</h3>
+              <p className="text-[10px] text-cyan-400 uppercase tracking-widest font-semibold">Active Now</p>
             </div>
-            <button
-              type="button"
-              onClick={closeChat}
-              className="relative z-10 w-7 h-7 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-              aria-label="Close chat"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+            <button onClick={clearChat} className="text-white/40 hover:text-red-400 transition-colors">
+              <Trash2 size={18} />
             </button>
           </div>
 
           {/* Messages */}
-          <div
-            id="code2career-chat-log"
-            className="flex-1 p-4 overflow-y-auto space-y-3 bg-[linear-gradient(to_bottom,rgba(2,6,23,0.88),rgba(15,23,42,0.95))]"
-            role="log"
-            aria-live="polite"
-            aria-relevant="additions"
-          >
-            {messages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={`flex flex-col ${msg.from === 'user' ? 'items-end' : 'items-start'}`}
-              >
-                <div
-                  className={`max-w-[84%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed shadow-sm ${
-                    msg.from === 'user'
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-br-sm shadow-cyan-500/20'
-                      : 'bg-slate-800/90 text-slate-100 rounded-bl-sm border border-slate-700/80'
-                  }`}
-                >
-                  {msg.text}
-                  {msg.from === 'bot' && msg.intentId && (
-                    <span className="mt-1 block text-[9px] uppercase tracking-[0.16em] text-cyan-400/70">
-                      Intent: {msg.intentId}
-                    </span>
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide">
+            {messages.map((msg, i) => (
+              <div key={i} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[85%] rounded-2xl p-3 text-sm ${
+                  msg.from === 'user' 
+                    ? 'bg-cyan-600 text-white rounded-tr-none' 
+                    : 'bg-white/10 text-slate-200 rounded-tl-none border border-white/5'
+                }`}>
+                  <ReactMarkdown className="prose prose-invert prose-sm">
+                    {msg.text}
+                  </ReactMarkdown>
+                  
+                  {msg.link && (
+                    <a 
+                      href={msg.link.href}
+                      className="mt-3 flex items-center justify-center gap-2 rounded-lg bg-cyan-500 px-3 py-2 text-xs font-bold text-white transition-all hover:bg-cyan-400"
+                    >
+                      {msg.link.label} <ExternalLink size={14} />
+                    </a>
                   )}
                 </div>
-
-                {msg.from === 'bot' && msg.suggestions && msg.suggestions.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-2 max-w-[92%]">
-                    {msg.suggestions.slice(0, 6).map((suggestion, suggestionIdx) => (
-                      <button
-                        key={`${idx}-${suggestionIdx}`}
-                        onClick={() => handleSend(suggestion)}
-                        disabled={isTyping}
-                        className="px-3 py-1.5 rounded-full bg-slate-900/90 text-slate-300 text-[11px] border border-slate-700 hover:border-cyan-400/50 hover:text-white hover:bg-slate-800 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
-                        type="button"
-                      >
-                        {suggestion}
-                      </button>
-                    ))}
-                  </div>
-                )}
               </div>
             ))}
-
             {isTyping && (
               <div className="flex justify-start">
-                <div className="bg-slate-800/90 text-slate-100 rounded-2xl rounded-bl-sm border border-slate-700/80 px-4 py-3 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-cyan-400 animate-bounce [animation-delay:-0.3s]" />
-                  <span className="w-2 h-2 rounded-full bg-cyan-400 animate-bounce [animation-delay:-0.15s]" />
-                  <span className="w-2 h-2 rounded-full bg-cyan-400 animate-bounce" />
+                <div className="bg-white/10 p-3 rounded-2xl rounded-tl-none flex gap-1">
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-cyan-500"></span>
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-cyan-500 [animation-delay:0.2s]"></span>
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-cyan-500 [animation-delay:0.4s]"></span>
                 </div>
               </div>
             )}
-
             <div ref={messagesEndRef} />
           </div>
 
+          {/* Quick Suggestions */}
+          <div className="flex gap-2 overflow-x-auto p-3 no-scrollbar border-t border-white/5">
+            {(messages[messages.length - 1]?.suggestions || DEFAULT_SUGGESTIONS).map((s, i) => (
+              <button
+                key={i}
+                onClick={() => handleSend(s)}
+                className="whitespace-nowrap rounded-full border border-cyan-500/30 bg-cyan-500/5 px-3 py-1 text-[11px] text-cyan-300 transition-colors hover:bg-cyan-500/20"
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+
           {/* Input */}
-          <div className="p-3 bg-slate-950/90 border-t border-slate-800/90">
-            <p className="mb-1 text-[11px] text-slate-400">
-              Tip: Try asking “Can you help me switch into AI?” or “What projects should I build?”.
-            </p>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSend();
-              }}
-              className="flex gap-2"
-            >
+          <div className="p-4 bg-white/5 border-t border-white/5">
+            <div className="relative flex items-center">
               <input
                 ref={inputRef}
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Ask about roadmap, projects, mentorship, resume..."
-                className="flex-1 bg-slate-900 text-white px-4 py-3 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 border border-slate-800 placeholder-slate-500"
-                aria-label="Ask a question"
-                aria-controls="code2career-chat-log"
+                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                placeholder="Ask about AI projects..."
+                className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-4 pr-12 text-sm text-white placeholder-white/20 focus:border-cyan-500/50 focus:outline-none"
               />
               <button
-                type="submit"
-                disabled={!input.trim() || isTyping}
-                className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-3 rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/40 transition-all duration-200 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
-                aria-label="Send message"
+                onClick={() => handleSend()}
+                className="absolute right-2 text-cyan-500 hover:text-cyan-400 transition-colors"
               >
-                Send
+                <Send size={20} />
               </button>
-            </form>
+            </div>
           </div>
         </div>
       )}
-
-      {/* Floating trigger */}
-      <button
-        ref={triggerRef}
-        onClick={isOpen ? closeChat : handleOpen}
-        className="group relative w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-cyan-500/40 hover:shadow-cyan-500/60"
-        aria-label={isOpen ? 'Close chat' : 'Open chat'}
-        aria-expanded={isOpen}
-        type="button"
-      >
-        <span className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 animate-ping opacity-20" />
-        {isOpen ? (
-          <svg className="w-7 h-7 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 12H5" />
-          </svg>
-        ) : (
-          <svg className="w-7 h-7 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-            />
-          </svg>
-        )}
-      </button>
     </div>
   );
 }
