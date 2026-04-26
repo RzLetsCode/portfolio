@@ -6,6 +6,7 @@ interface Message {
   text: string;
   from: 'user' | 'bot';
   suggestions?: string[];
+  intentId?: string | null;
 }
 
 interface Intent {
@@ -473,13 +474,32 @@ const INTENTS: Intent[] = [
   }
 ];
 
+// ====== ENHANCED MATCHING HELPERS ======
+
+const SYNONYM_MAP: { pattern: RegExp; replacement: string }[] = [
+  { pattern: /\bcareer change\b/g, replacement: 'switch into ai' },
+  { pattern: /\bchange career\b/g, replacement: 'switch into ai' },
+  { pattern: /\btransition to ai\b/g, replacement: 'switch into ai' },
+  { pattern: /\bmove into ai\b/g, replacement: 'switch into ai' },
+  { pattern: /\bget a job\b/g, replacement: 'placements' },
+  { pattern: /\bjob support\b/g, replacement: 'placements' },
+  { pattern: /\bgithub profile\b/g, replacement: 'github' },
+  { pattern: /\bprojects for resume\b/g, replacement: 'resume project' }
+];
+
 function normalize(text: string): string {
-  return text.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+  let cleaned = text.toLowerCase();
+  SYNONYM_MAP.forEach(({ pattern, replacement }) => {
+    cleaned = cleaned.replace(pattern, replacement);
+  });
+  cleaned = cleaned.replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+  return cleaned;
 }
 
 function getPatternScore(query: string, pattern: string): number {
   const normalizedQuery = normalize(query);
   const normalizedPattern = normalize(pattern);
+  if (!normalizedQuery || !normalizedPattern) return 0;
 
   if (normalizedQuery === normalizedPattern) return 1;
   if (normalizedQuery.includes(normalizedPattern)) return 0.92;
@@ -495,14 +515,14 @@ function getPatternScore(query: string, pattern: string): number {
 
   const overlap = matches / patternWords.length;
   const coverage = matches / queryWords.length;
-  return overlap * 0.72 + coverage * 0.28;
+  return overlap * 0.76 + coverage * 0.24;
 }
 
 function dedupeSuggestions(items: string[]): string[] {
   return Array.from(new Set(items)).slice(0, 6);
 }
 
-function findBestIntent(query: string): Intent | null {
+function findBestIntent(query: string): { intent: Intent | null; score: number } {
   let bestMatch: { score: number; intent: Intent | null } = { score: 0, intent: null };
 
   INTENTS.forEach((intent) => {
@@ -514,7 +534,7 @@ function findBestIntent(query: string): Intent | null {
     });
   });
 
-  return bestMatch.score >= 0.48 ? bestMatch.intent : null;
+  return bestMatch;
 }
 
 function buildFallbackSuggestions(query: string): string[] {
@@ -523,7 +543,8 @@ function buildFallbackSuggestions(query: string): string[] {
   if (
     normalized.includes('resume') ||
     normalized.includes('linkedin') ||
-    normalized.includes('interview')
+    normalized.includes('interview') ||
+    normalized.includes('cv')
   ) {
     return [
       'How can this help my resume?',
@@ -533,7 +554,7 @@ function buildFallbackSuggestions(query: string): string[] {
     ];
   }
 
-  if (normalized.includes('project') || normalized.includes('github')) {
+  if (normalized.includes('project') || normalized.includes('github') || normalized.includes('repo')) {
     return [
       'What projects should I build?',
       'Can you help with GitHub?',
@@ -546,7 +567,8 @@ function buildFallbackSuggestions(query: string): string[] {
     normalized.includes('learn') ||
     normalized.includes('roadmap') ||
     normalized.includes('start') ||
-    normalized.includes('ai')
+    normalized.includes('ai') ||
+    normalized.includes('beginner')
   ) {
     return [
       'How do I get started with AI?',
@@ -556,16 +578,36 @@ function buildFallbackSuggestions(query: string): string[] {
     ];
   }
 
+  if (normalized.includes('mentor') || normalized.includes('guidance') || normalized.includes('switch')) {
+    return [
+      'Do you provide mentorship?',
+      'Can you help me switch into AI?',
+      'What is career strategy mentorship?',
+      'How can I contact you?'
+    ];
+  }
+
   return DEFAULT_SUGGESTIONS;
 }
 
-function getBotReply(query: string): { answer: string; suggestions: string[] } {
-  const intent = findBestIntent(query);
+function getBotReply(query: string): { answer: string; suggestions: string[]; intentId: string | null } {
+  const { intent, score } = findBestIntent(query);
 
-  if (intent) {
+  if (intent && score >= 0.48) {
     const categorySuggestions = CATEGORY_STARTERS[intent.category] ?? [];
     return {
       answer: intent.answer,
+      intentId: intent.id,
+      suggestions: dedupeSuggestions([...intent.nextSteps, ...categorySuggestions])
+    };
+  }
+
+  if (intent && score >= 0.3) {
+    const categorySuggestions = CATEGORY_STARTERS[intent.category] ?? [];
+    return {
+      answer:
+        'I might not have the exact answer for that, but here’s how Code2Career_AI can support you across learning, projects, mentorship, and career growth.',
+      intentId: intent.id,
       suggestions: dedupeSuggestions([...intent.nextSteps, ...categorySuggestions])
     };
   }
@@ -573,9 +615,12 @@ function getBotReply(query: string): { answer: string; suggestions: string[] } {
   return {
     answer:
       'I’m not fully sure about that yet, but I can still help with AI learning, roadmaps, projects, mentorship, resume support, interview preparation, internships, and placements.',
+    intentId: null,
     suggestions: dedupeSuggestions(buildFallbackSuggestions(query))
   };
 }
+
+// ====== COMPONENT ======
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -584,12 +629,12 @@ export default function Chatbot() {
       text:
         'Hi! I’m your Code2Career_AI assistant. Ask me about AI roadmaps, projects, mentorship, career switching, resume, interviews, or where to find my content.',
       from: 'bot',
-      suggestions: DEFAULT_SUGGESTIONS
+      suggestions: DEFAULT_SUGGESTIONS,
+      intentId: 'welcome'
     }
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [isQuickOpen, setIsQuickOpen] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -668,14 +713,15 @@ export default function Chatbot() {
       const botMessage: Message = {
         text: reply.answer,
         from: 'bot',
-        suggestions: reply.suggestions
+        suggestions: reply.suggestions,
+        intentId: reply.intentId
       };
       setMessages((prev) => [...prev, botMessage]);
       setIsTyping(false);
     }, 380);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       handleSend();
@@ -690,7 +736,8 @@ export default function Chatbot() {
     return undefined;
   })();
 
-  const visibleQuickPrompts = (latestBotMessageWithSuggestions?.suggestions ?? DEFAULT_SUGGESTIONS).slice(0, 6);
+  const visibleQuickPrompts =
+    (latestBotMessageWithSuggestions?.suggestions ?? DEFAULT_SUGGESTIONS).slice(0, 6);
 
   return (
     <div className="fixed bottom-6 right-6 z-[9999] font-sans">
@@ -702,7 +749,8 @@ export default function Chatbot() {
           aria-modal="true"
           aria-label="Code2Career AI assistant"
         >
-          <div className="relative bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 px-4 py-4 flex items-center">
+          {/* Header (shutter removed, only title + close) */}
+          <div className="relative bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 px-4 py-4 flex items-center justify-between">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.25),transparent_35%)] pointer-events-none" />
             <div className="relative flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center shadow-inner">
@@ -718,52 +766,26 @@ export default function Chatbot() {
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="border-b border-slate-700/70 bg-slate-800/70">
             <button
               type="button"
-              onClick={() => setIsQuickOpen((prev) => !prev)}
-              className="w-full flex items-center justify-between px-4 py-3 text-[11px] text-slate-300 uppercase tracking-[0.18em] font-semibold bg-slate-800/80 hover:bg-slate-700/80 transition-colors"
-              aria-expanded={isQuickOpen}
-              aria-label="Toggle quick prompts"
+              onClick={closeChat}
+              className="relative z-10 w-7 h-7 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+              aria-label="Close chat"
             >
-              <span>Quick prompts</span>
-              <span
-                className={`inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-500/70 text-[10px] text-slate-200 bg-slate-950/90 transition-transform ${
-                  isQuickOpen ? 'rotate-180' : ''
-                }`}
-              >
-                ˅
-              </span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </button>
-
-            {isQuickOpen && (
-              <div className="px-4 pb-4 pt-2 max-h-[190px] overflow-y-auto bg-slate-900/85 border-t border-slate-700/60">
-                <div className="flex flex-wrap gap-2">
-                  {visibleQuickPrompts.map((question, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => handleSend(question)}
-                      disabled={isTyping}
-                      className="px-3 py-1.5 rounded-full bg-slate-800/90 text-slate-200 text-[11px] border border-slate-700 hover:border-cyan-400/50 hover:text-white hover:bg-slate-700/90 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
-                      type="button"
-                    >
-                      {question}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
+          {/* Messages */}
           <div
-			id="code2career-chat-log"
-			className="flex-1 p-4 overflow-y-auto space-y-3 bg-[linear-gradient(to_bottom,rgba(2,6,23,0.88),rgba(15,23,42,0.95))]"
-			role="log"
-			aria-live="polite"
-			aria-relevant="additions"
-		 >
+            id="code2career-chat-log"
+            className="flex-1 p-4 overflow-y-auto space-y-3 bg-[linear-gradient(to_bottom,rgba(2,6,23,0.88),rgba(15,23,42,0.95))]"
+            role="log"
+            aria-live="polite"
+            aria-relevant="additions"
+          >
             {messages.map((msg, idx) => (
               <div
                 key={idx}
@@ -777,6 +799,11 @@ export default function Chatbot() {
                   }`}
                 >
                   {msg.text}
+                  {msg.from === 'bot' && msg.intentId && (
+                    <span className="mt-1 block text-[9px] uppercase tracking-[0.16em] text-cyan-400/70">
+                      Intent: {msg.intentId}
+                    </span>
+                  )}
                 </div>
 
                 {msg.from === 'bot' && msg.suggestions && msg.suggestions.length > 0 && (
@@ -810,6 +837,7 @@ export default function Chatbot() {
             <div ref={messagesEndRef} />
           </div>
 
+          {/* Input */}
           <div className="p-3 bg-slate-950/90 border-t border-slate-800/90">
             <p className="mb-1 text-[11px] text-slate-400">
               Tip: Try asking “Can you help me switch into AI?” or “What projects should I build?”.
@@ -826,7 +854,7 @@ export default function Chatbot() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyPress}
+                onKeyDown={handleKeyDown}
                 placeholder="Ask about roadmap, projects, mentorship, resume..."
                 className="flex-1 bg-slate-900 text-white px-4 py-3 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50 border border-slate-800 placeholder-slate-500"
                 aria-label="Ask a question"
@@ -845,6 +873,7 @@ export default function Chatbot() {
         </div>
       )}
 
+      {/* Floating trigger */}
       <button
         ref={triggerRef}
         onClick={isOpen ? closeChat : handleOpen}
