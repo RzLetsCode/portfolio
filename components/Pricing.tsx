@@ -124,7 +124,7 @@ export default function Pricing() {
                 isAnnual ? styles.active : ''
               }`}
             >
-              Annual
+              Complete Course
             </span>
             {isAnnual && (
               <span className={styles.saveBadge}>Save Up to ~50%</span>
