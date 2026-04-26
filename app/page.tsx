@@ -20,6 +20,8 @@ import {
   Workflow,
   MessagesSquare,
   RefreshCw,
+  Globe,    // Add this
+  FileText  // Or this
 } from 'lucide-react';
 
 // Section components
@@ -78,8 +80,8 @@ export default function Home() {
   // Nav items — external links open in new tab, anchor links scroll on-page
   const navItems = [
     { label: 'About', href: '#about', external: false },
-    { label: 'Projects', href: '#projects', external: false },
     { label: 'Career Path', href: '#career-path', external: false },
+    { label: 'Projects', href: '#projects', external: false },    
     { label: 'Pricing', href: '#pricing', external: false },
   ];
 
@@ -191,9 +193,13 @@ export default function Home() {
               </a>
               <a href="https://www.linkedin.com/company/code2career-ai/" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-400 transition-colors">
                 <Linkedin className="w-5 h-5" />
+                
               </a>
-              <a href="https://github.com/RzLetsCode" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors">
-                <Github className="w-5 h-5" />
+              {/* <a href="https://github.com/RzLetsCode" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors">
+                <Github className="w-5 h-5" /> */}
+              {/* Replace the old GitHub block with this Hashnode block */}
+              <a href="https://hashnode.com/@code2career-ai" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-cyan-400 transition-colors">
+              <Globe className="w-5 h-5" /> 
               </a>
             </div>
           </div>
