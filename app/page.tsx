@@ -111,7 +111,7 @@ export default function Home() {
             ))}
           </div>
           <Link
-            href="/portfolio/contact/"
+            href="/contact/"
             className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2 rounded-full text-sm transition-colors"
           >
             GET IN TOUCH
@@ -177,7 +177,7 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                href="/portfolio/contact/"
+                href="/contact/"
                 className="group bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-4 rounded-full text-lg transition-all duration-200 flex items-center gap-2"
               >
                 Initiate Contact
