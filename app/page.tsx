@@ -80,8 +80,6 @@ export default function Home() {
     { label: 'About', href: '#about', external: false },
     { label: 'Projects', href: '#projects', external: false },
     { label: 'Career Path', href: '#career-path', external: false },
-    { label: 'YouTube', href: 'https://www.youtube.com/@Code2Career_AI', external: true },
-    { label: 'Blog', href: 'https://code2career.hashnode.dev', external: true },
     { label: 'Pricing', href: '#pricing', external: false },
   ];
 
