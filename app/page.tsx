@@ -20,7 +20,6 @@ import {
   Workflow,
   MessagesSquare,
   RefreshCw,
-  Globe,    // Add this
   FileText  // Or this
 } from 'lucide-react';
 
