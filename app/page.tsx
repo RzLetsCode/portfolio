@@ -133,20 +133,12 @@ export default function Home() {
         {/* Career Path / Journey */}
         <section id="career-path" style={{ scrollMarginTop: '70px' }}>
           <Journey />
+           <div className="text-center pb-20">
+               <Link href="/portfolio/contact" </Link>
+           </div>
         </section>
 
-        {/* Remove the ID here so the Nav bar handles the navigation */}
-<section style={{ scrollMarginTop: '70px' }}>
-  <Journey />
-  <div className="text-center pb-20">
-     <Link 
-       href="/portfolio/contact" 
-       className="bg-cyan-500 text-black px-8 py-3 rounded-full font-bold hover:bg-cyan-400 transition-all"
-     >
-        
-     </Link>
-  </div>
-</section>
+ 
 
         {/* Projects */}
         <section id="projects" style={{ scrollMarginTop: '70px' }}>
