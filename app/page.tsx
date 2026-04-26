@@ -33,7 +33,7 @@ import Pricing from '../components/Pricing';
 export default function Home() {
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false); // reserved if you re-add Chatbot later
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -75,6 +75,16 @@ export default function Home() {
     },
   ];
 
+  // Nav items — external links open in new tab, anchor links scroll on-page
+  const navItems = [
+    { label: 'About', href: '#about', external: false },
+    { label: 'Projects', href: '#projects', external: false },
+    { label: 'Career Path', href: '#career-path', external: false },
+    { label: 'YouTube', href: 'https://www.youtube.com/@Code2Career_AI', external: true },
+    { label: 'Blog', href: 'https://code2career.hashnode.dev', external: true },
+    { label: 'Pricing', href: '#pricing', external: false },
+  ];
+
   return (
     <>
       {/* Navigation */}
@@ -89,17 +99,12 @@ export default function Home() {
             <span>code2career_ai</span>
           </Link>
           <div className="hidden md:flex items-center gap-8">
-            {[
-              { label: 'About', href: '#about' },
-              { label: 'Projects', href: '#projects' },
-              { label: 'Career Path', href: '#career-path' },
-              { label: 'YouTube', href: '#youtube' },
-              { label: 'Blog', href: '#blog' },
-              { label: 'Pricing', href: '#pricing' },
-            ].map((item) => (
+            {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noopener noreferrer' : undefined}
                 className="text-gray-300 hover:text-cyan-400 transition-colors text-sm font-medium"
               >
                 {item.label}
@@ -107,7 +112,7 @@ export default function Home() {
             ))}
           </div>
           <Link
-            href="/contact/"
+            href="/portfolio/contact/"
             className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2 rounded-full text-sm transition-colors"
           >
             GET IN TOUCH
@@ -136,12 +141,12 @@ export default function Home() {
           <Projects />
         </section>
 
-        {/* YouTube / Blog - Mentorship */}
+        {/* Mentorship */}
         <section id="youtube" style={{ scrollMarginTop: '70px' }}>
           <Mentorship />
         </section>
 
-        {/* Blog anchor (points to same mentorship area) */}
+        {/* Blog anchor */}
         <div id="blog" style={{ scrollMarginTop: '70px' }} />
 
         {/* Pricing */}
@@ -151,16 +156,13 @@ export default function Home() {
 
         {/* CTA Section */}
         <section className="relative py-32 px-6 overflow-hidden">
-          {/* Soft background glow */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent pointer-events-none" />
 
           <div className="relative max-w-4xl mx-auto text-center">
-            {/* Eyebrow */}
             <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/20 rounded-full px-4 py-1.5 mb-8">
               <span className="text-cyan-400 text-xs font-bold tracking-widest uppercase">Take the next step</span>
             </div>
 
-            {/* Headline */}
             <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
               Ready to build the{' '}
               <span className="relative inline-block">
@@ -170,15 +172,13 @@ export default function Home() {
               {' '}of AI?
             </h2>
 
-            {/* Supporting copy */}
             <p className="text-gray-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
               Whether you&apos;re starting from scratch or leveling up your AI projects, we can turn vague goals into a concrete roadmap, portfolio and narrative.
             </p>
 
-            {/* Primary CTA */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                href="/contact/"
+                href="/portfolio/contact/"
                 className="group bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-4 rounded-full text-lg transition-all duration-200 flex items-center gap-2"
               >
                 Initiate Contact
@@ -187,7 +187,6 @@ export default function Home() {
               <p className="text-gray-500 text-sm">Response within 24 hours &bull; 1:1 guidance</p>
             </div>
 
-            {/* Social row */}
             <div className="flex items-center justify-center gap-6 mt-16">
               <a href="https://www.youtube.com/@Code2Career_AI" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-red-400 transition-colors">
                 <Youtube className="w-5 h-5" />
