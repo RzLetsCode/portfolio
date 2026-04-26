@@ -46,241 +46,173 @@ export default function Home() {
   };
 
   const mentorshipSteps = [
-{
-  title: '90-Day AI Blueprint',
-  desc: 'Kill the confusion. We’ll map out exactly what you need to learn to land a high-paying AI role in 3 months.',
-  tools: ['Roadmap to Hire'],
-  bullets: [
-    'Stop gathering certificates; start building production-ready apps.',
-    'Focus 100% on the tech that actually gets people hired right now.'
-  ],
-},
-{
-  title: 'Hiring-Filter Bypass',
-  desc: 'Your LinkedIn and Resume are likely getting ghosted by AI filters. We’ll fix that so you actually get the interview.',
-  tools: ['ATS Signal-Booster'],
-  bullets: [
-    'Turn "I know Python" into "I build Agentic AI Workflows."',
-    'Position your RAG projects as essential business solutions.'
-  ],
-},
-{
-  title: 'GitHub "Senior-Level" Audit',
-  desc: 'We’ll tear down your code and rebuild it. Move from "student projects" to code that looks like professional work.',
-  tools: ['Code Quality Polish'],
-  bullets: [
-    'Architecture reviews that prove you understand scale and security.',
-    'Make your repos the reason recruiters say "Yes."'
-  ],
-}
+    {
+      title: '90-Day AI Blueprint',
+      desc: 'Kill the confusion. We’ll map out exactly what you need to learn to land a high-paying AI role in 3 months.',
+      tools: ['Roadmap to Hire'],
+      bullets: [
+        'Stop gathering certificates; start building production-ready apps.',
+        'Focus 100% on the tech that actually gets people hired right now.',
+      ],
+    },
+    {
+      title: 'Hiring-Filter Bypass',
+      desc: 'Your LinkedIn and Resume are likely getting ghosted by AI filters. We’ll fix that so you actually get the interview.',
+      tools: ['ATS Signal-Booster'],
+      bullets: [
+        'Turn “I know Python” into “I build Agentic AI Workflows.”',
+        'Position your RAG projects as essential business solutions.',
+      ],
+    },
+    {
+      title: 'GitHub “Senior-Level” Audit',
+      desc: 'We’ll tear down your code and rebuild it. Move from “student projects” to code that looks like professional work.',
+      tools: ['Code Quality Polish'],
+      bullets: [
+        'Architecture reviews that prove you understand scale and security.',
+        'Make your repos the reason recruiters say “Yes.”',
+      ],
+    },
   ];
 
   return (
     <>
       {/* Navigation */}
       <nav
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 50,
-          padding: '1rem 2rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          transition: 'background 300ms ease, backdrop-filter 300ms ease',
-          background: scrolled ? 'rgba(5,6,10,0.85)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled ? 'bg-[#0f172a]/95 backdrop-blur-sm border-b border-cyan-500/20' : 'bg-transparent'
+        }`}
       >
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
-          <Code size={20} color="#22d3ee" />
-          <span style={{ fontWeight: 700, color: '#f9fafb', fontSize: '1rem', letterSpacing: '-0.01em' }}>code2career_ai</span>
-        </Link>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-          {['About', 'Projects', 'Career Path', 'YouTube', 'Blog', 'Pricing'].map((item) => (
-            <Link
-              key={item}
-              href={item === 'Pricing' ? '#pricing' : `#${item.toLowerCase().replace(' ', '-')}`}
-              style={{
-                padding: '0.4rem 0.75rem',
-                borderRadius: '0.375rem',
-                fontSize: '0.875rem',
-                color: '#94a3b8',
-                textDecoration: 'none',
-                transition: 'color 200ms',
-              }}
-            >
-              {item}
-            </Link>
-          ))}
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="/portfolio/" className="flex items-center gap-2 text-cyan-400 font-bold text-lg">
+            <span className="text-gray-400">&lt;&gt;</span>
+            <span>code2career_ai</span>
+          </Link>
+          <div className="hidden md:flex items-center gap-8">
+            {[
+              { label: 'About', href: '#about' },
+              { label: 'Projects', href: '#projects' },
+              { label: 'Career Path', href: '#career-path' },
+              { label: 'YouTube', href: '#youtube' },
+              { label: 'Blog', href: '#blog' },
+              { label: 'Pricing', href: '#pricing' },
+            ].map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="text-gray-300 hover:text-cyan-400 transition-colors text-sm font-medium"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
           <Link
-            href="/contact"
-            style={{
-              marginLeft: '0.5rem',
-              padding: '0.5rem 1.25rem',
-              borderRadius: '999px',
-              background: 'linear-gradient(135deg, #22d3ee, #3b82f6)',
-              color: '#020617',
-              fontWeight: 600,
-              fontSize: '0.875rem',
-              textDecoration: 'none',
-            }}
+            href="/portfolio/contact/"
+            className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2 rounded-full text-sm transition-colors"
           >
             GET IN TOUCH
           </Link>
         </div>
       </nav>
 
-      <main>
-        {/* Hero */}
-        <Hero />
+      <main className="pt-20">
+        {/* About / Hero */}
+        <section id="about" style={{ scrollMarginTop: '70px' }}>
+          <Hero />
+        </section>
 
         {/* Audience */}
-        <Audience />
+        <section id="audience" style={{ scrollMarginTop: '70px' }}>
+          <Audience />
+        </section>
 
-        {/* Journey */}
-        <section id="journey">
+        {/* Career Path / Journey */}
+        <section id="career-path" style={{ scrollMarginTop: '70px' }}>
           <Journey />
         </section>
 
         {/* Projects */}
-        <Projects />
-
-        {/* Mentorship */}
-        <Mentorship />
-
-        {/* Pricing */}
-        <Pricing />
-
-        {/* CTA Section */}
-        <section
-          style={{
-            padding: '6rem 1.5rem',
-            textAlign: 'center',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          {/* Soft background glow */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'radial-gradient(ellipse at center, rgba(34,211,238,0.07) 0%, transparent 70%)',
-              pointerEvents: 'none',
-            }}
-          />
-
-          {/* Eyebrow */}
-          <p
-            style={{
-              fontSize: '0.75rem',
-              fontWeight: 700,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: '#22d3ee',
-              marginBottom: '1rem',
-            }}
-          >
-            Take the next step
-          </p>
-
-          {/* Headline */}
-          <h2
-            style={{
-              fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
-              lineHeight: 1.05,
-              letterSpacing: '-0.03em',
-              color: '#f9fafb',
-              marginBottom: '1.5rem',
-            }}
-          >
-            Ready to build the{' '}
-            <br />
-            <span style={{ color: '#22d3ee' }}>Next Generation</span>
-            <br />
-            of AI?
-          </h2>
-
-          {/* Supporting copy */}
-          <p
-            style={{
-              fontSize: '1rem',
-              color: '#94a3b8',
-              maxWidth: '520px',
-              margin: '0 auto 2.5rem',
-              lineHeight: 1.65,
-            }}
-          >
-            Whether you&apos;re starting from scratch or leveling up your AI projects, we can turn
-            vague goals into a concrete roadmap, portfolio and narrative.
-          </p>
-
-          {/* Primary CTA */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
-            <Link
-              href="/contact"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.875rem 2rem',
-                borderRadius: '999px',
-                background: 'linear-gradient(135deg, #22d3ee, #3b82f6)',
-                color: '#020617',
-                fontWeight: 700,
-                fontSize: '0.95rem',
-                textDecoration: 'none',
-              }}
-            >
-              Initiate Contact <ArrowRight size={16} />
-            </Link>
-            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>
-              Response within 24 hours &bull; 1:1 guidance
-            </span>
-          </div>
-
-          {/* Social row */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '1.5rem',
-              marginTop: '3rem',
-            }}
-          >
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#64748b', textDecoration: 'none', fontSize: '0.85rem' }}>
-              <Youtube size={16} /> YouTube
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#64748b', textDecoration: 'none', fontSize: '0.85rem' }}>
-              <Linkedin size={16} /> LinkedIn
-            </a>
-            <a href="https://github.com/RzLetsCode" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: '#64748b', textDecoration: 'none', fontSize: '0.85rem' }}>
-              <Github size={16} /> GitHub
-            </a>
-          </div>
+        <section id="projects" style={{ scrollMarginTop: '70px' }}>
+          <Projects />
         </section>
 
-        {/* Footer */}
-        <footer
-          style={{
-            padding: '2rem 1.5rem',
-            textAlign: 'center',
-            borderTop: '1px solid rgba(51,65,85,0.5)',
-          }}
-        >
-          <p style={{ fontWeight: 700, color: '#f9fafb', marginBottom: '0.25rem' }}>code2career_ai</p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', fontSize: '0.75rem', color: '#475569' }}>
-            <span>&copy; {new Date().getFullYear()} ALL RIGHTS RESERVED</span>
-            <span>Architected for Freshers &amp; AI Enthusiasts</span>
+        {/* YouTube / Blog - Mentorship */}
+        <section id="youtube" style={{ scrollMarginTop: '70px' }}>
+          <Mentorship />
+        </section>
+
+        {/* Blog anchor (points to same mentorship area) */}
+        <div id="blog" style={{ scrollMarginTop: '70px' }} />
+
+        {/* Pricing */}
+        <section id="pricing" style={{ scrollMarginTop: '70px' }}>
+          <Pricing />
+        </section>
+
+        {/* CTA Section */}
+        <section className="relative py-32 px-6 overflow-hidden">
+          {/* Soft background glow */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent pointer-events-none" />
+
+          <div className="relative max-w-4xl mx-auto text-center">
+            {/* Eyebrow */}
+            <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/20 rounded-full px-4 py-1.5 mb-8">
+              <span className="text-cyan-400 text-xs font-bold tracking-widest uppercase">Take the next step</span>
+            </div>
+
+            {/* Headline */}
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
+              Ready to build the{' '}
+              <span className="relative inline-block">
+                <span className="text-cyan-400">Next Generation</span>
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400/50" />
+              </span>
+              {' '}of AI?
+            </h2>
+
+            {/* Supporting copy */}
+            <p className="text-gray-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
+              Whether you&apos;re starting from scratch or leveling up your AI projects, we can turn vague goals into a concrete roadmap, portfolio and narrative.
+            </p>
+
+            {/* Primary CTA */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/portfolio/contact/"
+                className="group bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-4 rounded-full text-lg transition-all duration-200 flex items-center gap-2"
+              >
+                Initiate Contact
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <p className="text-gray-500 text-sm">Response within 24 hours &bull; 1:1 guidance</p>
+            </div>
+
+            {/* Social row */}
+            <div className="flex items-center justify-center gap-6 mt-16">
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-red-400 transition-colors">
+                <Youtube className="w-5 h-5" />
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-400 transition-colors">
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a href="https://github.com/RzLetsCode" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors">
+                <Github className="w-5 h-5" />
+              </a>
+            </div>
           </div>
-        </footer>
+        </section>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-white/10 py-8 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <span className="text-cyan-400 font-bold">code2career_ai</span>
+          <p className="text-gray-500 text-sm">
+            &copy; {new Date().getFullYear()} ALL RIGHTS RESERVED
+          </p>
+          <p className="text-gray-600 text-xs">Architected for Freshers &amp; AI Enthusiasts</p>
+        </div>
+      </footer>
 
       <style>{`
         @keyframes shimmer {
@@ -296,7 +228,9 @@ export default function Home() {
             transparent
           );
         }
-        html { scroll-behavior: smooth; }
+        html {
+          scroll-behavior: smooth;
+        }
       `}</style>
     </>
   );
