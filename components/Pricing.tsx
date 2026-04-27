@@ -22,7 +22,7 @@ const plans = [
     ctaPrimary: false,
     features: [
       { label: 'Curated AI roadmap overview', included: true },
-      { label: 'Beginner project ideas with GitHub hints', included: true },
+      { label: '2–3 guided project walkthroughs where you can follow along and understand how to build and deploy a simple AI project.', included: true },
       { label: 'Access to public blogs & YouTube content', included: true },
       { label: 'Email support (best-effort basis)', included: true },
       { label: '1:1 mentorship sessions', included: false },
