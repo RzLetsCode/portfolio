@@ -21,11 +21,11 @@ const plans = [
     featured: false,
     icon: <Compass size={14} />,
     ctaLabel: 'Start learning',
-    ctaHref: '/contact?plan=explore',
+    ctaHref: '/portfolio/contact?plan=explore',
     ctaPrimary: false,
     features: [
       { label: 'Curated AI roadmap overview', included: true },
-      { label: '2–3 guided project walkthroughs where you can follow along and understand how to build and deploy a simple AI project.', included: true },
+      { label: '2–3 guided project walkthroughs', included: true },
       { label: 'Access to public blogs & YouTube content', included: true },
       { label: 'Email support (best-effort basis)', included: true },
       { label: '1:1 mentorship sessions', included: false },
@@ -47,7 +47,7 @@ const plans = [
     featured: true,
     icon: <Zap size={14} />,
     ctaLabel: 'Apply for this plan',
-    ctaHref: '/contact?plan=career-focus',
+    ctaHref: '/portfolio/contact?plan=career-focus',
     ctaPrimary: true,
     features: [
       { label: 'Full step-by-step AI roadmap', included: true },
@@ -73,7 +73,7 @@ const plans = [
     featured: false,
     icon: <Layers size={14} />,
     ctaLabel: 'Book a call',
-    ctaHref: '/contact?plan=mentor-loop',
+    ctaHref: '/portfolio/contact?plan=mentor-loop',
     ctaPrimary: false,
     features: [
       { label: 'Everything in Career Focus', included: true },
@@ -172,22 +172,28 @@ export default function Pricing() {
                 <div className={styles.divider} />
 
                 <ul className={styles.featureList}>
-                  {plan.features.map((f) => (
-                    >
+                  {plan.features.map((f, index) => (
+                    <li key={index} className={styles.featureItem} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '8px' }}>
                       {f.included ? (
                         <Check
                           className={styles.featureIcon}
                           strokeWidth={2.5}
+                          size={18}
+                          color="#22d3ee"
                         />
                       ) : (
                         <X
                           className={`${styles.featureIcon} ${styles.featureIconMuted}`}
                           strokeWidth={2}
+                          size={18}
+                          color="#475569"
                         />
                       )}
                       <span
                         style={{
-                          color: f.included ? undefined : '#475569',
+                          color: f.included ? '#f1f5f9' : '#475569',
+                          fontSize: '0.875rem',
+                          lineHeight: '1.25rem'
                         }}
                       >
                         {f.label}
@@ -215,7 +221,7 @@ export default function Pricing() {
             Not sure which plan fits you? Start with{' '}
             <strong style={{ color: '#f9fafb' }}>Explore</strong> — it is
             free forever.{' '}
-            <a href="/portfolio/contact">Reach out</a> if you have questions.
+            <Link href="/portfolio/contact">Reach out</Link> if you have questions.
           </p>
         </div>
       </div>
