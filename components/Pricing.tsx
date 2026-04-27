@@ -164,15 +164,19 @@ export default function Pricing() {
                 <p className={styles.planTagline}>{plan.tagline}</p>
 
                 {/* Price */}
-                <div className={styles.priceRow}>
+               
 
 
-                  
-                  <span className={styles.priceCycle}>
-                    {isAnnual ? plan.annualCycle : plan.monthlyCycle}
-                  </span>
-                  <span className={styles.priceCycle}>{plan.cycle}</span>
-                </div>
+
+                  <div className={styles.priceRow}>
+  <span className={styles.priceAmount}>
+    {isAnnual ? plan.annualPrice : plan.monthlyPrice}
+  </span>
+  <span className={styles.priceCycle}>
+    {isAnnual ? plan.annualCycle : plan.monthlyCycle}
+  </span>
+</div>
+              
                 <p className={styles.priceNote}>{plan.priceNote}</p>
 
                 <div className={styles.divider} />
