@@ -21,7 +21,7 @@ const plans = [
     featured: false,
     icon: <Compass size={14} />,
     ctaLabel: 'Start learning',
-    ctaHref: '/contact?plan=explore',
+    ctaHref: './contact?plan=explore', // Added relative dot for GH Pages stability
     ctaPrimary: false,
     features: [
       { label: 'Curated AI roadmap overview', included: true },
@@ -47,7 +47,7 @@ const plans = [
     featured: true,
     icon: <Zap size={14} />,
     ctaLabel: 'Apply for this plan',
-    ctaHref: '/contact?plan=career-focus',
+    ctaHref: './contact?plan=career-focus',
     ctaPrimary: true,
     features: [
       { label: 'Full step-by-step AI roadmap', included: true },
@@ -73,7 +73,7 @@ const plans = [
     featured: false,
     icon: <Layers size={14} />,
     ctaLabel: 'Book a call',
-    ctaHref: '/contact?plan=mentor-loop',
+    ctaHref: './contact?plan=mentor-loop',
     ctaPrimary: false,
     features: [
       { label: 'Everything in Career Focus', included: true },
@@ -107,9 +107,7 @@ export default function Pricing() {
           </p>
 
           <div className={styles.toggleRow}>
-            <span
-              className={`${styles.toggleLabel} ${!isAnnual ? styles.active : ''}`}
-            >
+            <span className={`${styles.toggleLabel} ${!isAnnual ? styles.active : ''}`}>
               Monthly
             </span>
             <button
@@ -117,16 +115,10 @@ export default function Pricing() {
               onClick={() => setIsAnnual(!isAnnual)}
               aria-label="Toggle billing period"
             >
-              <span
-                className={`${styles.toggleThumb} ${
-                  isAnnual ? styles.toggleThumbAnnual : ''
-                }`}
-              />
+              <span className={`${styles.toggleThumb} ${isAnnual ? styles.toggleThumbAnnual : ''}`} />
             </button>
-            <span
-              className={`${styles.toggleLabel} ${isAnnual ? styles.active : ''}`}
-            >
-             One-Time Access
+            <span className={`${styles.toggleLabel} ${isAnnual ? styles.active : ''}`}>
+              One-Time Payment
             </span>
             {isAnnual && (
               <span className={styles.saveBadge}>Save up to ~25%</span>
@@ -137,15 +129,9 @@ export default function Pricing() {
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className={`${styles.card} ${
-                  plan.featured ? styles.cardFeatured : ''
-                }`}
+                className={`${styles.card} ${plan.featured ? styles.cardFeatured : ''}`}
               >
-                <span
-                  className={`${styles.planBadge} ${
-                    plan.badgeAccent ? styles.planBadgeAccent : ''
-                  }`}
-                >
+                <span className={`${styles.planBadge} ${plan.badgeAccent ? styles.planBadgeAccent : ''}`}>
                   {plan.icon}
                   &nbsp;{plan.badge}
                 </span>
@@ -161,14 +147,17 @@ export default function Pricing() {
                     {isAnnual ? plan.annualCycle : plan.monthlyCycle}
                   </span>
                 </div>
-                {/* <p className={styles.priceNote}>{plan.priceNote}</p> */}
-                {/* REPLACE THE NOTE LINE WITH THIS CONDITIONAL: */}
-{!isAnnual ? (
-  <p className={styles.priceNote}>{plan.priceNote}</p>
-) : (
-  <p className={styles.priceNote}>&nbsp;</p> 
-  /* Using &nbsp; (non-breaking space) keeps the card height consistent so it doesn't "jump" */
-)}
+
+                {/* Fixed height container for Note to prevent layout shift */}
+                <div style={{ minHeight: '24px', margin: '4px 0' }}>
+                   {!isAnnual ? (
+                    <p className={styles.priceNote}>{plan.priceNote}</p>
+                   ) : (
+                    <p className={styles.priceNote} style={{ color: '#22d3ee', fontWeight: 500 }}>
+                      Lifetime Access
+                    </p>
+                   )}
+                </div>
 
                 {isAnnual && plan.saveAmount !== '\u20b90' && (
                   <p className={styles.saveText}>
@@ -182,27 +171,11 @@ export default function Pricing() {
                   {plan.features.map((f, index) => (
                     <li key={index} className={styles.featureItem} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '8px' }}>
                       {f.included ? (
-                        <Check
-                          className={styles.featureIcon}
-                          strokeWidth={2.5}
-                          size={18}
-                          color="#22d3ee"
-                        />
+                        <Check className={styles.featureIcon} strokeWidth={2.5} size={18} color="#22d3ee" />
                       ) : (
-                        <X
-                          className={`${styles.featureIcon} ${styles.featureIconMuted}`}
-                          strokeWidth={2}
-                          size={18}
-                          color="#475569"
-                        />
+                        <X className={`${styles.featureIcon} ${styles.featureIconMuted}`} strokeWidth={2} size={18} color="#475569" />
                       )}
-                      <span
-                        style={{
-                          color: f.included ? '#f1f5f9' : '#475569',
-                          fontSize: '0.875rem',
-                          lineHeight: '1.25rem'
-                        }}
-                      >
+                      <span style={{ color: f.included ? '#f1f5f9' : '#475569', fontSize: '0.875rem', lineHeight: '1.25rem' }}>
                         {f.label}
                       </span>
                     </li>
@@ -211,11 +184,7 @@ export default function Pricing() {
 
                 <Link
                   href={plan.ctaHref}
-                  className={`${styles.ctaBtn} ${
-                    plan.ctaPrimary
-                      ? styles.ctaBtnPrimary
-                      : styles.ctaBtnSecondary
-                  }`}
+                  className={`${styles.ctaBtn} ${plan.ctaPrimary ? styles.ctaBtnPrimary : styles.ctaBtnSecondary}`}
                 >
                   {plan.ctaLabel}
                   <ArrowRight size={14} />
@@ -226,9 +195,8 @@ export default function Pricing() {
 
           <p className={styles.noteRow}>
             Not sure which plan fits you? Start with{' '}
-            <strong style={{ color: '#f9fafb' }}>Explore</strong> — it is
-            free forever.{' '}
-            <Link href="/portfolio/contact">Reach out</Link> if you have questions.
+            <strong style={{ color: '#f9fafb' }}>Explore</strong> — it is free forever.{' '}
+            <Link href="./contact">Reach out</Link> if you have questions.
           </p>
         </div>
       </div>
