@@ -42,7 +42,7 @@ const plans = [
     annualPrice: '\u20b92,495',
     saveAmount: '\u20b9499',
     monthlyCycle: '/ month',
-    annualCycle: '· one-time payment (6 months)',
+    annualCycle: '· one-time payment',
     priceNote: 'Billed monthly — cancel any time',
     featured: true,
     icon: <Zap size={14} />,
@@ -68,7 +68,7 @@ const plans = [
     annualPrice: '\u20b94,998',
     saveAmount: '\u20b9999',
     monthlyCycle: '/ month',
-    annualCycle: '· one-time payment (3 months)',
+    annualCycle: '· one-time payment',
     priceNote: 'Billed monthly — cancel any time',
     featured: false,
     icon: <Layers size={14} />,
@@ -108,12 +108,10 @@ export default function Pricing() {
             portfolio-ready AI projects and landing real roles.
           </p>
 
-          {/* Monthly / Annual Toggle */}
+          {/* Monthly / Complete Course Toggle */}
           <div className={styles.toggleRow}>
             <span
-              className={`${styles.toggleLabel} ${
-                !isAnnual ? styles.active : ''
-              }`}
+              className={`${styles.toggleLabel} ${!isAnnual ? styles.active : ''}`}
             >
               Monthly
             </span>
@@ -129,14 +127,12 @@ export default function Pricing() {
               />
             </button>
             <span
-              className={`${styles.toggleLabel} ${
-                isAnnual ? styles.active : ''
-              }`}
+              className={`${styles.toggleLabel} ${isAnnual ? styles.active : ''}`}
             >
               Complete Course
             </span>
             {isAnnual && (
-              <span className={styles.saveBadge}>Save Up to ~25%</span>
+              <span className={styles.saveBadge}>Save up to ~25%</span>
             )}
           </div>
 
@@ -164,27 +160,29 @@ export default function Pricing() {
                 <p className={styles.planTagline}>{plan.tagline}</p>
 
                 {/* Price */}
-               
-
-
-
-                  <div className={styles.priceRow}>
-  <span className={styles.priceAmount}>
-    {isAnnual ? plan.annualPrice : plan.monthlyPrice}
-  </span>
-  <span className={styles.priceCycle}>
-    {isAnnual ? plan.annualCycle : plan.monthlyCycle}
-  </span>
-</div>
-              
+                <div className={styles.priceRow}>
+                  <span className={styles.priceAmount}>
+                    {isAnnual ? plan.annualPrice : plan.monthlyPrice}
+                  </span>
+                  <span className={styles.priceCycle}>
+                    {isAnnual ? plan.annualCycle : plan.monthlyCycle}
+                  </span>
+                </div>
                 <p className={styles.priceNote}>{plan.priceNote}</p>
+
+                {/* Save badge (annual only) */}
+                {isAnnual && plan.saveAmount !== '\u20b90' && (
+                  <p className={styles.saveText}>
+                    Save {plan.saveAmount} with one-time payment
+                  </p>
+                )}
 
                 <div className={styles.divider} />
 
                 {/* Features */}
                 <ul className={styles.featureList}>
                   {plan.features.map((f) => (
-                    <li key={f.label} className={styles.featureItem}>
+                    >
                       {f.included ? (
                         <Check
                           className={styles.featureIcon}
