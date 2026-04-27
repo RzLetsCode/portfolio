@@ -126,7 +126,7 @@ export default function Pricing() {
             <span
               className={`${styles.toggleLabel} ${isAnnual ? styles.active : ''}`}
             >
-              Complete Course
+             One-Time Access
             </span>
             {isAnnual && (
               <span className={styles.saveBadge}>Save up to ~25%</span>
