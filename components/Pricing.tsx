@@ -21,7 +21,7 @@ const plans = [
     featured: false,
     icon: <Compass size={14} />,
     ctaLabel: 'Start learning',
-    ctaHref: '/portfolio/contact?plan=explore',
+    ctaHref: '/contact?plan=explore',
     ctaPrimary: false,
     features: [
       { label: 'Curated AI roadmap overview', included: true },
@@ -47,7 +47,7 @@ const plans = [
     featured: true,
     icon: <Zap size={14} />,
     ctaLabel: 'Apply for this plan',
-    ctaHref: '/portfolio/contact?plan=career-focus',
+    ctaHref: '/contact?plan=career-focus',
     ctaPrimary: true,
     features: [
       { label: 'Full step-by-step AI roadmap', included: true },
@@ -73,7 +73,7 @@ const plans = [
     featured: false,
     icon: <Layers size={14} />,
     ctaLabel: 'Book a call',
-    ctaHref: '/portfolio/contact?plan=mentor-loop',
+    ctaHref: '/contact?plan=mentor-loop',
     ctaPrimary: false,
     features: [
       { label: 'Everything in Career Focus', included: true },
