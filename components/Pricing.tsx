@@ -11,6 +11,7 @@ const plans = [
     badgeAccent: false,
     name: 'Explore',
     tagline: 'For students just getting into AI.',
+    duration: '3–6 months · self-paced',
     monthlyPrice: '\u20b90',
     annualPrice: '\u20b90',
     cycle: '/ forever',
@@ -34,14 +35,15 @@ const plans = [
     badgeAccent: true,
     name: 'Career Focus',
     tagline: 'For freshers ready to build a real AI portfolio.',
+    duration: '6-month structured track',
     monthlyPrice: '\u20b9499',
-    annualPrice: '\u20b9299',
+    annualPrice: '\u20b9399',
     cycle: '/ month',
     priceNote: 'Billed monthly — cancel any time',
     featured: true,
     icon: <Zap size={14} />,
     ctaLabel: 'Apply for this plan',
-        ctaHref: '/contact?plan=career-focus',
+    ctaHref: '/contact?plan=career-focus',
     ctaPrimary: true,
     features: [
       { label: 'Full step-by-step AI roadmap', included: true },
@@ -57,14 +59,15 @@ const plans = [
     badgeAccent: false,
     name: 'Mentor Loop',
     tagline: 'For serious builders aiming at top AI roles.',
+    duration: '3-month intensive loop',
     monthlyPrice: '\u20b91,999',
-    annualPrice: '\u20b9999',
+    annualPrice: '\u20b91,699',
     cycle: '/ month',
     priceNote: 'Billed monthly — cancel any time',
     featured: false,
     icon: <Layers size={14} />,
     ctaLabel: 'Book a call',
-        ctaHref: '/contact?plan=mentor-loop',
+    ctaHref: '/contact?plan=mentor-loop',
     ctaPrimary: false,
     features: [
       { label: 'Everything in Career Focus', included: true },
@@ -127,7 +130,7 @@ export default function Pricing() {
               Complete Course
             </span>
             {isAnnual && (
-              <span className={styles.saveBadge}>Save Up to ~50%</span>
+              <span className={styles.saveBadge}>Save Up to ~25%</span>
             )}
           </div>
 
