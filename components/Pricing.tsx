@@ -25,7 +25,7 @@ const plans = [
     ctaPrimary: false,
     features: [
       { label: 'Curated AI roadmap overview', included: true },
-      { label: '2–3 guided project walkthroughs', included: true },
+      { label: '3 guided project walkthroughs', included: true },
       { label: 'Access to public blogs & YouTube content', included: true },
       { label: 'Email support (best-effort basis)', included: true },
       { label: '1:1 mentorship sessions', included: false },
@@ -77,7 +77,7 @@ const plans = [
     ctaPrimary: false,
     features: [
       { label: 'Everything in Career Focus', included: true },
-      { label: '2\u00d7 60-min 1:1 sessions / month', included: true },
+      { label: '4\u00d7 30-min 1:1 sessions / month', included: true },
       { label: 'Code-level review on live AI projects', included: true },
       { label: 'Mock interviews & system design', included: true },
       { label: 'Targeted strategy for roles / companies', included: true },
