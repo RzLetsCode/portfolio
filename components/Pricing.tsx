@@ -93,13 +93,11 @@ export default function Pricing() {
     <section id="pricing" className={styles.section}>
       <div className={styles.wrapper}>
         <div className={styles.inner}>
-          {/* Eyebrow */}
           <div className={styles.chip}>
             <Zap size={10} />
             Pricing & Plans
           </div>
 
-          {/* Headline */}
           <h2 className={styles.heading}>
             Simple, <span>learner-first</span> pricing
           </h2>
@@ -108,7 +106,6 @@ export default function Pricing() {
             portfolio-ready AI projects and landing real roles.
           </p>
 
-          {/* Monthly / Complete Course Toggle */}
           <div className={styles.toggleRow}>
             <span
               className={`${styles.toggleLabel} ${!isAnnual ? styles.active : ''}`}
@@ -136,7 +133,6 @@ export default function Pricing() {
             )}
           </div>
 
-          {/* Cards */}
           <div className={styles.grid}>
             {plans.map((plan) => (
               <div
@@ -145,7 +141,6 @@ export default function Pricing() {
                   plan.featured ? styles.cardFeatured : ''
                 }`}
               >
-                {/* Badge */}
                 <span
                   className={`${styles.planBadge} ${
                     plan.badgeAccent ? styles.planBadgeAccent : ''
@@ -155,11 +150,9 @@ export default function Pricing() {
                   &nbsp;{plan.badge}
                 </span>
 
-                {/* Name */}
                 <h3 className={styles.planName}>{plan.name}</h3>
                 <p className={styles.planTagline}>{plan.tagline}</p>
 
-                {/* Price */}
                 <div className={styles.priceRow}>
                   <span className={styles.priceAmount}>
                     {isAnnual ? plan.annualPrice : plan.monthlyPrice}
@@ -170,7 +163,6 @@ export default function Pricing() {
                 </div>
                 <p className={styles.priceNote}>{plan.priceNote}</p>
 
-                {/* Save badge (annual only) */}
                 {isAnnual && plan.saveAmount !== '\u20b90' && (
                   <p className={styles.saveText}>
                     Save {plan.saveAmount} with one-time payment
@@ -179,7 +171,6 @@ export default function Pricing() {
 
                 <div className={styles.divider} />
 
-                {/* Features */}
                 <ul className={styles.featureList}>
                   {plan.features.map((f) => (
                     >
@@ -205,7 +196,6 @@ export default function Pricing() {
                   ))}
                 </ul>
 
-                {/* CTA */}
                 <Link
                   href={plan.ctaHref}
                   className={`${styles.ctaBtn} ${
@@ -221,7 +211,6 @@ export default function Pricing() {
             ))}
           </div>
 
-          {/* Footer note */}
           <p className={styles.noteRow}>
             Not sure which plan fits you? Start with{' '}
             <strong style={{ color: '#f9fafb' }}>Explore</strong> — it is
