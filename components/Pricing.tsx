@@ -161,7 +161,14 @@ export default function Pricing() {
                     {isAnnual ? plan.annualCycle : plan.monthlyCycle}
                   </span>
                 </div>
-                <p className={styles.priceNote}>{plan.priceNote}</p>
+                {/* <p className={styles.priceNote}>{plan.priceNote}</p> */}
+                {/* REPLACE THE NOTE LINE WITH THIS CONDITIONAL: */}
+{!isAnnual ? (
+  <p className={styles.priceNote}>{plan.priceNote}</p>
+) : (
+  <p className={styles.priceNote}>&nbsp;</p> 
+  /* Using &nbsp; (non-breaking space) keeps the card height consistent so it doesn't "jump" */
+)}
 
                 {isAnnual && plan.saveAmount !== '\u20b90' && (
                   <p className={styles.saveText}>
