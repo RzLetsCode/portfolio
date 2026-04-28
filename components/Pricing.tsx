@@ -139,6 +139,10 @@ export default function Pricing() {
                 <h3 className={styles.planName}>{plan.name}</h3>
                 <p className={styles.planTagline}>{plan.tagline}</p>
 
+                <p className={styles.planDuration} style={{ color: '#64748b', fontSize: '0.82rem', marginBottom: '12px' }}>
+                  <strong style={{ color: '#94a3b8' }}>Duration:</strong> {plan.duration}
+                </p>
+                
                 <div className={styles.priceRow}>
                   <span className={styles.priceAmount}>
                     {isAnnual ? plan.annualPrice : plan.monthlyPrice}
