@@ -1,3 +1,5 @@
+[![CI - Build Next.js app](https://github.com/RzLetsCode/portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/RzLetsCode/portfolio/actions/workflows/ci.yml) [![Deploy to GitHub Pages](https://github.com/RzLetsCode/portfolio/actions/workflows/deploy.yml/badge.svg)](https://github.com/RzLetsCode/portfolio/actions/workflows/deploy.yml)
+
     # Rajesh Kumar - Professional Portfolio
 
 ## 📋 Overview
