@@ -4,9 +4,9 @@ import Chatbot from '../components/Chatbot';
 import Script from 'next/script';
 
 export const metadata: Metadata = {
-  title: 'code2career_ai | Learn AI, Build Real Projects & Get Career-Ready',
+  title: 'code2career_ai | Defining Careers of the Future.',
   description:
-    'A beginner-friendly AI learning platform for students, freshers, and career switchers. Get structured AI roadmaps, portfolio-ready projects, and mentorship for real AI internships and roles.',
+    'Master AI engineering, RAG pipelines, and next-gen tech skills. Get structured roadmaps, portfolio-ready projects, and direct career guidance.',
   keywords: [
     'AI roadmap for students',
     'AI portfolio projects for freshers',
@@ -41,28 +41,28 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: 'https://code2careerai.com/',
     siteName: 'code2career_ai',
-    title: 'code2career_ai | Learn AI, Build Real Projects & Get Career-Ready',
+    title: 'code2career_ai | Defining Careers of the Future.',
     description:
-      'Structured AI roadmaps, portfolio-ready projects, and mentorship for students, freshers, and career switchers targeting real AI roles.',
+      'Structured AI roadmaps, portfolio-ready projects, and mentorship targeting real enterprise AI roles.',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.png', // Corrected back to .png
         width: 1200,
         height: 630,
-        alt: 'code2career_ai - AI learning platform for students and freshers',
+        alt: 'code2career_ai - Defining Careers of the Future.',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'code2career_ai | Learn AI, Build Real Projects & Get Career-Ready',
+    title: 'code2career_ai | Defining Careers of the Future.',
     description:
-      'AI roadmaps, portfolio projects, and mentorship for students and freshers entering AI careers.',
-    images: ['/og-image.png'],
+      'AI roadmaps, portfolio projects, and mentorship for entering next-gen technology careers.',
+    images: ['/og-image.png'], // Corrected back to .png
     creator: '@code2careerai',
   },
   verification: {
-    google: '',
+    google: '', // You can paste your Google Search Console verification string here
   },
   category: 'education',
 };
