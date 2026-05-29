@@ -11,18 +11,18 @@ export default function Hero() {
           <span className={styles.pill}>
             Built for students, freshers, and AI aspirants
           </span>
-          
+
+
 
           <h1 className={styles.heroTitle}>
             <strong>Learn AI.</strong>
             <br />
-             <span className={styles.heroAccent}>Build real projects.</span>
+            <span className={styles.heroAccent}>Build Real AI Projects for Your Portfolio.</span>
             <br />
-            <strong>Get career-ready.</strong>
+            <strong>Get Career-Ready for AI Roles.</strong>
           </h1>
- 
 
-        
+
 
           <p className={styles.heroSub}>
             A beginner-friendly platform for students, freshers, and career
@@ -46,46 +46,33 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right side: “what you get” card */}
-        <aside className={styles.heroSide} aria-label="What learners get">
-          <div className={styles.heroSideHead}>
-            <div>
-              <p className={styles.heroSideEyebrow}>What learners actually get</p>
-              <h3 className={styles.heroSideTitle}>A real path, not just videos</h3>
-            </div>
-            <span className={styles.heroSideChip}>LIVE PLATFORM</span>
-          </div>
+        {/* Right side: "what you get" card */}
+        <div className={styles.right}>
+          <p className={styles.cardEyebrow}>What learners actually get</p>
 
-          <ul className={styles.heroSideList}>
+          <h2 className={styles.cardTitle}>A real path, not just videos</h2>
+
+          <span className={styles.liveBadge}>LIVE PLATFORM</span>
+
+          <ul className={styles.cardList}>
             <li>
-              <h4>Roadmaps with real sequence</h4>
-              <p>
-                Move from “I&apos;m lost in AI” to a clear order of skills, topics, and
-                milestones that fit your stage.
-              </p>
+              <h3 className={styles.cardFeatureTitle}>Roadmaps with real sequence</h3>
+              <p>Move from "I'm lost in AI" to a clear order of skills, topics, and milestones that fit your stage.</p>
             </li>
             <li>
-              <h4>Projects that truly count</h4>
-              <p>
-                Build systems you can ship to GitHub, break down in interviews, and
-                keep upgrading.
-              </p>
+              <h3 className={styles.cardFeatureTitle}>Projects that truly count</h3>
+              <p>Build systems you can ship to GitHub, break down in interviews, and keep upgrading.</p>
             </li>
             <li>
-              <h4>Career-focused mentorship</h4>
-              <p>
-                Get help with pivots, profile positioning, and production-minded
-                reviews.
-              </p>
+              <h3 className={styles.cardFeatureTitle}>Career-focused mentorship</h3>
+              <p>Get help with pivots, profile positioning, and production-minded reviews.</p>
             </li>
             <li>
-              <h4>Connected learning ecosystem</h4>
-              <p>
-                Website, GitHub, blog, and YouTube aligned into one narrative.
-              </p>
+              <h3 className={styles.cardFeatureTitle}>Connected learning ecosystem</h3>
+              <p>Website, GitHub, blog, and YouTube aligned into one narrative.</p>
             </li>
           </ul>
-        </aside>
+        </div>
       </div>
     </section>
   );
