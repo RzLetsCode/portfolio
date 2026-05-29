@@ -38,7 +38,7 @@ export default function MentorshipSection() {
         >
           <div>
             <div className={styles.chip}>Direct Results</div>
-            <h3 className={styles.title}>Career Strategy Mentorship</h3>
+            <h2 className={styles.title}>Career Strategy Mentorship</h2>
             <p className={styles.subtitle}>
               Designed for students, freshers, and builders who want a clear,
               honest view of where they stand and what to do next.
@@ -55,7 +55,7 @@ export default function MentorshipSection() {
           <div className={styles.grid}>
             {mentorshipSteps.map((step) => (
               <article key={step.title} className={styles.card}>
-                <h4 className={styles.cardTitle}>{step.title}</h4>
+                <h3 className={styles.cardTitle}>{step.title}</h3>
                 <p className={styles.cardDesc}>{step.desc}</p>
                 <div className={styles.cardFooter}>
                   <div className={styles.toolRow}>
@@ -69,7 +69,7 @@ export default function MentorshipSection() {
                     {step.bullets.map((b) => (
                       <li key={b} className={styles.bulletItem}>
                         <span className={styles.bulletDot} />
-                        {b}
+                        <b>{b}</b>
                       </li>
                     ))}
                   </ul>
