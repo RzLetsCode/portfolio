@@ -1,7 +1,15 @@
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import Chatbot from '../components/Chatbot';
 import Script from 'next/script';
+
+// Locally hosted font via next/font — eliminates render-blocking and CLS
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
   title: 'code2career_ai | Defining Careers of the Future.',
@@ -46,7 +54,7 @@ export const metadata: Metadata = {
       'Structured AI roadmaps, portfolio-ready projects, and mentorship targeting real enterprise AI roles.',
     images: [
       {
-        url: '/og-image.png', // Corrected back to .png
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'code2career_ai - Defining Careers of the Future.',
@@ -58,11 +66,11 @@ export const metadata: Metadata = {
     title: 'code2career_ai | Defining Careers of the Future.',
     description:
       'AI roadmaps, portfolio projects, and mentorship for entering next-gen technology careers.',
-    images: ['/og-image.png'], // Corrected back to .png
+    images: ['/og-image.png'],
     creator: '@code2careerai',
   },
   verification: {
-    google: '', // You can paste your Google Search Console verification string here
+    google: '',
   },
   category: 'education',
 };
@@ -73,14 +81,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#0a0a0f" />
-        <link rel="icon" href="/favicon.ico" />
+    <html lang="en" className={inter.variable}>
+      <body>
         <Script
-          strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-D3YRC6F4MZ"
+          strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
@@ -90,9 +95,9 @@ export default function RootLayout({
             gtag('config', 'G-D3YRC6F4MZ');
           `}
         </Script>
-      </head>
-      <body>{children}</body>
-      <Chatbot />
+        <Chatbot />
+        {children}
+      </body>
     </html>
   );
 }
