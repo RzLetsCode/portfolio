@@ -32,7 +32,7 @@ import Journey from '../components/Journey';
 import Projects from '../components/Projects';
 import Audience from '../components/Audience';
 import Mentorship from '../components/Mentorship';
-import Pricing from '../components/Pricing';
+
 
 export default function Home() {
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
@@ -51,7 +51,7 @@ export default function Home() {
     { label: 'Projects', href: '#projects', external: false },
     { label: 'Tech Blog', href: '/blog/', external: false, dynamicPage: true },
     { label: 'YouTube', href: '/youtube/', external: true },
-    { label: 'Pricing', href: '#pricing', external: false },
+    { label: 'Pricing', href: '/pricing/', external: false, dynamicPage: true },
   ];
 
   return (
@@ -252,10 +252,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Pricing */}
-        <section id="pricing" style={{ scrollMarginTop: '70px' }}>
-          <Pricing />
-        </section>
+        
 
         {/* CTA Section */}
         <section className="relative py-32 px-6 overflow-hidden">
