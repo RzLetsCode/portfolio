@@ -29,10 +29,8 @@ import {
 // Section components
 import Hero from '../components/Hero';
 import Journey from '../components/Journey';
-import Projects from '../components/Projects';
 import Audience from '../components/Audience';
 import Mentorship from '../components/Mentorship';
-
 
 export default function Home() {
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
@@ -48,7 +46,7 @@ export default function Home() {
   const navItems = [
     { label: 'About', href: '#about', external: false },
     { label: 'Roadmaps & Resources', href: '/resources/', external: false, dynamicPage: true },
-    { label: 'Projects', href: '#projects', external: false },
+    { label: 'Projects', href: '/projects/', external: false, dynamicPage: true },
     { label: 'Tech Blog', href: '/blog/', external: false, dynamicPage: true },
     { label: 'YouTube', href: '/youtube/', external: true },
     { label: 'Pricing', href: '/pricing/', external: false, dynamicPage: true },
@@ -220,11 +218,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Projects */}
-        <section id="projects" style={{ scrollMarginTop: '70px' }}>
-          <Projects />
-        </section>
-
         {/* Mentorship */}
         <section id="youtube" style={{ scrollMarginTop: '70px' }}>
           <Mentorship />
@@ -251,8 +244,6 @@ export default function Home() {
             </Link>
           </div>
         </section>
-
-        
 
         {/* CTA Section */}
         <section className="relative py-32 px-6 overflow-hidden">
