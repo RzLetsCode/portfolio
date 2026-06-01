@@ -26,7 +26,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.05fr);
   gap: 2.5rem;
-  align-items: center;
+  align-items: start;
   padding: 3rem 4rem 5rem;
 }
 
@@ -60,8 +60,8 @@
 
 /* heading */
 .heroTitle {
-  font-size: clamp(2.8rem, 5vw, 4.2rem);
-  line-height: 1.04;
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  line-height: 1.06;
   letter-spacing: -0.04em;
   margin: 1rem 0 0.75rem;
   color: #f9fafb;
@@ -71,13 +71,14 @@
   font-weight: 800;
 }
 
-/* Middle line: accent, single line */
+/* Middle line: accent */
 .heroAccent {
-  display: inline-block;
+  display: block;
   font-weight: 700;
-  font-size: 0.9em;
+  font-size: 0.88em;
   color: #22d3ee;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
 }
 
 /* subtext */
@@ -85,13 +86,14 @@
   max-width: 32rem;
   color: #94a3b8;
   font-size: 0.98rem;
+  line-height: 1.6;
 }
 
 /* buttons row */
 .heroActions {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 0.8rem;
   margin-top: 1.75rem;
 }
@@ -102,14 +104,15 @@
   justify-content: center;
   gap: 0.4rem;
   border-radius: 999px;
-  padding: 0.75rem 1.35rem;
+  padding: 0.75rem 1.5rem;
   font-size: 0.85rem;
   border: 1px solid rgba(51, 65, 85, 0.8);
   cursor: pointer;
   text-decoration: none;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   white-space: nowrap;
+  min-width: 0;
 }
 
 /* primary CTA style */
@@ -152,7 +155,8 @@
   background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 60%),
     rgba(15, 23, 42, 0.97);
   padding: 1.5rem 1.4rem 1.3rem;
-  align-self: center;
+  align-self: start;
+  margin-top: 0.5rem;
 }
 
 /* header area inside card */
@@ -225,18 +229,22 @@
     grid-template-columns: minmax(0, 1fr);
     padding: 2rem 2rem 4rem;
   }
-
   .left {
     max-width: none;
   }
+  .heroSide {
+    margin-top: 0;
+  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .hero {
     padding: 1.5rem 1.25rem 3rem;
   }
-
   .heroActions {
     flex-wrap: wrap;
+  }
+  .heroTitle {
+    font-size: clamp(2rem, 8vw, 2.8rem);
   }
 }
