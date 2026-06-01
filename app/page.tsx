@@ -22,8 +22,7 @@ import {
   RefreshCw,
   FileText,
   BookOpen,
-  PlayCircle,
-  FolderOpen
+  PlayCircle
 } from 'lucide-react';
 
 // Section components
@@ -33,7 +32,6 @@ import Audience from '../components/Audience';
 import Mentorship from '../components/Mentorship';
 
 export default function Home() {
-  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -42,7 +40,6 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Structural Navigation Array combining Anchor links & Standalone pages
   const navItems = [
     { label: 'About', href: '#about', external: false },
     { label: 'Roadmaps & Resources', href: '/resources/', external: false, dynamicPage: true },
@@ -161,28 +158,6 @@ export default function Home() {
         {/* Mentorship */}
         <section id="youtube" style={{ scrollMarginTop: '70px' }}>
           <Mentorship />
-        </section>
-
-        {/* Core Resources Main Page Interface Block */}
-        <section className="py-20 px-6 bg-gradient-to-r from-slate-900 via-[#0d1b3e] to-slate-900 border-t border-b border-slate-800/80 text-center">
-          <div className="max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/20 rounded-md px-3 py-1 mb-4">
-              <FolderOpen className="w-4 h-4 text-cyan-400" />
-              <span className="text-cyan-400 text-xs font-bold uppercase tracking-wider">Central Library</span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
-              Architect Your System Blueprint
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed">
-              Gain immediate access to our sequential roadmap guidelines, open-source template repositories, and specialized career transformation asset modules.
-            </p>
-            <Link 
-              href="/resources/" 
-              className="inline-block bg-transparent hover:bg-cyan-500 border-2 border-cyan-500 text-cyan-400 hover:text-black font-bold px-8 py-3.5 rounded-full transition-all duration-300 tracking-wide shadow-lg shadow-cyan-500/5"
-            >
-              Access Engine Resources
-            </Link>
-          </div>
         </section>
 
         {/* CTA Section */}
