@@ -20,7 +20,10 @@ import {
   Workflow,
   MessagesSquare,
   RefreshCw,
-  FileText  // Or this
+  FileText,
+  BookOpen,
+  PlayCircle,
+  FolderOpen
 } from 'lucide-react';
 
 // Section components
@@ -34,7 +37,6 @@ import Pricing from '../components/Pricing';
 export default function Home() {
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -42,51 +44,19 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleAccordion = (id: string) => {
-    setOpenAccordion(openAccordion === id ? null : id);
-  };
-
-  const mentorshipSteps = [
-    {
-      title: '90-Day AI Blueprint',
-      desc: 'Kill the confusion. We’ll map out exactly what you need to learn to land a high-paying AI role in 3 months.',
-      tools: ['Roadmap to Hire'],
-      bullets: [
-        'Stop gathering certificates; start building production-ready apps.',
-        'Focus 100% on the tech that actually gets people hired right now.',
-      ],
-    },
-    {
-      title: 'Hiring-Filter Bypass',
-      desc: 'Your LinkedIn and Resume are likely getting ghosted by AI filters. We’ll fix that so you actually get the interview.',
-      tools: ['ATS Signal-Booster'],
-      bullets: [
-        'Turn “I know Python” into “I build Agentic AI Workflows.”',
-        'Position your RAG projects as essential business solutions.',
-      ],
-    },
-    {
-      title: 'GitHub “Senior-Level” Audit',
-      desc: 'We’ll tear down your code and rebuild it. Move from “student projects” to code that looks like professional work.',
-      tools: ['Code Quality Polish'],
-      bullets: [
-        'Architecture reviews that prove you understand scale and security.',
-        'Make your repos the reason recruiters say “Yes.”',
-      ],
-    },
-  ];
-
-  // Nav items — external links open in new tab, anchor links scroll on-page
+  // Structural Navigation Array combining Anchor links & Standalone pages
   const navItems = [
     { label: 'About', href: '#about', external: false },
-    { label: 'Career Path', href: '#career-path', external: false },
-    { label: 'Projects', href: '#projects', external: false },    
+    { label: 'Roadmaps & Resources', href: '/resources/', external: false, dynamicPage: true },
+    { label: 'Projects', href: '#projects', external: false },
+    { label: 'Tech Blog', href: '/blog/', external: false, dynamicPage: true },
+    { label: 'YouTube', href: '/youtube/', external: true },
     { label: 'Pricing', href: '#pricing', external: false },
   ];
 
   return (
     <>
-      {/* Navigation */}
+      {/* Navigation Bar */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled ? 'bg-[#0f172a]/95 backdrop-blur-sm border-b border-cyan-500/20' : 'bg-transparent'
@@ -97,32 +67,102 @@ export default function Home() {
             <span className="text-gray-400">&lt;&gt;</span>
             <span>code2career_ai</span>
           </Link>
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
             {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                target={item.external ? '_blank' : undefined}
-                rel={item.external ? 'noopener noreferrer' : undefined}
-                className="text-gray-300 hover:text-cyan-400 transition-colors text-sm font-medium"
-              >
-                {item.label}
-              </a>
+              item.dynamicPage ? (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="text-gray-300 hover:text-cyan-400 transition-colors text-sm font-medium"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
+                  className="text-gray-300 hover:text-cyan-400 transition-colors text-sm font-medium"
+                >
+                  {item.label}
+                </a>
+              )
             ))}
           </div>
           <Link
             href="/contact/"
-            className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2 rounded-full text-sm transition-colors"
+            className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2 rounded-full text-sm transition-colors tracking-wide"
           >
             GET IN TOUCH
           </Link>
         </div>
       </nav>
 
-      <main className="pt-20">
+      <main className="pt-20 bg-[#0f172a]">
         {/* About / Hero */}
         <section id="about" style={{ scrollMarginTop: '70px' }}>
           <Hero />
+        </section>
+
+        {/* Dynamic Eyecatching Value Proposition Block */}
+        <section className="py-24 px-6 border-t border-slate-800/60 bg-[#0b1329]">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
+                What Learners Actually Get
+              </h2>
+              <p className="text-cyan-400 font-semibold text-lg tracking-wide">
+                A definitive execution path—not just another playlist of video courses.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Card 1 */}
+              <div className="bg-[#121b36] border border-slate-800 rounded-2xl p-8 hover:border-cyan-500/40 transition-all duration-300 group">
+                <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-6 group-hover:bg-cyan-500 group-hover:text-black transition-all duration-300">
+                  <Map className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Structured AI Roadmaps</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Move systematically from <em className="text-cyan-300 not-italic font-medium">"I'm lost in AI"</em> to a clear, calculated order of high-income skills, architectural topics, and milestones tailored to your engineering stage.
+                </p>
+              </div>
+
+              {/* Card 2 */}
+              <div className="bg-[#121b36] border border-slate-800 rounded-2xl p-8 hover:border-cyan-500/40 transition-all duration-300 group">
+                <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-6 group-hover:bg-cyan-500 group-hover:text-black transition-all duration-300">
+                  <Code className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Production-Ready Portfolios</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Stop compiling toy scripts. Construct enterprise systems you can proudly ship to GitHub, confidently break down during technical interviews, and systematically upscale over time.
+                </p>
+              </div>
+
+              {/* Card 3 */}
+              <div className="bg-[#121b36] border border-slate-800 rounded-2xl p-8 hover:border-cyan-500/40 transition-all duration-300 group">
+                <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-6 group-hover:bg-cyan-500 group-hover:text-black transition-all duration-300">
+                  <Cpu className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Career-Focused Mentorship</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Navigate career engineering pivots with highly targeted profile positioning, technical resume optimization, and engineering-first architecture code reviews.
+                </p>
+              </div>
+
+              {/* Card 4 */}
+              <div className="bg-[#121b36] border border-slate-800 rounded-2xl p-8 hover:border-cyan-500/40 transition-all duration-300 group">
+                <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-6 group-hover:bg-cyan-500 group-hover:text-black transition-all duration-300">
+                  <Layers className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Connected Learning Ecosystem</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Experience total alignment across engineering media. Our production platform, public GitHub repos, specialized technical blog, and YouTube assets combine into a singular narrative.
+                </p>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Audience */}
@@ -135,7 +175,50 @@ export default function Home() {
           <Journey />
         </section>
 
- 
+        {/* Integrated Mid-Page Ecosystem Gateways */}
+        <section className="py-20 px-6 bg-[#0f172a] border-t border-slate-800/80">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              
+              {/* Blog Gateway */}
+              <div className="border border-slate-800 bg-[#111c3a]/40 rounded-2xl p-8 flex flex-col justify-between items-start">
+                <div>
+                  <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-md px-3 py-1 mb-4">
+                    <BookOpen className="w-4 h-4 text-blue-400" />
+                    <span className="text-blue-400 text-xs font-bold uppercase tracking-wider">Tech Blog</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">Production AI Insights</h3>
+                  <p className="text-gray-400 mb-6 leading-relaxed">
+                    Read comprehensive structural guides exploring enterprise data orchestration, semantic indexing tuning, vector DB deployments, and agent code optimizations.
+                  </p>
+                </div>
+                <Link href="/blog/" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold group mt-4">
+                  Explore written articles 
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+
+              {/* YouTube Gateway */}
+              <div className="border border-slate-800 bg-[#111c3a]/40 rounded-2xl p-8 flex flex-col justify-between items-start">
+                <div>
+                  <div className="inline-flex items-center gap-2 bg-red-500/10 border border-red-500/20 rounded-md px-3 py-1 mb-4">
+                    <PlayCircle className="w-4 h-4 text-red-400" />
+                    <span className="text-red-400 text-xs font-bold uppercase tracking-wider">Video Hub</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">Code2Career_AI on YouTube</h3>
+                  <p className="text-gray-400 mb-6 leading-relaxed">
+                    Watch end-to-end architecture code sessions, system flow breakdowns, and practical live updates outlining engineering requirements for generative systems.
+                  </p>
+                </div>
+                <Link href="/youtube/" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold group mt-4">
+                  Watch step-by-step builds 
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+
+            </div>
+          </div>
+        </section>
 
         {/* Projects */}
         <section id="projects" style={{ scrollMarginTop: '70px' }}>
@@ -147,8 +230,27 @@ export default function Home() {
           <Mentorship />
         </section>
 
-        {/* Blog anchor */}
-        <div id="blog" style={{ scrollMarginTop: '70px' }} />
+        {/* Core Resources Main Page Interface Block */}
+        <section className="py-20 px-6 bg-gradient-to-r from-slate-900 via-[#0d1b3e] to-slate-900 border-t border-b border-slate-800/80 text-center">
+          <div className="max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/20 rounded-md px-3 py-1 mb-4">
+              <FolderOpen className="w-4 h-4 text-cyan-400" />
+              <span className="text-cyan-400 text-xs font-bold uppercase tracking-wider">Central Library</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
+              Architect Your System Blueprint
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed">
+              Gain immediate access to our sequential roadmap guidelines, open-source template repositories, and specialized career transformation asset modules.
+            </p>
+            <Link 
+              href="/resources/" 
+              className="inline-block bg-transparent hover:bg-cyan-500 border-2 border-cyan-500 text-cyan-400 hover:text-black font-bold px-8 py-3.5 rounded-full transition-all duration-300 tracking-wide shadow-lg shadow-cyan-500/5"
+            >
+              Access Engine Resources
+            </Link>
+          </div>
+        </section>
 
         {/* Pricing */}
         <section id="pricing" style={{ scrollMarginTop: '70px' }}>
@@ -194,13 +296,9 @@ export default function Home() {
               </a>
               <a href="https://www.linkedin.com/company/code2career-ai/" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-400 transition-colors">
                 <Linkedin className="w-5 h-5" />
-                
               </a>
-              {/* <a href="https://github.com/RzLetsCode" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors">
-                <Github className="w-5 h-5" /> */}
-              {/* Replace the old GitHub block with this Hashnode block */}
               <a href="https://hashnode.com/@code2career-ai" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-cyan-400 transition-colors">
-              <Globe className="w-5 h-5" /> 
+                <Globe className="w-5 h-5" /> 
               </a>
             </div>
           </div>
@@ -208,7 +306,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 py-8 px-6">
+      <footer className="border-t border-white/10 py-8 px-6 bg-[#090f1e]">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <span className="text-cyan-400 font-bold">code2career_ai</span>
           <p className="text-gray-500 text-sm">
@@ -218,20 +316,7 @@ export default function Home() {
         </div>
       </footer>
 
-      <style>{`
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-        .animate-shimmer {
-          animation: shimmer 2s infinite linear;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.2),
-            transparent
-          );
-        }
+      <style jsx global>{`
         html {
           scroll-behavior: smooth;
         }
