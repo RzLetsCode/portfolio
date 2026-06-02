@@ -254,7 +254,7 @@ export default function BlogPage() {
 
           {/* Core Article Canvas Grid Array */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((post) => (
+            {filteredPosts.map((post) => (
               <article key={post.slug} className={`group bg-[#111930] border border-slate-800/80 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 ${post.borderHover}`}>
                 
                 {/* Visual Image Display Component Area */}
