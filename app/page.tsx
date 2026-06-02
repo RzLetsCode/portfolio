@@ -3,26 +3,15 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
-  Github,
   Linkedin,
-  Mail,
   ArrowRight,
-  Code,
-  Database,
-  Zap,
   Youtube,
   Globe,
   ChevronRight,
-  Compass,
-  Map,
-  Cpu,
-  Layers,
-  Workflow,
-  MessagesSquare,
-  RefreshCw,
-  FileText,
   BookOpen,
-  PlayCircle
+  PlayCircle,
+  Menu,
+  X
 } from 'lucide-react';
 
 // Section components
@@ -33,6 +22,7 @@ import Mentorship from '../components/Mentorship';
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -40,30 +30,52 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile slider is active to prevent awkward track-scrolling
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   const navItems = [
     { label: 'About', href: '#about', external: false },
     { label: 'Roadmaps & Resources', href: '/resources/', external: false, dynamicPage: true },
     { label: 'Projects', href: '/projects/', external: false, dynamicPage: true },
     { label: 'Tech Blog', href: '/blog/', external: false, dynamicPage: true },
-    { label: 'YouTube', href: '/youtube/', external: true },
+    { label: 'YouTube', href: '/youtube/', external: false, dynamicPage: true },
     { label: 'Pricing', href: '/pricing/', external: false, dynamicPage: true },
   ];
 
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
   return (
     <>
-      {/* Navigation Bar */}
+      {/* Responsive Fixed Navigation Bar */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? 'bg-[#0f172a]/95 backdrop-blur-sm border-b border-cyan-500/20' : 'bg-transparent'
+          scrolled
+            ? 'bg-[#0f172a]/95 backdrop-blur-sm border-b border-cyan-500/20'
+            : 'bg-[#0f172a]/90 backdrop-blur-sm'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-cyan-400 font-bold text-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-cyan-400 font-bold text-base sm:text-lg shrink-0"
+            onClick={closeMobileMenu}
+          >
             <span className="text-gray-400">&lt;&gt;</span>
             <span>code2career_ai</span>
           </Link>
+
+          {/* Desktop Links Panel */}
           <div className="hidden lg:flex items-center gap-6">
-            {navItems.map((item) => (
+            {navItems.map((item) =>
               item.dynamicPage ? (
                 <Link
                   key={item.label}
@@ -83,15 +95,68 @@ export default function Home() {
                   {item.label}
                 </a>
               )
-            ))}
+            )}
           </div>
-          <Link
-            href="/contact/"
-            className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2 rounded-full text-sm transition-colors tracking-wide"
+
+          <div className="hidden lg:flex">
+            <Link
+              href="/contact/"
+              className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2 rounded-full text-sm transition-colors tracking-wide"
+            >
+              GET IN TOUCH
+            </Link>
+          </div>
+
+          {/* Hamburger Action Button */}
+          <button
+            type="button"
+            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-full border border-cyan-500/30 text-cyan-400 bg-[#111c3a]/80 hover:bg-[#16213f] transition-colors"
           >
-            GET IN TOUCH
-          </Link>
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
+
+        {/* Mobile Flyout Menu Panel Overlay */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden border-t border-cyan-500/20 bg-[#0b1220]/98 backdrop-blur-md">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-2">
+              {navItems.map((item) =>
+                item.dynamicPage ? (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={closeMobileMenu}
+                    className="text-gray-200 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors text-sm font-medium rounded-xl px-4 py-3"
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target={item.external ? '_blank' : undefined}
+                    rel={item.external ? 'noopener noreferrer' : undefined}
+                    onClick={closeMobileMenu}
+                    className="text-gray-200 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors text-sm font-medium rounded-xl px-4 py-3"
+                  >
+                    {item.label}
+                  </a>
+                )
+              )}
+
+              <Link
+                href="/contact/"
+                onClick={closeMobileMenu}
+                className="mt-2 bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-3 rounded-full text-sm transition-colors tracking-wide text-center"
+              >
+                GET IN TOUCH
+              </Link>
+            </div>
+          </div>
+        )}
       </nav>
 
       <main className="pt-20 bg-[#0f172a]">
@@ -110,7 +175,7 @@ export default function Home() {
           <Journey />
         </section>
 
-        {/* Integrated Mid-Page Ecosystem Gateways */}
+        {/* Mid-Page Ecosystem Gateways */}
         <section className="py-20 px-6 bg-[#0f172a] border-t border-slate-800/80">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -128,7 +193,7 @@ export default function Home() {
                   </p>
                 </div>
                 <Link href="/blog/" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold group mt-4">
-                  Explore written articles 
+                  Explore written articles
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
@@ -146,21 +211,20 @@ export default function Home() {
                   </p>
                 </div>
                 <Link href="/youtube/" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold group mt-4">
-                  Watch step-by-step builds 
+                  Watch step-by-step builds
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
-
             </div>
           </div>
         </section>
 
-        {/* Mentorship */}
-        <section id="youtube" style={{ scrollMarginTop: '70px' }}>
+        {/* Mentorship (Section anchor updated cleanly to handle deep navigations) */}
+        <section id="mentorship" style={{ scrollMarginTop: '70px' }}>
           <Mentorship />
         </section>
 
-        {/* CTA Section */}
+        {/* Call To Action Block */}
         <section className="relative py-32 px-6 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent pointer-events-none" />
 
@@ -174,8 +238,8 @@ export default function Home() {
               <span className="relative inline-block">
                 <span className="text-cyan-400">Next Generation</span>
                 <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400/50" />
-              </span>
-              {' '}of AI?
+              </span>{' '}
+              of AI?
             </h2>
 
             <p className="text-gray-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
@@ -201,7 +265,7 @@ export default function Home() {
                 <Linkedin className="w-5 h-5" />
               </a>
               <a href="https://hashnode.com/@code2career-ai" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-cyan-400 transition-colors">
-                <Globe className="w-5 h-5" /> 
+                <Globe className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -212,7 +276,7 @@ export default function Home() {
       <footer className="border-t border-white/10 py-8 px-6 bg-[#090f1e]">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <span className="text-cyan-400 font-bold">code2career_ai</span>
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-500 text-sm" suppressHydrationWarning>
             &copy; {new Date().getFullYear()} ALL RIGHTS RESERVED
           </p>
           <p className="text-gray-600 text-xs">Architected for Freshers &amp; AI Enthusiasts</p>
