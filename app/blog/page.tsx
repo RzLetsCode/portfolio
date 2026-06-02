@@ -6,10 +6,9 @@ import {
   Clock, 
   ArrowRight, 
   Menu, 
-  X, 
-  Image as ImageIcon 
+  X 
 } from 'lucide-react';
-import { BLOG_POSTS_DATA } from '../../lib/blog-data'; // Imported dynamically
+import { BLOG_POSTS_DATA } from '../../lib/blog-data';
 
 const BLOG_CATEGORIES = ['All Articles', 'AI Roadmaps', 'System Design', 'Career Strategy'];
 
@@ -24,7 +23,6 @@ export default function BlogPage() {
 
   return (
     <>
-      {/* Dynamic Global Top Navigation bar */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#0f172a]/95 backdrop-blur-sm border-b border-cyan-500/20' : 'bg-[#0f172a]/90 backdrop-blur-sm'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
           <Link href="/" className="flex items-center gap-2 text-cyan-400 font-bold text-base sm:text-lg shrink-0" onClick={() => setMobileMenuOpen(false)}>
@@ -52,11 +50,9 @@ export default function BlogPage() {
         )}
       </nav>
 
-      {/* Main Container Core */}
       <main className="pt-24 min-h-screen bg-[#0f172a] flex flex-col justify-between">
         <div className="max-w-7xl mx-auto w-full px-6 py-12 flex-grow">
           
-          {/* Header Introduction Area */}
           <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-8 mb-16 border-b border-slate-800/60 pb-8">
             <div>
               <span className="text-xs font-bold tracking-widest text-slate-500 uppercase">The Insights Engine</span>
@@ -64,7 +60,6 @@ export default function BlogPage() {
               <p className="text-slate-400 text-base max-w-xl leading-relaxed">Technical guides, system blueprints, and deployment frameworks outlining the transition from fresher to hired engineer.</p>
             </div>
 
-            {/* Dynamic Interactive Category Tab Filters */}
             <div className="flex flex-wrap gap-2 bg-slate-900/60 p-1.5 rounded-xl border border-slate-800/80 self-start xl:self-end">
               {BLOG_CATEGORIES.map((cat) => (
                 <button
@@ -78,22 +73,21 @@ export default function BlogPage() {
             </div>
           </div>
 
-          {/* Core Article Canvas Grid Array */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.map((post) => (
               <article key={post.slug} className={`group bg-[#111930] border border-slate-800/80 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 ${post.borderHover}`}>
                 
-                {/* Visual Image Display Component Area */}
-                <div className="relative w-full h-44 bg-[#090f20] border-b border-slate-800/80 p-4 flex flex-col justify-center items-center text-center group-hover:bg-[#0c142c] transition-colors">
-                  <div className="w-10 h-10 rounded-lg bg-slate-900/80 border border-slate-800 flex items-center justify-center text-slate-500 mb-3 group-hover:text-cyan-400 group-hover:border-cyan-500/20 transition-colors">
-                    <ImageIcon className="w-5 h-5" />
-                  </div>
-                  <span className="text-[10px] font-mono font-medium text-slate-500 max-w-xs px-4 leading-normal group-hover:text-slate-400 transition-colors">
-                    {post.imgPlaceholder}
-                  </span>
+                {/* Visual Image Render Layout Area */}
+                <div className="relative w-full h-48 bg-[#090f20] border-b border-slate-800/80 overflow-hidden">
+                  <img 
+                    src={post.imageUrl} 
+                    alt={post.imageAlt}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#111930] via-transparent to-transparent opacity-40" />
                 </div>
 
-                {/* Text Summary Data Content Block */}
                 <div className="p-6 flex-grow flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
@@ -115,7 +109,6 @@ export default function BlogPage() {
                     </p>
                   </div>
 
-                  {/* Route Action Anchor Elements */}
                   <div className="pt-4 border-t border-slate-800/40 flex items-center justify-between">
                     <span className="text-[11px] font-medium text-slate-500 font-mono">{post.date}</span>
                     <Link href={`/blog/${post.slug}`} className={`inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-colors ${post.color}`}>
@@ -129,7 +122,6 @@ export default function BlogPage() {
             ))}
           </div>
 
-          {/* Interactive Dynamic Bottom Callout Module */}
           <div className="mt-20 rounded-2xl border border-blue-500/30 bg-gradient-to-br from-[#122244]/40 via-transparent to-transparent bg-[#0d1527] p-8 md:p-12 text-center max-w-3xl mx-auto">
             <h2 className="text-2xl font-extrabold text-white mb-2">Want personalized system review tracking?</h2>
             <p className="text-slate-400 mb-8 max-w-md mx-auto text-sm leading-relaxed">Join our Mentor Loop setup to scale project logic maps directly with enterprise engineers.</p>
@@ -140,7 +132,6 @@ export default function BlogPage() {
 
         </div>
 
-        {/* Unified Standard Dynamic Copyright Site Footer */}
         <footer className="border-t border-white/10 py-8 px-6 bg-[#090f1e] w-full">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <span className="text-cyan-400 font-bold">code2career_ai</span>
