@@ -2,10 +2,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FolderOpen } from 'lucide-react';
 import Projects from '../../components/Projects';
+import Mentorship from '../../components/Mentorship'; // Imported for the refactor
 
 export const metadata: Metadata = {
   title: 'Production AI Project Ecosystem | code2career_ai',
-  description: 'Explore our library of enterprise-grade AI project templates. Build systems utilizing RAG pipelines, Agentic workflows, and vector databases.',
+  description: 'Explore our library of enterprise-grade AI project templates, and access strategic career mentorship to break down complex architectures in interviews.',
 };
 
 export default function ProjectsPage() {
@@ -42,11 +43,16 @@ export default function ProjectsPage() {
       <main className="pt-24 min-h-screen bg-[#0f172a] flex flex-col justify-between">
         
         {/* Project Component Ecosystem Block */}
-        <div className="flex-grow pb-12">
+        <div className="pb-12">
           <Projects />
         </div>
 
-        {/* Central Library Resource Block (Repositioned here from Front Page) */}
+        {/* Career Strategy Mentorship Block (Repositioned here from Homepage) */}
+        <div className="border-t border-slate-800/60 pb-12">
+          <Mentorship />
+        </div>
+
+        {/* Central Library Resource Block */}
         <section className="py-20 px-6 bg-gradient-to-r from-slate-900 via-[#0d1b3e] to-slate-900 border-t border-b border-slate-800/80 text-center">
           <div className="max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/20 rounded-md px-3 py-1 mb-4">
@@ -72,7 +78,7 @@ export default function ProjectsPage() {
         <footer className="border-t border-white/10 py-8 px-6 bg-[#090f1e]">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <span className="text-cyan-400 font-bold">code2career_ai</span>
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 text-sm" suppressHydrationWarning>
               &copy; {new Date().getFullYear()} ALL RIGHTS RESERVED
             </p>
             <p className="text-gray-600 text-xs">Architected for Freshers &amp; AI Enthusiasts</p>
