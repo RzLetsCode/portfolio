@@ -14,11 +14,10 @@ import {
   X
 } from 'lucide-react';
 
-// Section components
+// Section components (Mentorship import removed cleanly)
 import Hero from '../components/Hero';
 import Journey from '../components/Journey';
 import Audience from '../components/Audience';
-import Mentorship from '../components/Mentorship';
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -30,7 +29,6 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock body scroll when mobile slider is active to prevent awkward track-scrolling
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -55,7 +53,7 @@ export default function Home() {
 
   return (
     <>
-      {/* Responsive Fixed Navigation Bar */}
+      {/* Navigation Bar */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
@@ -73,7 +71,6 @@ export default function Home() {
             <span>code2career_ai</span>
           </Link>
 
-          {/* Desktop Links Panel */}
           <div className="hidden lg:flex items-center gap-6">
             {navItems.map((item) =>
               item.dynamicPage ? (
@@ -107,7 +104,6 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Hamburger Action Button */}
           <button
             type="button"
             aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
@@ -119,7 +115,6 @@ export default function Home() {
           </button>
         </div>
 
-        {/* Mobile Flyout Menu Panel Overlay */}
         {mobileMenuOpen && (
           <div className="lg:hidden border-t border-cyan-500/20 bg-[#0b1220]/98 backdrop-blur-md">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-2">
@@ -219,10 +214,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Mentorship (Section anchor updated cleanly to handle deep navigations) */}
-        <section id="mentorship" style={{ scrollMarginTop: '70px' }}>
-          <Mentorship />
-        </section>
+        {/* Mentorship markup scrubbed entirely from here */}
 
         {/* Call To Action Block */}
         <section className="relative py-32 px-6 overflow-hidden">
