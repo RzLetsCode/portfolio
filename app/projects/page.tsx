@@ -1,20 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Terminal, 
   ArrowUpRight, 
   ShieldCheck, 
-  GitFork,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Menu,
+  X
 } from 'lucide-react';
 import Link from 'next/link';
 
 const PROJECT_CATEGORIES = ['All Tiers', 'Tier 1: Core AI', 'Tier 2: Advanced RAG', 'Tier 3: Enterprise Agents'];
 
 const PROJECTS_DATA = [
-  // TIER 1: CORE AI & DATA ENGINEERING (5 Projects)
+  // TIER 1: CORE AI & DATA ENGINEERING
   {
     title: 'Semantic Search Engine from Scratch',
     tier: 'Tier 1: Core AI',
@@ -56,7 +57,7 @@ const PROJECTS_DATA = [
     github: 'https://github.com/RzLetsCode/portfolio'
   },
 
-  // TIER 2: ADVANCED RAG & ENTERPRISE CONTEXT (5 Projects)
+  // TIER 2: ADVANCED RAG & ENTERPRISE CONTEXT
   {
     title: 'Advanced Production RAG Pipeline',
     tier: 'Tier 2: Advanced RAG',
@@ -98,7 +99,7 @@ const PROJECTS_DATA = [
     github: 'https://github.com/RzLetsCode/portfolio'
   },
 
-  // TIER 3: AUTONOMOUS AGENTS & ECOSYSTEMS (5 Projects)
+  // TIER 3: AUTONOMOUS AGENTS & ECOSYSTEMS
   {
     title: 'Multi-Agent Code Review Engine',
     tier: 'Tier 3: Enterprise Agents',
@@ -141,144 +142,268 @@ const PROJECTS_DATA = [
   }
 ];
 
-export default function Projects() {
+export default function ProjectsPage() {
   const [activeTab, setActiveTab] = useState('All Tiers');
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  const navItems = [
+    { label: 'Home', href: '/', external: false, dynamicPage: true },
+    { label: 'Roadmaps & Resources', href: '/resources/', external: false, dynamicPage: true },
+    { label: 'Tech Blog', href: '/blog/', external: false, dynamicPage: true },
+    { label: 'YouTube', href: '/youtube/', external: false, dynamicPage: true },
+    { label: 'Pricing', href: '/pricing/', external: false, dynamicPage: true },
+  ];
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
 
   const filteredProjects = activeTab === 'All Tiers' 
     ? PROJECTS_DATA 
     : PROJECTS_DATA.filter(p => p.tier === activeTab);
 
   return (
-    <section className="py-20 px-6 max-w-7xl mx-auto" id="projects-portal">
-      {/* Header Container */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-        <div>
-          <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/20 rounded-md px-3 py-1 mb-3">
-            <Terminal className="w-4 h-4 text-cyan-400" />
-            <span className="text-cyan-400 text-xs font-bold uppercase tracking-wider">Production Labs</span>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight">
-            The AI Architecture Blueprint
-          </h2>
-          <p className="text-slate-400 mt-2 max-w-xl text-sm leading-relaxed">
-            Stop building generic tutorial apps. Master the exact technical stacks required to design, scale, and ship enterprise generative AI platforms.
-          </p>
-        </div>
-
-        {/* Tab Controls */}
-        <div className="flex flex-wrap gap-2 bg-slate-900/60 p-1.5 rounded-xl border border-slate-800/80 self-start md:self-end">
-          {PROJECT_CATEGORIES.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveTab(category)}
-              className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
-                activeTab === category
-                  ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/10'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-              }`}
-            >
-              {category.split(': ')[1] || category}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Grid Canvas */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredProjects.map((project) => (
-          <div
-            key={project.title}
-            className="group relative bg-[#111930] border border-slate-800/80 hover:border-cyan-500/30 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1"
+    <>
+      {/* Navigation Header Sync */}
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? 'bg-[#0f172a]/95 backdrop-blur-sm border-b border-cyan-500/20'
+            : 'bg-[#0f172a]/90 backdrop-blur-sm'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-cyan-400 font-bold text-base sm:text-lg shrink-0"
+            onClick={closeMobileMenu}
           >
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className={`text-[10px] font-black tracking-widest uppercase px-2.5 py-1 rounded-md bg-slate-950/80 border ${
-                  project.tier.includes('Tier 1') ? 'text-cyan-400 border-cyan-500/10' :
-                  project.tier.includes('Tier 2') ? 'text-indigo-400 border-indigo-500/10' :
-                  'text-emerald-400 border-emerald-500/10'
-                }`}>
-                  {project.tier.split(': ')[0]}
-                </span>
-                
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-slate-500 hover:text-cyan-400 transition-colors"
-                >
-                  <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </a>
-              </div>
+            <span className="text-gray-400">&lt;&gt;</span>
+            <span>code2career_ai</span>
+          </Link>
 
-              <h3 className="text-lg font-bold text-slate-100 group-hover:text-white transition-colors mb-2">
-                {project.title}
-              </h3>
-              
-              <p className="text-xs leading-relaxed text-slate-400 mb-4">
-                {project.desc}
+          {/* Desktop Navigation Loops */}
+          <div className="hidden lg:flex items-center gap-6">
+            {navItems.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="text-gray-300 hover:text-cyan-400 transition-colors text-sm font-medium"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="hidden lg:flex">
+            <Link
+              href="/contact/"
+              className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2 rounded-full text-sm transition-colors tracking-wide"
+            >
+              GET IN TOUCH
+            </Link>
+          </div>
+
+          {/* Mobile Hamburger Trigger */}
+          <button
+            type="button"
+            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-full border border-cyan-500/30 text-cyan-400 bg-[#111c3a]/80 hover:bg-[#16213f] transition-colors"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+
+        {/* Mobile Dropdown Panel Drawer */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden border-t border-cyan-500/20 bg-[#0b1220]/98 backdrop-blur-md">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-2">
+              {navItems.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={closeMobileMenu}
+                  className="text-gray-200 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors text-sm font-medium rounded-xl px-4 py-3"
+                >
+                  {item.label}
+                </Link>
+              ))}
+
+              <Link
+                href="/contact/"
+                onClick={closeMobileMenu}
+                className="mt-2 bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-3 rounded-full text-sm transition-colors tracking-wide text-center"
+              >
+                GET IN TOUCH
+              </Link>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Main Canvas Segment */}
+      <main className="pt-24 min-h-screen bg-[#0f172a] flex flex-col justify-between">
+        <section className="py-12 px-6 max-w-7xl mx-auto w-full flex-grow" id="projects-portal">
+          
+          {/* Dashboard Header Copy */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+              <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/20 rounded-md px-3 py-1 mb-3">
+                <Terminal className="w-4 h-4 text-cyan-400" />
+                <span className="text-cyan-400 text-xs font-bold uppercase tracking-wider">Production Labs</span>
+              </div>
+              <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight">
+                The AI Architecture Blueprint
+              </h1>
+              <p className="text-slate-400 mt-2 max-w-xl text-sm leading-relaxed">
+                Stop building generic tutorial apps. Master the exact technical stacks required to design, scale, and ship enterprise generative AI platforms.
               </p>
             </div>
 
-            {/* Bottom Meta Assembly */}
-            <div className="mt-4 pt-4 border-t border-slate-800/50">
-              <div className="flex items-start gap-2 mb-3">
-                <ShieldCheck className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
-                <p className="text-[11px] text-slate-500 italic leading-snug">
-                  <strong className="text-slate-400 not-italic font-semibold">Focus:</strong> {project.impact}
-                </p>
-              </div>
+            {/* Matrix Filters */}
+            <div className="flex flex-wrap gap-2 bg-slate-900/60 p-1.5 rounded-xl border border-slate-800/80 self-start md:self-end">
+              {PROJECT_CATEGORIES.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setActiveTab(category)}
+                  className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
+                    activeTab === category
+                      ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/10'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                  }`}
+                >
+                  {category.split(': ')[1] || category}
+                </button>
+              ))}
+            </div>
+          </div>
 
-              <div className="flex flex-wrap gap-1.5 mt-2">
-                {project.tech.map((t) => (
-                  <span
-                    key={t}
-                    className="text-[10px] font-semibold font-mono bg-slate-950 text-slate-400 px-2 py-0.5 rounded"
-                  >
-                    {t}
+          {/* Matrix Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProjects.map((project) => (
+              <div
+                key={project.title}
+                className="group relative bg-[#111930] border border-slate-800/80 hover:border-cyan-500/30 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className={`text-[10px] font-black tracking-widest uppercase px-2.5 py-1 rounded-md bg-slate-950/80 border ${
+                      project.tier.includes('Tier 1') ? 'text-cyan-400 border-cyan-500/10' :
+                      project.tier.includes('Tier 2') ? 'text-indigo-400 border-indigo-500/10' :
+                      'text-emerald-400 border-emerald-500/10'
+                    }`}>
+                      {project.tier.split(': ')[0]}
+                    </span>
+                    
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-500 hover:text-cyan-400 transition-colors"
+                    >
+                      <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </a>
+                  </div>
+
+                  <h3 className="text-lg font-bold text-slate-100 group-hover:text-white transition-colors mb-2">
+                    {project.title}
+                  </h3>
+                  
+                  <p className="text-xs leading-relaxed text-slate-400 mb-4">
+                    {project.desc}
+                  </p>
+                </div>
+
+                {/* Technical Meta Assemblies */}
+                <div className="mt-4 pt-4 border-t border-slate-800/50">
+                  <div className="flex items-start gap-2 mb-3">
+                    <ShieldCheck className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
+                    <p className="text-[11px] text-slate-500 italic leading-snug">
+                      <strong className="text-slate-400 not-italic font-semibold">Focus:</strong> {project.impact}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {project.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="text-[10px] font-semibold font-mono bg-slate-950 text-slate-400 px-2 py-0.5 rounded"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* BYOP Engagement Module Block */}
+            <div className="relative bg-gradient-to-br from-[#132549] to-[#0b101f] border-2 border-dashed border-cyan-500/20 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group hover:border-cyan-500/40">
+              <div>
+                <div className="flex items-center gap-2 text-cyan-400 mb-4">
+                  <Sparkles className="w-5 h-5 animate-pulse" />
+                  <span className="text-[10px] font-black tracking-widest uppercase bg-cyan-500/10 px-2.5 py-1 rounded-md border border-cyan-500/20">
+                    Ecosystem Upgrade
                   </span>
-                ))}
+                </div>
+
+                <h3 className="text-lg font-bold text-white mb-2">
+                  Have an Existing Project?
+                </h3>
+                
+                <p className="text-xs leading-relaxed text-slate-400 mb-4">
+                  Do you already have a student portfolio project, hackathon build, or local script that feels generic or raw? Don't delete it. We can help you scale it.
+                </p>
+
+                <ul className="text-[11px] text-slate-400 space-y-1.5 list-disc list-inside">
+                  <li>Inject proper layout-aware chunking</li>
+                  <li>Migrate local arrays to vector clouds</li>
+                  <li>Refactor flat scripts into asynchronous graphs</li>
+                </ul>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-slate-800/60 w-full">
+                <Link 
+                  href="/contact?ref=project-upgrade"
+                  className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                  <span>Upgrade Your Code Base</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
             </div>
           </div>
-        ))}
+        </section>
 
-        {/* SMART USER ENGAGEMENT CARD: Bring Your Own Project (BYOP) */}
-        <div className="relative bg-gradient-to-br from-[#132549] to-[#0b101f] border-2 border-dashed border-cyan-500/20 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 group hover:border-cyan-500/40">
-          <div>
-            <div className="flex items-center gap-2 text-cyan-400 mb-4">
-              <Sparkles className="w-5 h-5 animate-pulse" />
-              <span className="text-[10px] font-black tracking-widest uppercase bg-cyan-500/10 px-2.5 py-1 rounded-md border border-cyan-500/20">
-                Ecosystem Upgrade
-              </span>
-            </div>
-
-            <h3 className="text-lg font-bold text-white mb-2">
-              Have an Existing Project?
-            </h3>
-            
-            <p className="text-xs leading-relaxed text-slate-400 mb-4">
-              Do you already have a student portfolio project, hackathon build, or local script that feels generic or raw? Don't delete it. We can help you scale it.
+        {/* Global Structural Footer */}
+        <footer className="border-t border-white/10 py-8 px-6 bg-[#090f1e] w-full">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <span className="text-cyan-400 font-bold">code2career_ai</span>
+            <p className="text-gray-500 text-sm" suppressHydrationWarning>
+              &copy; {new Date().getFullYear()} ALL RIGHTS RESERVED
             </p>
-
-            <ul className="text-[11px] text-slate-400 space-y-1.5 list-disc list-inside">
-              <li>Inject proper layout-aware chunking</li>
-              <li>Migrate local arrays to vector clouds</li>
-              <li>Refactor flat scripts into asynchronous graphs</li>
-            </ul>
+            <p className="text-gray-600 text-xs">Architected for Freshers &amp; AI Enthusiasts</p>
           </div>
-
-          <div className="mt-6 pt-4 border-t border-slate-800/60 w-full">
-            <Link 
-              href="/contact?ref=project-upgrade"
-              className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2"
-            >
-              <span>Upgrade Your Code Base</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        </div>
-
-      </div>
-    </section>
+        </footer>
+      </main>
+    </>
   );
 }
