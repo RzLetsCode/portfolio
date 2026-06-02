@@ -1,130 +1,261 @@
-// lib/blog-data.ts
-// All blog posts for code2career_ai
-// To add a new blog: copy a post object and fill in your content.
-
 export interface BlogPost {
-  slug: string;
   title: string;
+  category: string;
   excerpt: string;
-  content: string; // Supports basic markdown-like HTML
+  slug: string;
   date: string;
   readingTime: string;
-  category: string;
-  tags: string[];
-  coverImage?: string;
-  featured?: boolean;
+  imgPlaceholder: string;
+  color: string;
+  borderHover: string;
+  content: string[]; // Structured paragraphs or markdown segments
 }
 
-export const blogPosts: BlogPost[] = [
+export const BLOG_POSTS_DATA: BlogPost[] = [
+  // AI ROADMAPS
   {
-    slug: 'how-to-start-learning-ai-in-2025',
-    title: 'How to Start Learning AI in 2025 (Without Getting Lost)',
-    excerpt:
-      'Most beginners open YouTube, watch 10 videos, and quit in a week. Here is the exact sequence I recommend to go from zero to shipping your first AI project.',
-    date: '2026-05-20',
-    readingTime: '7 min read',
-    category: 'Roadmap',
-    tags: ['AI Roadmap', 'Beginners', 'Getting Started'],
-    featured: true,
-    content: `
-<h2>The Problem With Random YouTube Videos</h2>
-<p>Every fresher starts the same way: they search "learn AI" on YouTube, find a 12-hour bootcamp, watch 45 minutes of it, and then never open it again. That is not a motivation problem. It is a sequencing problem.</p>
-
-<p>AI is not a single skill. It is a stack of skills that need to be learned in the right order. If you try to learn transformers before understanding how a basic model works, you will feel lost every single time.</p>
-
-<h2>The Sequence That Actually Works</h2>
-<ol>
-  <li><strong>Python fundamentals</strong> — You cannot skip this. Two weeks of focused practice.</li>
-  <li><strong>Data handling with Pandas + NumPy</strong> — Most AI work is just manipulating data.</li>
-  <li><strong>Basic ML with Scikit-learn</strong> — Train your first model. Understand train/test splits.</li>
-  <li><strong>Deep Learning with PyTorch or TensorFlow</strong> — Once you understand why models work, frameworks make sense.</li>
-  <li><strong>Applied AI: RAG, Agents, LLMs</strong> — Now you are building things that matter for your career.</li>
-</ol>
-
-<h2>What to Build at Each Stage</h2>
-<p>Do not just follow tutorials. At every stage, build one tiny project that you can explain. A price predictor. A spam classifier. A RAG chatbot. Each of these is a conversation piece in an interview.</p>
-
-<h2>How Long Does This Take?</h2>
-<p>If you put in 2 hours every day, you can reach stage 4 in 3 months. Stage 5 (the career-relevant part) is another 2 months of project building. Five months of consistent effort beats two years of scattered watching.</p>
-
-<p>If you want a personalized roadmap based on your current level, <a href="/contact?plan=explore">start with our free Explore plan</a> and we will map it out for you.</p>
-    `,
-  },
-  {
-    slug: 'what-is-rag-and-why-it-matters-for-freshers',
-    title: 'What is RAG and Why Every Fresher Should Build One',
-    excerpt:
-      'Retrieval-Augmented Generation is one of the most in-demand AI patterns in enterprise right now. Here is what it is and how building one can transform your resume.',
+    title: 'The Definitive 90-Day AI Engineer Roadmap for 2026',
+    category: 'AI Roadmaps',
+    excerpt: 'Skip the endless math textbook sandboxes. Learn the exact sequence of programming skills, LLM orchestration, and cloud patterns required to transition into production roles.',
+    slug: '90-day-ai-engineer-roadmap-2026',
     date: '2026-05-28',
-    readingTime: '6 min read',
-    category: 'Technical',
-    tags: ['RAG', 'LLM', 'Portfolio Projects'],
-    featured: true,
-    content: `
-<h2>What is RAG?</h2>
-<p>RAG stands for Retrieval-Augmented Generation. Instead of asking an LLM (like GPT-4) to answer from memory, you first retrieve relevant documents from your own data source, then give those documents to the LLM along with the question.</p>
-
-<p>Think of it like this: instead of asking someone a question and hoping they remember the answer, you hand them the relevant document first, then ask the question. The answer is grounded in real data.</p>
-
-<h2>Why Companies Love RAG</h2>
-<ul>
-  <li>It works on private, internal data — something LLMs alone cannot do.</li>
-  <li>It reduces hallucinations because the model is grounded in real documents.</li>
-  <li>It is cheaper than fine-tuning a model for every use case.</li>
-</ul>
-
-<h2>The RAG Stack You Should Learn</h2>
-<p>A basic production-ready RAG system uses:</p>
-<ul>
-  <li><strong>Embedding model</strong> — converts text to vectors (use OpenAI or a free HuggingFace model)</li>
-  <li><strong>Vector database</strong> — stores and retrieves those vectors (Pinecone, Chroma, or Weaviate)</li>
-  <li><strong>LLM</strong> — generates the final answer (GPT-4, Claude, or an open-source model)</li>
-  <li><strong>Orchestration</strong> — LangChain or LangGraph to wire it all together</li>
-</ul>
-
-<h2>What to Build</h2>
-<p>Build a RAG system that answers questions about your own resume or a topic you know well. This takes about a weekend. Once you have it working, add a simple Streamlit or Next.js frontend. That is a portfolio project that immediately signals production awareness to any AI hiring manager.</p>
-
-<p>Check out our <a href="/#projects">Project Ecosystem</a> for a guided walkthrough of the Personal Learning Agent — a RAG project built specifically for freshers.</p>
-    `,
+    readingTime: '8 min read',
+    imgPlaceholder: 'Flow Diagram: Skill Progression Pipeline from Foundation to Advanced Graph State Engines',
+    color: 'text-cyan-400',
+    borderHover: 'hover:border-cyan-500/40',
+    content: [
+      'The landscape of AI engineering in 2026 has fundamentally shifted from training models from scratch to architecting complex cognitive systems. If you are spending your first 30 days memorizing the calculus behind backpropagation, you are prepping for a research role that doesn’t match industry hiring velocity. Companies need engineers who can build, secure, and scale production systems.',
+      'Days 1–30: Master Advanced Python and Data Orchestration. Move past basic looping structures. You must master asynchronous programming (asyncio), structural data validation using Pydantic V2, and layout-aware document chunking engines. Your code needs to gracefully handle API rate limits and connection retries without crashing production workers.',
+      'Days 31–60: Deep Dive into Semantic Spaces and Vector Infrastructure. Learn how text strings transform into high-dimensional geometric vectors using dense transformer models. Practice building local indexing engines with FAISS before migrating your pipelines onto cloud clusters like Pinecone or Qdrant. Focus on understanding hybrid search mechanisms—combining raw keyword matching with semantic vector math.',
+      'Days 61–90: State Machines and Autonomous Orchestration. The era of simple sequential prompts is over. Complex business logic requires cyclical state evaluation graphs. Master frameworks like LangGraph to construct deterministic multi-agent networks featuring human-in-the-loop debugging checkpoints. This is the exact skill set that separates entry-level builders from enterprise architects.'
+    ]
   },
   {
-    slug: 'how-to-make-your-github-look-recruiter-ready',
-    title: 'How to Make Your GitHub Look Recruiter-Ready in a Weekend',
-    excerpt:
-      'Most freshers have GitHub profiles full of tutorial code. Here is how to upgrade your repos so recruiters actually read them.',
-    date: '2026-06-01',
-    readingTime: '5 min read',
-    category: 'Career',
-    tags: ['GitHub', 'Portfolio', 'Career Advice'],
-    content: `
-<h2>The Hard Truth About Tutorial Code</h2>
-<p>If your GitHub is full of repos named "ml-course-notes" and "python-basics", it is sending the wrong signal. Recruiters are not looking for what you learned — they are looking for what you built.</p>
-
-<h2>The Four Things Every Project Needs</h2>
-<ol>
-  <li><strong>A clear README</strong> — Problem statement, what it does, how to run it, what you learned. 200 words minimum.</li>
-  <li><strong>A project architecture diagram</strong> — Even a simple one drawn in Excalidraw or Mermaid shows you think in systems.</li>
-  <li><strong>A working demo</strong> — A live link, a screen recording, or at minimum clear screenshots.</li>
-  <li><strong>Thoughtful commits</strong> — Commits should tell a story, not say "update" or "fix".</li>
-</ol>
-
-<h2>One Weekend Plan</h2>
-<p>Pick your best project. Spend Saturday writing a proper README and cleaning up the code structure. Spend Sunday deploying it (Streamlit, Vercel, or HuggingFace Spaces — all free). On Monday you have a portfolio piece that actually stands out.</p>
-
-<p>If you want a code-level review of your repos before you apply, our <a href="/contact?plan=mentor-loop">Mentor Loop plan</a> includes a GitHub audit as part of every session.</p>
-    `,
+    title: 'Python Beyond Scripts: OOP & Concurrency in AI Systems',
+    category: 'AI Roadmaps',
+    excerpt: 'Why standard data science notebooks fail in software deployments. Master asynchronous execution frameworks, rate-limiting, and state validation queues.',
+    slug: 'python-concurrency-production-ai',
+    date: '2026-05-14',
+    readingTime: '6 min read',
+    imgPlaceholder: 'Architecture Blueprint: Asynchronous Thread Scheduling Handling API Rate Limits',
+    color: 'text-cyan-400',
+    borderHover: 'hover:border-cyan-500/40',
+    content: [
+      'Jupyter notebooks are fantastic for dirty prototyping and exploratory analysis, but pushing a raw linear script into a production microservice cluster is an architectural disaster waiting to happen. Enterprise systems demand object-oriented structures, rigorous error handling, and robust concurrent orchestration layers.',
+      'When managing external LLM API endpoints, your system will inevitably encounter rate-limiting errors (HTTP 429). If your pipeline executes queries synchronously, a single blocked call stalls your entire data queue. Implementing Python’s `asyncio` allows your workers to yield execution threads during network I/O cycles, maximizing processor utility.',
+      'Furthermore, typing rules must be explicitly enforced. Utilizing Pydantic models to validate structural JSON payloads incoming from unstructured LLM outputs ensures runtime reliability. By building custom decorators to automate backoff and retry handling, your backend architecture remains resilient during traffic spikes.'
+    ]
   },
+  {
+    title: 'Deconstruct Open-Source Foundations: Local LLM Infrastructure',
+    category: 'AI Roadmaps',
+    excerpt: 'Step-by-step setup guide for orchestrating open weight models locally. Dive into Hugging Face transformers architectures, quantization profiles, and inference memory constraints.',
+    slug: 'local-llm-infrastructure-quantization',
+    date: '2026-04-22',
+    readingTime: '10 min read',
+    imgPlaceholder: 'Hardware Layout: VRAM Allocation Matrix Across FP16 vs INT4 Tensors',
+    color: 'text-cyan-400',
+    borderHover: 'hover:border-cyan-500/40',
+    content: [
+      'Relying solely on closed commercial APIs introduces significant risks regarding data privacy, unpredictable token costs, and unexpected model depreciation. True architectural autonomy means mastering the orchestration of open-source models inside your own local or private cloud infrastructure clusters.',
+      'The major bottleneck when hosting localized models is video memory (VRAM). Running an unquantized 70-billion parameter model at full 16-bit precision requires over 140 GB of VRAM—a requirement that is cost-prohibitive for most startups. This guide breaks down quantization layers like AWQ and GPTQ, compressing models to 4-bit precision with minimal metric loss.',
+      'By utilizing serving runtimes like Ollama or vLLM, you can spin up OpenAI-compatible API servers locally. This configuration allows you to swap API connection layers seamlessly inside your software stack while keeping sensitive enterprise data completely isolated within local network parameters.'
+    ]
+  },
+  {
+    title: 'The Mathematics of Vector Spaces for Non-Mathematicians',
+    category: 'AI Roadmaps',
+    excerpt: 'Demystifying high-dimensional geometry. A visual breakdown of cosine similarity, dot products, and dense representation layer weights.',
+    slug: 'vector-space-embeddings-math',
+    date: '2026-03-11',
+    readingTime: '5 min read',
+    imgPlaceholder: 'Geometric Chart: Dimensional Angular Distances within a 3D Tensor Projection Space',
+    color: 'text-cyan-400',
+    borderHover: 'hover:border-cyan-500/40',
+    content: [
+      'You do not need a Ph.D. in pure mathematics to deploy vector search architectures, but flying completely blind without understanding vector spatial mechanics will lead to poorly optimized indexing configurations. At its core, an embedding vector is just an ordered array of floating-point numbers describing coordinate vectors inside a multi-dimensional room.',
+      'When an embedding model processes a text fragment, it assigns it a point inside this high-dimensional coordinate system. Words or concepts that share semantic context are placed geometrically close to one another. To evaluate how similar two strings are, we calculate the angle between their coordinate paths using Cosine Similarity calculations.',
+      'Understanding this mathematical alignment allows you to optimize index configurations inside vector clusters. You can better evaluate when to rely on simple dot product calculations (ideal for normalized spaces) versus Euclidean distances, balancing lookup speed directly against matching accuracy.'
+    ]
+  },
+  {
+    title: 'Transition from Web Developer to Generative AI Engineer',
+    category: 'AI Roadmaps',
+    excerpt: 'How to cleanly map your existing fullstack Next.js and API skills onto cognitive orchestration layer development tracks.',
+    slug: 'web-dev-to-ai-engineer-pivot',
+    date: '2026-02-19',
+    readingTime: '7 min read',
+    imgPlaceholder: 'System Stack Map: Layer Replacement Alignment (Database to Vector Store)',
+    color: 'text-cyan-400',
+    borderHover: 'hover:border-cyan-500/40',
+    content: [
+      'If you can build structured web applications, manage user authentication states, and construct reliable REST or GraphQL APIs, you are already 70% of the way to becoming a highly effective Generative AI Engineer. The core skill shifts out of traditional state mutation logic and into the design of cognitive routing loops.',
+      'In a traditional application stack, user inputs map directly to deterministic relational database operations. In a cognitive stack, user text input passes into an embedding step, queries a vector store, fetches context, and parses non-deterministic strings back into application states.',
+      'Your existing experience with backend frameworks like Next.js makes you highly valuable. By framing LLMs as external asynchronous computing nodes with high latency profiles, you can apply standard software patterns like caching, streaming responses, and queue management to design blazing fast AI architectures.'
+    ]
+  },
+
+  // SYSTEM DESIGN
+  {
+    title: 'Production RAG: Layout-Aware Chunking Strategies',
+    category: 'System Design',
+    excerpt: 'Stop relying on character counters. Learn semantic metadata-driven chunk parsing over messy enterprise multi-column PDF layouts to eliminate hallucinations.',
+    slug: 'production-rag-layout-chunking',
+    date: '2026-05-25',
+    readingTime: '9 min read',
+    imgPlaceholder: 'Data Pipeline: PDF Hierarchical Node Tree Breaking Elements into Parent-Child Objects',
+    color: 'text-indigo-400',
+    borderHover: 'hover:border-indigo-500/40',
+    content: [
+      'Most naive Retrieval-Augmented Generation (RAG) tutorials tell you to split documents by grouping text every 500 characters. In production enterprise scenarios containing multi-column PDFs, financial statements, and embedded tables, this arbitrary split splits crucial context data in half, corrupting your downstream vector index accuracy.',
+      'Production-grade systems require layout-aware chunking. This strategy uses specialized parsing models to identify document structures—such as headers, tables, images, and paragraphs—independently. Instead of cutting blocks mid-sentence, text fragments are grouped logically based on document sections.',
+      'By appending hierarchical metadata strings to each chunk (e.g., matching a data point directly back to its parent header, page number, and document title), you empower your retrieval engine to supply clear context blocks to the model. This significantly mitigates hallucination rates.'
+    ]
+  },
+  {
+    title: 'Orchestrating Stateful Agent Swarms with LangGraph',
+    category: 'System Design',
+    excerpt: 'Move away from basic sequential chains. Design multi-agent system state trees, handling cyclical feedback logic loops and conditional edge routing.',
+    slug: 'langgraph-stateful-agent-swarms',
+    date: '2026-05-02',
+    readingTime: '12 min read',
+    imgPlaceholder: 'State Graph Canvas: Multi-Agent Asynchronous Supervisor Execution Tree Loop',
+    color: 'text-indigo-400',
+    borderHover: 'hover:border-indigo-500/40',
+    content: [
+      'Simple linear prompting chains fall apart when tasked with handling complex, multi-step enterprise workflows. If an edge-case arises or a tool output encounters an exception, linear pipelines fail silently. Advanced operations require stateful, cyclical multi-agent architectures.',
+      'LangGraph transforms your system workflow into a structured, mathematical state graph. Individual computing steps act as nodes, while decision branches are defined as edges. This layout allows agents to loop back recursively to fix mistakes, double-check factual details, or consult specialized sub-agents.',
+      'By implementing a centralized state object schema, every node inside your graph reads from and writes to a single, secure source of truth. Adding human-in-the-loop validation barriers into this state loop allows operations to halt gracefully during high-risk actions, waiting for physical manual confirmation before proceeding.'
+    ]
+  },
+  {
+    title: 'Hybrid Vector Search Scaling Patterns over Pinecone & Azure',
+    category: 'System Design',
+    excerpt: 'Combining BM25 keyword matching mechanics with dense neural vector lookups. Fine-tune your retrieval structures to optimize enterprise retrieval precision scores.',
+    slug: 'hybrid-search-pinecone-azure',
+    date: '2026-04-10',
+    readingTime: '8 min read',
+    imgPlaceholder: 'Cloud Topology: Reciprocal Rank Fusion (RRF) Blending Layer Architecture',
+    color: 'text-indigo-400',
+    borderHover: 'hover:border-indigo-500/40',
+    content: [
+      'Dense neural vectors excel at understanding fuzzy semantic concepts, but they can struggle with exact term lookups like serial numbers, localized product IDs, or specific legal codes. To build a robust search system, you need to combine keyword matching with vector logic.',
+      'Hybrid search combines traditional keyword retrieval models (like BM25) with dense vector mathematical spaces into a single index query. When a user submits a query, both lookup paths execute in parallel across your Azure or Pinecone database environments.',
+      'The crucial step occurs during the ranking synthesis phase using Reciprocal Rank Fusion (RRF) equations. This algorithm takes the distinct score sheets from both lookups, balances them based on customizable weight configurations, and compiles a clean context payload to feed your model.'
+    ]
+  },
+  {
+    title: 'Text-to-SQL Systems: Preventing Relational Exploitation Drops',
+    category: 'System Design',
+    excerpt: 'How to safely build dynamic database querying interfaces. Shield backend infrastructures utilizing schema isolation patterns and sandboxed verification boundaries.',
+    slug: 'text-to-sql-security-guardrails',
+    date: '2026-03-29',
+    readingTime: '7 min read',
+    imgPlaceholder: 'Security Matrix Flow: Input Prompt Filtering Preventing Query Drops and Unauthorized Injections',
+    color: 'text-indigo-400',
+    borderHover: 'hover:border-indigo-500/40',
+    content: [
+      'Enabling an LLM to generate code instructions that execute directly on your production databases is incredibly powerful, but it introduces major security vulnerabilities. Without strict guardrails, unexpected user prompts or malicious exploits can result in severe data leaks or catastrophic database drops.',
+      'First, never expose your actual database schema names directly to raw model context layers. Instead, utilize safe middleware mapping configurations that present virtualized, read-only system abstractions to the LLM agent.',
+      'Second, pass all generated SQL queries through an isolated database validation proxy layer before execution. This sandbox parses the syntax to confirm it contains zero mutate keywords (like DROP, ALTER, or DELETE) and explicitly limits row transaction returns, securing your core records from exploitation.'
+    ]
+  },
+  {
+    title: 'GraphRAG Unpacked: Mapping Entity Relations via Neo4j',
+    category: 'System Design',
+    excerpt: 'Diving into entity relation extractions. Build structured context indexes over complex unorganized technical libraries.',
+    slug: 'graph-rag-neo4j-entity-mapping',
+    date: '2026-02-05',
+    readingTime: '11 min read',
+    imgPlaceholder: 'Knowledge Graph Visualization: Linked Structural Nodes and Attribute Link Properties',
+    color: 'text-indigo-400',
+    borderHover: 'hover:border-indigo-500/40',
+    content: [
+      'Standard vector lookups can miss global structural relationships across large document collections. If a user asks, "What are the core common failure modes across all healthcare claims processed this quarter?", flat semantic lookups will fetch disjointed fragments instead of a unified perspective. This is where GraphRAG shines.',
+      'By processing raw document logs with specialized entity extraction pipelines, you map data into a relational knowledge network inside a graph database like Neo4j. This maps explicit conceptual entities (such as clients, software versions, and bug reports) as connected nodes.',
+      'When executing search tasks, your system queries this structural network map to track deep connections. Blending network graph insights with vector data gives you a highly comprehensive context window, perfect for processing complex analytical requests.'
+    ]
+  },
+
+  // CAREER STRATEGY
+  {
+    title: 'Tear Down Your Tutorial Code: Building "Senior-Level" Portfolios',
+    category: 'Career Strategy',
+    excerpt: 'Recruiters are tired of seeing identical weather apps and generic chat clones. Learn how to design unique production systems that prove architectural capabilities.',
+    slug: 'senior-level-ai-portfolio-teardown',
+    date: '2026-05-20',
+    readingTime: '6 min read',
+    imgPlaceholder: 'Portfolio Blueprint: Structuring Repositories for Linting, Testing, and System Deployment Layouts',
+    color: 'text-emerald-400',
+    borderHover: 'hover:border-emerald-500/40',
+    content: [
+      'The market is saturated with entry-level certificates and basic API wrapper apps. If your primary GitHub portfolio project is a simple UI connected directly to an unmonitored model endpoint, hiring managers will glance past it. To stand out, your repositories must reflect real-world engineering discipline.',
+      'Your projects should demonstrate production best practices: include comprehensive unit testing suites, clean modular file splitting, automated linting setups, and detailed system architecture diagrams inside your README files. Show that you design with security, monitoring, and infrastructure cost controls in mind.',
+      'Instead of a standard generic chatbot, build a project that handles complex engineering constraints. For example, implement an automated code auditor that monitors real-time webhook payloads, handles state memory with Redis caches, and manages errors gracefully. Proving you can solve real production challenges is what lands offers.'
+    ]
+  },
+  {
+    title: 'Bypass the ATS Filter: Position Your Resume for AI Architecture Roles',
+    category: 'Career Strategy',
+    excerpt: 'Stop listing vague descriptions like "Interested in Machine Learning". Re-engineer profiles to emphasize explicit business metrics and system orchestration capabilities.',
+    slug: 'bypass-ats-ai-resume-positioning',
+    date: '2026-04-18',
+    readingTime: '5 min read',
+    imgPlaceholder: 'Resume Comparative Matrix: Highlighting Ineffective Phrase Transformations to Dynamic Structural Keywords',
+    color: 'text-emerald-400',
+    borderHover: 'hover:border-emerald-500/40',
+    content: [
+      'Applicant Tracking Systems (ATS) reject hundreds of technical resumes before a human engineer ever sees them. If your resume uses generic bullet points like "Gained experience with AI models," it will likely fail standard automated filtering benchmarks.',
+      'Re-engineer your experience blocks to highlight concrete engineering metrics. Shift from passive phrases to impact-driven statements, for example: "Architected an automated multi-threaded document parsing pipeline using LangChain and Pinecone, reducing context extraction latency by 42% and processing 10k+ PDFs daily."',
+      'Make sure to cleanly weave core industry technical terms—such as prompt tracking, evaluation workflows, dense semantic vectors, and data caching—directly into your experience descriptions. This aligns your profile with the exact keywords senior engineering managers scan for.'
+    ]
+  },
+  {
+    title: 'How to Structure and Break Down Your AI Code in Technical Interviews',
+    category: 'Career Strategy',
+    excerpt: 'A comprehensive engineering guide on articulating runtime execution limits, evaluation validation metrics, and token consumption mitigation patterns.',
+    slug: 'articulate-ai-code-technical-interviews',
+    date: '2026-03-15',
+    readingTime: '7 min read',
+    imgPlaceholder: 'STAR Format Workflow: System Architecture Decomposition Blueprint Mapping Grid',
+    color: 'text-emerald-400',
+    borderHover: 'hover:border-emerald-500/40',
+    content: [
+      'Succeeding in an advanced systems interview requires more than just writing functional code on a digital whiteboard. You need to articulate the architectural decisions behind your code layout clearly and effectively.',
+      'When discussing a project build, walk through your technical choices using a structured framework: explicitly define your system inputs, outline your database choice, address latency challenges, and detail your evaluation strategy. Explain exactly why you chose a specific chunk size or re-ranking layer.',
+      'Be prepared to discuss production trade-offs openly. Talk about how you monitor token costs, mitigate system latency with semantic caching layers, and track operational health using tools like LangSmith. Demonstrating this level of engineering foresight signals to interviewers that you think like a senior architect.'
+    ]
+  },
+  {
+    title: 'Navigating Senior Tech Career Pivots Without Starting Over',
+    category: 'Career Strategy',
+    excerpt: 'A practical roadmap for senior full-stack developers and data analysts looking to re-brand and pivot directly into specialized AI engineering tracks.',
+    slug: 'senior-tech-career-pivots-ai',
+    date: '2026-02-27',
+    readingTime: '8 min read',
+    imgPlaceholder: 'Career Growth Mapping: Intersecting Core Legacy Strengths with Advanced Cognitive Architecture Models',
+    color: 'text-emerald-400',
+    borderHover: 'hover:border-emerald-500/40',
+    content: [
+      'Transitioning into generative AI engineering doesn’t mean discarding your hard-earned software or analytical experience. Senior full-stack developers and data professionals possess a massive competitive advantage: they already know how to ship stable production code.',
+      'The key is learning to frame your legacy expertise through an AI lens. Your years spent designing secure databases, building scalable APIs, and managing cloud deployments are exactly what companies need to take AI prototypes into production.',
+      'Focus your upskilling on cognitive orchestration layers, chunking strategies, and vector data management. By bridging the gap between traditional backend stability and modern non-deterministic AI outputs, you can position yourself for senior roles without resetting your career trajectory.'
+    ]
+  },
+  {
+    title: 'The AI Engineering Interview Question Bank for 2026',
+    category: 'Career Strategy',
+    excerpt: 'A review of verified scenario design questions gathered directly from leading production engineering team interviews across the country.',
+    slug: 'ai-engineering-interview-questions-2026',
+    date: '2026-01-14',
+    readingTime: '9 min read',
+    imgPlaceholder: 'Technical Rubric Map: Evaluation Benchmarks Measuring Production System Engineering Readiness',
+    color: 'text-emerald-400',
+    borderHover: 'hover:border-emerald-500/40',
+    content: [
+      'Technical hiring rounds have matured significantly. Standard algorithmic puzzles are increasingly being replaced by complex system design scenarios. Interviewers want to see how you reason through real-world engineering constraints.',
+      'This article compiles and deconstructs verified architecture scenarios used by top tier tech teams this year. Learn to tackle open-ended engineering questions like: "How would you design a real-time data ingestion loop over volatile, updating documentation stores without corrupting vector index matches?"',
+      'We break down the grading rubrics used by technical panels, showing you how to clearly structure your answers around cost management, system reliability, evaluation metrics, and fallback strategies to prove you are production-ready.'
+    ]
+  }
 ];
-
-export function getBlogPost(slug: string): BlogPost | undefined {
-  return blogPosts.find((post) => post.slug === slug);
-}
-
-export function getFeaturedPosts(): BlogPost[] {
-  return blogPosts.filter((p) => p.featured);
-}
-
-export function getAllSlugs(): string[] {
-  return blogPosts.map((p) => p.slug);
-}
