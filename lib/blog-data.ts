@@ -1,3 +1,11 @@
+export interface ContentBlock {
+  type: 'paragraph' | 'image';
+  text?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  caption?: string;
+}
+
 export interface BlogPost {
   title: string;
   category: string;
@@ -5,14 +13,15 @@ export interface BlogPost {
   slug: string;
   date: string;
   readingTime: string;
-  imgPlaceholder: string;
+  imageUrl: string; // Master layout feature banner image
+  imageAlt: string;
   color: string;
   borderHover: string;
-  content: string[]; // Structured paragraphs or markdown segments
+  content: ContentBlock[]; // Dynamic ordered layout blocks array
 }
 
 export const BLOG_POSTS_DATA: BlogPost[] = [
-  // AI ROADMAPS
+  // CATEGORY 1: AI ROADMAPS
   {
     title: 'The Definitive 90-Day AI Engineer Roadmap for 2026',
     category: 'AI Roadmaps',
@@ -20,14 +29,33 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: '90-day-ai-engineer-roadmap-2026',
     date: '2026-05-28',
     readingTime: '8 min read',
-    imgPlaceholder: 'Flow Diagram: Skill Progression Pipeline from Foundation to Advanced Graph State Engines',
+    imageUrl: '/images/blog/90-day-roadmap.png',
+    imageAlt: 'Visual skill progression pipeline from foundation to advanced graph state engines',
     color: 'text-cyan-400',
     borderHover: 'hover:border-cyan-500/40',
     content: [
-      'The landscape of AI engineering in 2026 has fundamentally shifted from training models from scratch to architecting complex cognitive systems. If you are spending your first 30 days memorizing the calculus behind backpropagation, you are prepping for a research role that doesn’t match industry hiring velocity. Companies need engineers who can build, secure, and scale production systems.',
-      'Days 1–30: Master Advanced Python and Data Orchestration. Move past basic looping structures. You must master asynchronous programming (asyncio), structural data validation using Pydantic V2, and layout-aware document chunking engines. Your code needs to gracefully handle API rate limits and connection retries without crashing production workers.',
-      'Days 31–60: Deep Dive into Semantic Spaces and Vector Infrastructure. Learn how text strings transform into high-dimensional geometric vectors using dense transformer models. Practice building local indexing engines with FAISS before migrating your pipelines onto cloud clusters like Pinecone or Qdrant. Focus on understanding hybrid search mechanisms—combining raw keyword matching with semantic vector math.',
-      'Days 61–90: State Machines and Autonomous Orchestration. The era of simple sequential prompts is over. Complex business logic requires cyclical state evaluation graphs. Master frameworks like LangGraph to construct deterministic multi-agent networks featuring human-in-the-loop debugging checkpoints. This is the exact skill set that separates entry-level builders from enterprise architects.'
+      { type: 'paragraph', text: 'The landscape of AI engineering in 2026 has fundamentally shifted from training models from scratch to architecting complex cognitive systems. If you are spending your first 30 days memorizing the calculus behind backpropagation, you are prepping for a research role that doesn’t match industry hiring velocity. Companies need engineers who can build, secure, and scale production systems.' },
+      { type: 'paragraph', text: 'Days 1–30: Master Advanced Python and Data Orchestration. Move past basic looping structures. You must master asynchronous programming (asyncio), structural data validation using Pydantic V2, and layout-aware document chunking engines. Your code needs to gracefully handle API rate limits and connection retries without crashing production workers.' },
+      {
+        type: 'image',
+        imageUrl: '/images/blog/async-pipeline-flow.png',
+        imageAlt: 'Diagram showing asyncio orchestrator workers handling data pipelines',
+        caption: 'Figure 1.1: Asynchronous Task Orchestration and Rate-Limiting Mesh Pipeline Architecture.'
+      },
+      { type: 'paragraph', text: 'Days 31–60: Deep Dive into Semantic Spaces and Vector Infrastructure. Learn how text strings transform into high-dimensional geometric vectors using dense transformer models. Practice building local indexing engines with FAISS before migrating your pipelines onto cloud clusters like Pinecone or Qdrant. Focus on understanding hybrid search mechanisms—combining raw keyword matching with semantic vector math.' },
+      {
+        type: 'image',
+        imageUrl: '/images/blog/vector-indexing-mesh.png',
+        imageAlt: 'High-dimensional vector embedding space visualization map chart',
+        caption: 'Figure 1.2: Multi-Cluster High-Dimensional Vector Projection and Semantic Dense Space Indexing Mapping.'
+      },
+      { type: 'paragraph', text: 'Days 61–90: State Machines and Autonomous Orchestration. The era of simple sequential prompts is over. Complex business logic requires cyclical state evaluation graphs. Master frameworks like LangGraph to construct deterministic multi-agent networks featuring human-in-the-loop debugging checkpoints. This is the exact skill set that separates entry-level builders from enterprise architects.' },
+      {
+        type: 'image',
+        imageUrl: '/images/blog/multi-agent-graph.png',
+        imageAlt: 'LangGraph state diagram showing cyclical evaluation loops',
+        caption: 'Figure 1.3: Stateful Multi-Agent Communication Graph with Human-in-the-Loop Interceptors.'
+      }
     ]
   },
   {
@@ -37,13 +65,14 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'python-concurrency-production-ai',
     date: '2026-05-14',
     readingTime: '6 min read',
-    imgPlaceholder: 'Architecture Blueprint: Asynchronous Thread Scheduling Handling API Rate Limits',
+    imageUrl: '/images/blog/python-concurrency.png',
+    imageAlt: 'Architecture blueprint showing asynchronous thread scheduling handling API limits',
     color: 'text-cyan-400',
     borderHover: 'hover:border-cyan-500/40',
     content: [
-      'Jupyter notebooks are fantastic for dirty prototyping and exploratory analysis, but pushing a raw linear script into a production microservice cluster is an architectural disaster waiting to happen. Enterprise systems demand object-oriented structures, rigorous error handling, and robust concurrent orchestration layers.',
-      'When managing external LLM API endpoints, your system will inevitably encounter rate-limiting errors (HTTP 429). If your pipeline executes queries synchronously, a single blocked call stalls your entire data queue. Implementing Python’s `asyncio` allows your workers to yield execution threads during network I/O cycles, maximizing processor utility.',
-      'Furthermore, typing rules must be explicitly enforced. Utilizing Pydantic models to validate structural JSON payloads incoming from unstructured LLM outputs ensures runtime reliability. By building custom decorators to automate backoff and retry handling, your backend architecture remains resilient during traffic spikes.'
+      { type: 'paragraph', text: 'Jupyter notebooks are fantastic for dirty prototyping and exploratory analysis, but pushing a raw linear script into a production microservice cluster is an architectural disaster waiting to happen. Enterprise systems demand object-oriented structures, rigorous error handling, and robust concurrent orchestration layers.' },
+      { type: 'paragraph', text: 'When managing external LLM API endpoints, your system will inevitably encounter rate-limiting errors (HTTP 429). If your pipeline executes queries synchronously, a single blocked call stalls your entire data queue. Implementing Python’s asyncio allows your workers to yield execution threads during network I/O cycles, maximizing processor utility.' },
+      { type: 'paragraph', text: 'Furthermore, typing rules must be explicitly enforced. Utilizing Pydantic models to validate structural JSON payloads incoming from unstructured LLM outputs ensures runtime reliability. By building custom decorators to automate backoff and retry handling, your backend architecture remains resilient during traffic spikes.' }
     ]
   },
   {
@@ -53,13 +82,14 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'local-llm-infrastructure-quantization',
     date: '2026-04-22',
     readingTime: '10 min read',
-    imgPlaceholder: 'Hardware Layout: VRAM Allocation Matrix Across FP16 vs INT4 Tensors',
+    imageUrl: '/images/blog/local-llm-infrastructure-quantization.png',
+    imageAlt: 'Hardware Layout: VRAM Allocation Matrix Across FP16 vs INT4 Tensors',
     color: 'text-cyan-400',
     borderHover: 'hover:border-cyan-500/40',
     content: [
-      'Relying solely on closed commercial APIs introduces significant risks regarding data privacy, unpredictable token costs, and unexpected model depreciation. True architectural autonomy means mastering the orchestration of open-source models inside your own local or private cloud infrastructure clusters.',
-      'The major bottleneck when hosting localized models is video memory (VRAM). Running an unquantized 70-billion parameter model at full 16-bit precision requires over 140 GB of VRAM—a requirement that is cost-prohibitive for most startups. This guide breaks down quantization layers like AWQ and GPTQ, compressing models to 4-bit precision with minimal metric loss.',
-      'By utilizing serving runtimes like Ollama or vLLM, you can spin up OpenAI-compatible API servers locally. This configuration allows you to swap API connection layers seamlessly inside your software stack while keeping sensitive enterprise data completely isolated within local network parameters.'
+      { type: 'paragraph', text: 'Relying solely on closed commercial APIs introduces significant risks regarding data privacy, unpredictable token costs, and unexpected model depreciation. True architectural autonomy means mastering the orchestration of open-source models inside your own local or private cloud infrastructure clusters.' },
+      { type: 'paragraph', text: 'The major bottleneck when hosting localized models is video memory (VRAM). Running an unquantized 70-billion parameter model at full 16-bit precision requires over 140 GB of VRAM—a requirement that is cost-prohibitive for most startups. This guide breaks down quantization layers like AWQ and GPTQ, compressing models to 4-bit precision with minimal metric loss.' },
+      { type: 'paragraph', text: 'By utilizing serving runtimes like Ollama or vLLM, you can spin up OpenAI-compatible API servers locally. This configuration allows you to swap API connection layers seamlessly inside your software stack while keeping sensitive enterprise data completely isolated within local network parameters.' }
     ]
   },
   {
@@ -69,13 +99,14 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'vector-space-embeddings-math',
     date: '2026-03-11',
     readingTime: '5 min read',
-    imgPlaceholder: 'Geometric Chart: Dimensional Angular Distances within a 3D Tensor Projection Space',
+    imageUrl: '/images/blog/vector-space-embeddings-math.png',
+    imageAlt: 'Geometric Chart: Dimensional Angular Distances within a 3D Tensor Projection Space',
     color: 'text-cyan-400',
     borderHover: 'hover:border-cyan-500/40',
     content: [
-      'You do not need a Ph.D. in pure mathematics to deploy vector search architectures, but flying completely blind without understanding vector spatial mechanics will lead to poorly optimized indexing configurations. At its core, an embedding vector is just an ordered array of floating-point numbers describing coordinate vectors inside a multi-dimensional room.',
-      'When an embedding model processes a text fragment, it assigns it a point inside this high-dimensional coordinate system. Words or concepts that share semantic context are placed geometrically close to one another. To evaluate how similar two strings are, we calculate the angle between their coordinate paths using Cosine Similarity calculations.',
-      'Understanding this mathematical alignment allows you to optimize index configurations inside vector clusters. You can better evaluate when to rely on simple dot product calculations (ideal for normalized spaces) versus Euclidean distances, balancing lookup speed directly against matching accuracy.'
+      { type: 'paragraph', text: 'You do not need a Ph.D. in pure mathematics to deploy vector search architectures, but flying completely blind without understanding vector spatial mechanics will lead to poorly optimized indexing configurations. At its core, an embedding vector is just an ordered array of floating-point numbers describing coordinate vectors inside a multi-dimensional room.' },
+      { type: 'paragraph', text: 'When an embedding model processes a text fragment, it assigns it a point inside this high-dimensional coordinate system. Words or concepts that share semantic context are placed geometrically close to one another. To evaluate how similar two strings are, we calculate the angle between their coordinate paths using Cosine Similarity calculations.' },
+      { type: 'paragraph', text: 'Understanding this mathematical alignment allows you to optimize index configurations inside vector clusters. You can better evaluate when to rely on simple dot product calculations (ideal for normalized spaces) versus Euclidean distances, balancing lookup speed directly against matching accuracy.' }
     ]
   },
   {
@@ -85,17 +116,18 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'web-dev-to-ai-engineer-pivot',
     date: '2026-02-19',
     readingTime: '7 min read',
-    imgPlaceholder: 'System Stack Map: Layer Replacement Alignment (Database to Vector Store)',
+    imageUrl: '/images/blog/web-dev-to-ai-engineer-pivot.png',
+    imageAlt: 'System Stack Map: Layer Replacement Alignment (Database to Vector Store)',
     color: 'text-cyan-400',
     borderHover: 'hover:border-cyan-500/40',
     content: [
-      'If you can build structured web applications, manage user authentication states, and construct reliable REST or GraphQL APIs, you are already 70% of the way to becoming a highly effective Generative AI Engineer. The core skill shifts out of traditional state mutation logic and into the design of cognitive routing loops.',
-      'In a traditional application stack, user inputs map directly to deterministic relational database operations. In a cognitive stack, user text input passes into an embedding step, queries a vector store, fetches context, and parses non-deterministic strings back into application states.',
-      'Your existing experience with backend frameworks like Next.js makes you highly valuable. By framing LLMs as external asynchronous computing nodes with high latency profiles, you can apply standard software patterns like caching, streaming responses, and queue management to design blazing fast AI architectures.'
+      { type: 'paragraph', text: 'If you can build structured web applications, manage user authentication states, and construct reliable REST or GraphQL APIs, you are already 70% of the way to becoming a highly effective Generative AI Engineer. The core skill shifts out of traditional state mutation logic and into the design of cognitive routing loops.' },
+      { type: 'paragraph', text: 'In a traditional application stack, user inputs map directly to deterministic relational database operations. In a cognitive stack, user text input passes into an embedding step, queries a vector store, fetches context, and parses non-deterministic strings back into application states.' },
+      { type: 'paragraph', text: 'Your existing experience with backend frameworks like Next.js makes you highly valuable. By framing LLMs as external asynchronous computing nodes with high latency profiles, you can apply standard software patterns like caching, streaming responses, and queue management to design blazing fast AI architectures.' }
     ]
   },
 
-  // SYSTEM DESIGN
+  // CATEGORY 2: SYSTEM DESIGN
   {
     title: 'Production RAG: Layout-Aware Chunking Strategies',
     category: 'System Design',
@@ -103,13 +135,14 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'production-rag-layout-chunking',
     date: '2026-05-25',
     readingTime: '9 min read',
-    imgPlaceholder: 'Data Pipeline: PDF Hierarchical Node Tree Breaking Elements into Parent-Child Objects',
+    imageUrl: '/images/blog/production-rag-layout-chunking.png',
+    imageAlt: 'Data Pipeline: PDF Hierarchical Node Tree Breaking Elements into Parent-Child Objects',
     color: 'text-indigo-400',
     borderHover: 'hover:border-indigo-500/40',
     content: [
-      'Most naive Retrieval-Augmented Generation (RAG) tutorials tell you to split documents by grouping text every 500 characters. In production enterprise scenarios containing multi-column PDFs, financial statements, and embedded tables, this arbitrary split splits crucial context data in half, corrupting your downstream vector index accuracy.',
-      'Production-grade systems require layout-aware chunking. This strategy uses specialized parsing models to identify document structures—such as headers, tables, images, and paragraphs—independently. Instead of cutting blocks mid-sentence, text fragments are grouped logically based on document sections.',
-      'By appending hierarchical metadata strings to each chunk (e.g., matching a data point directly back to its parent header, page number, and document title), you empower your retrieval engine to supply clear context blocks to the model. This significantly mitigates hallucination rates.'
+      { type: 'paragraph', text: 'Most naive Retrieval-Augmented Generation (RAG) tutorials tell you to split documents by grouping text every 500 characters. In production enterprise scenarios containing multi-column PDFs, financial statements, and embedded tables, this arbitrary split splits crucial context data in half, corrupting your downstream vector index accuracy.' },
+      { type: 'paragraph', text: 'Production-grade systems require layout-aware chunking. This strategy uses specialized parsing models to identify document structures—such as headers, tables, images, and paragraphs—independently. Instead of cutting blocks mid-sentence, text fragments are grouped logically based on document sections.' },
+      { type: 'paragraph', text: 'By appending hierarchical metadata strings to each chunk (e.g., matching a data point directly back to its parent header, page number, and document title), you empower your retrieval engine to supply clear context blocks to the model. This significantly mitigates hallucination rates.' }
     ]
   },
   {
@@ -119,13 +152,14 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'langgraph-stateful-agent-swarms',
     date: '2026-05-02',
     readingTime: '12 min read',
-    imgPlaceholder: 'State Graph Canvas: Multi-Agent Asynchronous Supervisor Execution Tree Loop',
+    imageUrl: '/images/blog/langgraph-stateful-agent-swarms.png',
+    imageAlt: 'State Graph Canvas: Multi-Agent Asynchronous Supervisor Execution Tree Loop',
     color: 'text-indigo-400',
     borderHover: 'hover:border-indigo-500/40',
     content: [
-      'Simple linear prompting chains fall apart when tasked with handling complex, multi-step enterprise workflows. If an edge-case arises or a tool output encounters an exception, linear pipelines fail silently. Advanced operations require stateful, cyclical multi-agent architectures.',
-      'LangGraph transforms your system workflow into a structured, mathematical state graph. Individual computing steps act as nodes, while decision branches are defined as edges. This layout allows agents to loop back recursively to fix mistakes, double-check factual details, or consult specialized sub-agents.',
-      'By implementing a centralized state object schema, every node inside your graph reads from and writes to a single, secure source of truth. Adding human-in-the-loop validation barriers into this state loop allows operations to halt gracefully during high-risk actions, waiting for physical manual confirmation before proceeding.'
+      { type: 'paragraph', text: 'Simple linear prompting chains fall apart when tasked with handling complex, multi-step enterprise workflows. If an edge-case arises or a tool output encounters an exception, linear pipelines fail silently. Advanced operations require stateful, cyclical multi-agent architectures.' },
+      { type: 'paragraph', text: 'LangGraph transforms your system workflow into a structured, mathematical state graph. Individual computing steps act as nodes, while decision branches are defined as edges. This layout allows agents to loop back recursively to fix mistakes, double-check factual details, or consult specialized sub-agents.' },
+      { type: 'paragraph', text: 'By implementing a centralized state object schema, every node inside your graph reads from and writes to a single, secure source of truth. Adding human-in-the-loop validation barriers into this state loop allows operations to halt gracefully during high-risk actions, waiting for physical manual confirmation before proceeding.' }
     ]
   },
   {
@@ -135,13 +169,14 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'hybrid-search-pinecone-azure',
     date: '2026-04-10',
     readingTime: '8 min read',
-    imgPlaceholder: 'Cloud Topology: Reciprocal Rank Fusion (RRF) Blending Layer Architecture',
+    imageUrl: '/images/blog/hybrid-search-pinecone-azure.png',
+    imageAlt: 'Cloud Topology: Reciprocal Rank Fusion (RRF) Blending Layer Architecture',
     color: 'text-indigo-400',
     borderHover: 'hover:border-indigo-500/40',
     content: [
-      'Dense neural vectors excel at understanding fuzzy semantic concepts, but they can struggle with exact term lookups like serial numbers, localized product IDs, or specific legal codes. To build a robust search system, you need to combine keyword matching with vector logic.',
-      'Hybrid search combines traditional keyword retrieval models (like BM25) with dense vector mathematical spaces into a single index query. When a user submits a query, both lookup paths execute in parallel across your Azure or Pinecone database environments.',
-      'The crucial step occurs during the ranking synthesis phase using Reciprocal Rank Fusion (RRF) equations. This algorithm takes the distinct score sheets from both lookups, balances them based on customizable weight configurations, and compiles a clean context payload to feed your model.'
+      { type: 'paragraph', text: 'Dense neural vectors excel at understanding fuzzy semantic concepts, but they can struggle with exact term lookups like serial numbers, localized product IDs, or specific legal codes. To build a robust search system, you need to combine keyword matching with vector logic.' },
+      { type: 'paragraph', text: 'Hybrid search combines traditional keyword retrieval models (like BM25) with dense vector mathematical spaces into a single index query. When a user submits a query, both lookup paths execute in parallel across your Azure or Pinecone database environments.' },
+      { type: 'paragraph', text: 'The crucial step occurs during the ranking synthesis phase using Reciprocal Rank Fusion (RRF) equations. This algorithm takes the distinct score sheets from both lookups, balances them based on customizable weight configurations, and compiles a clean context payload to feed your model.' }
     ]
   },
   {
@@ -151,13 +186,14 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'text-to-sql-security-guardrails',
     date: '2026-03-29',
     readingTime: '7 min read',
-    imgPlaceholder: 'Security Matrix Flow: Input Prompt Filtering Preventing Query Drops and Unauthorized Injections',
+    imageUrl: '/images/blog/text-to-sql-security-guardrails.png',
+    imageAlt: 'Security Matrix Flow: Input Prompt Filtering Preventing Query Drops and Unauthorized Injections',
     color: 'text-indigo-400',
     borderHover: 'hover:border-indigo-500/40',
     content: [
-      'Enabling an LLM to generate code instructions that execute directly on your production databases is incredibly powerful, but it introduces major security vulnerabilities. Without strict guardrails, unexpected user prompts or malicious exploits can result in severe data leaks or catastrophic database drops.',
-      'First, never expose your actual database schema names directly to raw model context layers. Instead, utilize safe middleware mapping configurations that present virtualized, read-only system abstractions to the LLM agent.',
-      'Second, pass all generated SQL queries through an isolated database validation proxy layer before execution. This sandbox parses the syntax to confirm it contains zero mutate keywords (like DROP, ALTER, or DELETE) and explicitly limits row transaction returns, securing your core records from exploitation.'
+      { type: 'paragraph', text: 'Enabling an LLM to generate code instructions that execute directly on your production databases is incredibly powerful, but it introduces major security vulnerabilities. Without strict guardrails, unexpected user prompts or malicious exploits can result in severe data leaks or catastrophic database drops.' },
+      { type: 'paragraph', text: 'First, never expose your actual database schema names directly to raw model context layers. Instead, utilize safe middleware mapping configurations that present virtualized, read-only system abstractions to the LLM agent.' },
+      { type: 'paragraph', text: 'Second, pass all generated SQL queries through an isolated database validation proxy layer before execution. This sandbox parses the syntax to confirm it contains zero mutate keywords (like DROP, ALTER, or DELETE) and explicitly limits row transaction returns, securing your core records from exploitation.' }
     ]
   },
   {
@@ -167,17 +203,18 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'graph-rag-neo4j-entity-mapping',
     date: '2026-02-05',
     readingTime: '11 min read',
-    imgPlaceholder: 'Knowledge Graph Visualization: Linked Structural Nodes and Attribute Link Properties',
+    imageUrl: '/images/blog/graph-rag-neo4j-entity-mapping.png',
+    imageAlt: 'Knowledge Graph Visualization: Linked Structural Nodes and Attribute Link Properties',
     color: 'text-indigo-400',
     borderHover: 'hover:border-indigo-500/40',
     content: [
-      'Standard vector lookups can miss global structural relationships across large document collections. If a user asks, "What are the core common failure modes across all healthcare claims processed this quarter?", flat semantic lookups will fetch disjointed fragments instead of a unified perspective. This is where GraphRAG shines.',
-      'By processing raw document logs with specialized entity extraction pipelines, you map data into a relational knowledge network inside a graph database like Neo4j. This maps explicit conceptual entities (such as clients, software versions, and bug reports) as connected nodes.',
-      'When executing search tasks, your system queries this structural network map to track deep connections. Blending network graph insights with vector data gives you a highly comprehensive context window, perfect for processing complex analytical requests.'
+      { type: 'paragraph', text: 'Standard vector lookups can miss global structural relationships across large document collections. If a user asks, "What are the core common failure modes across all healthcare claims processed this quarter?", flat semantic lookups will fetch disjointed fragments instead of a unified perspective. This is where GraphRAG shines.' },
+      { type: 'paragraph', text: 'By processing raw document logs with specialized entity extraction pipelines, you map data into a relational knowledge network inside a graph database like Neo4j. This maps explicit conceptual entities (such as clients, software versions, and bug reports) as connected nodes.' },
+      { type: 'paragraph', text: 'When executing search tasks, your system queries this structural network map to track deep connections. Blending network graph insights with vector data gives you a highly comprehensive context window, perfect for processing complex analytical requests.' }
     ]
   },
 
-  // CAREER STRATEGY
+  // CATEGORY 3: CAREER STRATEGY
   {
     title: 'Tear Down Your Tutorial Code: Building "Senior-Level" Portfolios',
     category: 'Career Strategy',
@@ -185,13 +222,14 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'senior-level-ai-portfolio-teardown',
     date: '2026-05-20',
     readingTime: '6 min read',
-    imgPlaceholder: 'Portfolio Blueprint: Structuring Repositories for Linting, Testing, and System Deployment Layouts',
+    imageUrl: '/images/blog/senior-level-ai-portfolio-teardown.png',
+    imageAlt: 'Portfolio Blueprint: Structuring Repositories for Linting, Testing, and System Deployment Layouts',
     color: 'text-emerald-400',
     borderHover: 'hover:border-emerald-500/40',
     content: [
-      'The market is saturated with entry-level certificates and basic API wrapper apps. If your primary GitHub portfolio project is a simple UI connected directly to an unmonitored model endpoint, hiring managers will glance past it. To stand out, your repositories must reflect real-world engineering discipline.',
-      'Your projects should demonstrate production best practices: include comprehensive unit testing suites, clean modular file splitting, automated linting setups, and detailed system architecture diagrams inside your README files. Show that you design with security, monitoring, and infrastructure cost controls in mind.',
-      'Instead of a standard generic chatbot, build a project that handles complex engineering constraints. For example, implement an automated code auditor that monitors real-time webhook payloads, handles state memory with Redis caches, and manages errors gracefully. Proving you can solve real production challenges is what lands offers.'
+      { type: 'paragraph', text: 'The market is saturated with entry-level certificates and basic API wrapper apps. If your primary GitHub portfolio project is a simple UI connected directly to an unmonitored model endpoint, hiring managers will glance past it. To stand out, your repositories must reflect real-world engineering discipline.' },
+      { type: 'paragraph', text: 'Your projects should demonstrate production best practices: include comprehensive unit testing suites, clean modular file splitting, automated linting setups, and detailed system architecture diagrams inside your README files. Show that you design with security, monitoring, and infrastructure cost controls in mind.' },
+      { type: 'paragraph', text: 'Instead of a standard generic chatbot, build a project that handles complex engineering constraints. For example, implement an automated code auditor that monitors real-time webhook payloads, handles state memory with Redis caches, and manages errors gracefully. Proving you can solve real production challenges is what lands offers.' }
     ]
   },
   {
@@ -201,13 +239,14 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'bypass-ats-ai-resume-positioning',
     date: '2026-04-18',
     readingTime: '5 min read',
-    imgPlaceholder: 'Resume Comparative Matrix: Highlighting Ineffective Phrase Transformations to Dynamic Structural Keywords',
+    imageUrl: '/images/blog/bypass-ats-ai-resume-positioning.png',
+    imageAlt: 'Resume Comparative Matrix: Highlighting Ineffective Phrase Transformations to Dynamic Structural Keywords',
     color: 'text-emerald-400',
     borderHover: 'hover:border-emerald-500/40',
     content: [
-      'Applicant Tracking Systems (ATS) reject hundreds of technical resumes before a human engineer ever sees them. If your resume uses generic bullet points like "Gained experience with AI models," it will likely fail standard automated filtering benchmarks.',
-      'Re-engineer your experience blocks to highlight concrete engineering metrics. Shift from passive phrases to impact-driven statements, for example: "Architected an automated multi-threaded document parsing pipeline using LangChain and Pinecone, reducing context extraction latency by 42% and processing 10k+ PDFs daily."',
-      'Make sure to cleanly weave core industry technical terms—such as prompt tracking, evaluation workflows, dense semantic vectors, and data caching—directly into your experience descriptions. This aligns your profile with the exact keywords senior engineering managers scan for.'
+      { type: 'paragraph', text: 'Applicant Tracking Systems (ATS) reject hundreds of technical resumes before a human engineer ever sees them. If your resume uses generic bullet points like "Gained experience with AI models," it will likely fail standard automated filtering benchmarks.' },
+      { type: 'paragraph', text: 'Re-engineer your experience blocks to highlight concrete engineering metrics. Shift from passive phrases to impact-driven statements, for example: "Architected an automated multi-threaded document parsing pipeline using LangChain and Pinecone, reducing context extraction latency by 42% and processing 10k+ PDFs daily."' },
+      { type: 'paragraph', text: 'Make sure to cleanly weave core industry technical terms—such as prompt tracking, evaluation workflows, dense semantic vectors, and data caching—directly into your experience descriptions. This aligns your profile with the exact keywords senior engineering managers scan for.' }
     ]
   },
   {
@@ -217,13 +256,14 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'articulate-ai-code-technical-interviews',
     date: '2026-03-15',
     readingTime: '7 min read',
-    imgPlaceholder: 'STAR Format Workflow: System Architecture Decomposition Blueprint Mapping Grid',
+    imageUrl: '/images/blog/articulate-ai-code-technical-interviews.png',
+    imageAlt: 'STAR Format Workflow: System Architecture Decomposition Blueprint Mapping Grid',
     color: 'text-emerald-400',
     borderHover: 'hover:border-emerald-500/40',
     content: [
-      'Succeeding in an advanced systems interview requires more than just writing functional code on a digital whiteboard. You need to articulate the architectural decisions behind your code layout clearly and effectively.',
-      'When discussing a project build, walk through your technical choices using a structured framework: explicitly define your system inputs, outline your database choice, address latency challenges, and detail your evaluation strategy. Explain exactly why you chose a specific chunk size or re-ranking layer.',
-      'Be prepared to discuss production trade-offs openly. Talk about how you monitor token costs, mitigate system latency with semantic caching layers, and track operational health using tools like LangSmith. Demonstrating this level of engineering foresight signals to interviewers that you think like a senior architect.'
+      { type: 'paragraph', text: 'Succeeding in an advanced systems interview requires more than just writing functional code on a digital whiteboard. You need to articulate the architectural decisions behind your code layout clearly and effectively.' },
+      { type: 'paragraph', text: 'When discussing a project build, walk through your technical choices using a structured framework: explicitly define your system inputs, outline your database choice, address latency challenges, and detail your evaluation strategy. Explain exactly why you chose a specific chunk size or re-ranking layer.' },
+      { type: 'paragraph', text: 'Be prepared to discuss production trade-offs openly. Talk about how you monitor token costs, mitigate system latency with semantic caching layers, and track operational health using tools like LangSmith. Demonstrating this level of engineering foresight signals to interviewers that you think like a senior architect.' }
     ]
   },
   {
@@ -233,13 +273,14 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'senior-tech-career-pivots-ai',
     date: '2026-02-27',
     readingTime: '8 min read',
-    imgPlaceholder: 'Career Growth Mapping: Intersecting Core Legacy Strengths with Advanced Cognitive Architecture Models',
+    imageUrl: '/images/blog/senior-tech-career-pivots-ai.png',
+    imageAlt: 'Career Growth Mapping: Intersecting Core Legacy Strengths with Advanced Cognitive Architecture Models',
     color: 'text-emerald-400',
     borderHover: 'hover:border-emerald-500/40',
     content: [
-      'Transitioning into generative AI engineering doesn’t mean discarding your hard-earned software or analytical experience. Senior full-stack developers and data professionals possess a massive competitive advantage: they already know how to ship stable production code.',
-      'The key is learning to frame your legacy expertise through an AI lens. Your years spent designing secure databases, building scalable APIs, and managing cloud deployments are exactly what companies need to take AI prototypes into production.',
-      'Focus your upskilling on cognitive orchestration layers, chunking strategies, and vector data management. By bridging the gap between traditional backend stability and modern non-deterministic AI outputs, you can position yourself for senior roles without resetting your career trajectory.'
+      { type: 'paragraph', text: 'Transitioning into generative AI engineering doesn’t mean discarding your hard-earned software or analytical experience. Senior full-stack developers and data professionals possess a massive competitive advantage: they already know how to ship stable production code.' },
+      { type: 'paragraph', text: 'The key is learning to frame your legacy expertise through an AI lens. Your years spent designing secure databases, building scalable APIs, and managing cloud deployments are exactly what companies need to take AI prototypes into production.' },
+      { type: 'paragraph', text: 'Focus your upskilling on cognitive orchestration layers, chunking strategies, and vector data management. By bridging the gap between traditional backend stability and modern non-deterministic AI outputs, you can position yourself for senior roles without resetting your career trajectory.' }
     ]
   },
   {
@@ -249,13 +290,14 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     slug: 'ai-engineering-interview-questions-2026',
     date: '2026-01-14',
     readingTime: '9 min read',
-    imgPlaceholder: 'Technical Rubric Map: Evaluation Benchmarks Measuring Production System Engineering Readiness',
+    imageUrl: '/images/blog/ai-engineering-interview-questions-2026.png',
+    imageAlt: 'Technical Rubric Map: Evaluation Benchmarks Measuring Production System Engineering Readiness',
     color: 'text-emerald-400',
     borderHover: 'hover:border-emerald-500/40',
     content: [
-      'Technical hiring rounds have matured significantly. Standard algorithmic puzzles are increasingly being replaced by complex system design scenarios. Interviewers want to see how you reason through real-world engineering constraints.',
-      'This article compiles and deconstructs verified architecture scenarios used by top tier tech teams this year. Learn to tackle open-ended engineering questions like: "How would you design a real-time data ingestion loop over volatile, updating documentation stores without corrupting vector index matches?"',
-      'We break down the grading rubrics used by technical panels, showing you how to clearly structure your answers around cost management, system reliability, evaluation metrics, and fallback strategies to prove you are production-ready.'
+      { type: 'paragraph', text: 'Technical hiring rounds have matured significantly. Standard algorithmic puzzles are increasingly being replaced by complex system design scenarios. Interviewers want to see how you reason through real-world engineering constraints.' },
+      { type: 'paragraph', text: 'This article compiles and deconstructs verified architecture scenarios used by top tier tech teams this year. Learn to tackle open-ended engineering questions like: "How would you design a real-time data ingestion loop over volatile, updating documentation stores without corrupting vector index matches?"' },
+      { type: 'paragraph', text: 'We break down the grading rubrics used by technical panels, showing you how to clearly structure your answers around cost management, system reliability, evaluation metrics, and fallback strategies to prove you are production-ready.' }
     ]
   }
 ];
