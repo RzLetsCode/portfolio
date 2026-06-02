@@ -6,8 +6,7 @@ import {
   Clock, 
   ArrowLeft, 
   Calendar, 
-  Image as ImageIcon,
-  Menu,
+  Menu, 
   X 
 } from 'lucide-react';
 import { BlogPost } from '../../../lib/blog-data';
@@ -35,7 +34,7 @@ export default function PostReaderClient({ post }: PostReaderClientProps) {
 
   return (
     <>
-      {/* Top Navigation Bar */}
+      {/* Top Fixed Header Bar */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#0f172a]/95 backdrop-blur-sm border-b border-cyan-500/20' : 'bg-[#0f172a]/90 backdrop-blur-sm'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
           <Link href="/" className="flex items-center gap-2 text-cyan-400 font-bold text-base sm:text-lg shrink-0" onClick={() => setMobileMenuOpen(false)}>
@@ -62,17 +61,15 @@ export default function PostReaderClient({ post }: PostReaderClientProps) {
         )}
       </nav>
 
-      {/* Main Reading Viewport Layout */}
+      {/* Main Content Layout Container */}
       <main className="pt-24 min-h-screen bg-[#0f172a] flex flex-col justify-between">
         <div className="max-w-4xl mx-auto w-full px-6 py-12 flex-grow">
           
-          {/* Back to Index Nav Hook */}
           <Link href="/blog/" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 hover:text-cyan-400 transition-colors mb-8 group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             <span>Back to Chronicles</span>
           </Link>
 
-          {/* Article Typography Meta Segment */}
           <header className="mb-10">
             <span className={`text-xs font-black tracking-widest uppercase ${post.color} bg-slate-950 px-3 py-1.5 rounded-md border border-slate-800/80`}>
               {post.category}
@@ -93,29 +90,51 @@ export default function PostReaderClient({ post }: PostReaderClientProps) {
             </div>
           </header>
 
-          {/* Dynamic Image Schematic Box */}
-          <div className="w-full h-64 md:h-96 bg-[#090f20] border border-slate-800 rounded-2xl flex flex-col justify-center items-center text-center p-6 mb-12 shadow-inner">
-            <div className="w-12 h-12 rounded-xl bg-slate-900/90 border border-slate-800/80 flex items-center justify-center text-cyan-400 mb-4 shadow-md shadow-cyan-500/5">
-              <ImageIcon className="w-6 h-6 animate-pulse" />
-            </div>
-            <p className="text-xs md:text-sm font-mono text-slate-400 max-w-xl leading-relaxed">
-              {post.imgPlaceholder}
-            </p>
-            <span className="text-[10px] text-slate-600 tracking-widest uppercase mt-4 block">
-              Ecosystem Blueprint Schema // code2career_ai
-            </span>
+          {/* Master Post Cover Hero Image Container */}
+          <div className="w-full relative rounded-2xl overflow-hidden border border-slate-800 bg-[#090f20] mb-12 shadow-xl">
+            <img 
+              src={post.imageUrl} 
+              alt={post.imageAlt}
+              className="w-full h-auto max-h-[440px] object-cover mx-auto"
+            />
           </div>
 
-          {/* Core Body Content Paragraph Render Loops */}
-          <article className="space-y-6 text-slate-300 text-base md:text-lg leading-relaxed font-normal tracking-wide border-b border-slate-800/60 pb-16">
-            {post.content.map((paragraph, index) => (
-              <p key={index} className="first-letter:text-xl first-letter:font-bold first-letter:text-white">
-                {paragraph}
-              </p>
-            ))}
+          {/* Conditional Layout Parser Rendering Unlimited Text & Structural Images */}
+          <article className="space-y-8 text-slate-300 text-base md:text-lg leading-relaxed font-normal tracking-wide border-b border-slate-800/60 pb-16">
+            {post.content.map((block, index) => {
+              if (block.type === 'paragraph') {
+                return (
+                  <p key={index} className="first-letter:text-xl first-letter:font-bold first-letter:text-white">
+                    {block.text}
+                  </p>
+                );
+              }
+
+              if (block.type === 'image') {
+                return (
+                  <div key={index} className="my-10 w-full group">
+                    <div className="rounded-xl overflow-hidden border border-slate-800 bg-[#090f20] shadow-md transition-all duration-300 group-hover:border-slate-700/60">
+                      <img 
+                        src={block.imageUrl} 
+                        alt={block.imageAlt || 'Technical layout blueprint schematic'} 
+                        className="w-full h-auto max-h-[500px] object-contain mx-auto block"
+                        loading="lazy"
+                      />
+                    </div>
+                    {block.caption && (
+                      <p className="mt-3 text-center text-xs font-mono text-slate-500 tracking-wide max-w-2xl mx-auto leading-normal">
+                        {block.caption}
+                      </p>
+                    )}
+                  </div>
+                );
+              }
+
+              return null;
+            })}
           </article>
 
-          {/* Next Read Footer Callout Block */}
+          {/* Call to Action Layer */}
           <div className="mt-16 bg-gradient-to-r from-slate-900 via-[#0a142e] to-slate-900 border border-slate-800 rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
             <div>
               <h3 className="text-lg font-bold text-white mb-1">Ready to design this architecture live?</h3>
@@ -128,7 +147,7 @@ export default function PostReaderClient({ post }: PostReaderClientProps) {
 
         </div>
 
-        {/* Dynamic Copyright Footer */}
+        {/* Dynamic Static-Safe Footer */}
         <footer className="border-t border-white/10 py-8 px-6 bg-[#090f1e] w-full">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <span className="text-cyan-400 font-bold">code2career_ai</span>
