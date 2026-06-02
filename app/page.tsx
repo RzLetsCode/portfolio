@@ -14,7 +14,7 @@ import {
   X
 } from 'lucide-react';
 
-// Section components
+// Section components (Mentorship import removed during refactor)
 import Hero from '../components/Hero';
 import Journey from '../components/Journey';
 import Audience from '../components/Audience';
@@ -214,11 +214,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Mentorship */}
-        <section id="mentorship" style={{ scrollMarginTop: '70px' }}>
-          <Mentorship />
-        </section>
-
         {/* Call To Action Block */}
         <section className="relative py-32 px-6 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent pointer-events-none" />
@@ -259,7 +254,6 @@ export default function Home() {
               <a href="https://www.linkedin.com/company/code2career-ai/" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-400 transition-colors">
                 <Linkedin className="w-5 h-5" />
               </a>
-              {/* Hashnode target swapped to your platform internal dynamic /blog/ route */}
               <Link href="/blog/" className="text-gray-500 hover:text-cyan-400 transition-colors">
                 <Globe className="w-5 h-5" />
               </Link>
