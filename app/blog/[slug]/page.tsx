@@ -1,163 +1,164 @@
-import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+'use client';
+
+import { use, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { getBlogPost, getAllSlugs, blogPosts } from '../../../lib/blog-data';
+import { 
+  Clock, 
+  ArrowLeft, 
+  BookOpen, 
+  Calendar, 
+  Image as ImageIcon,
+  Menu,
+  X 
+} from 'lucide-react';
+import { BLOG_POSTS_DATA } from '../../../lib/blog-data';
 
-type Props = { params: Promise<{ slug: string }> };
-
-export async function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }));
+interface PageProps {
+  params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const post = getBlogPost(slug);
-  if (!post) return { title: 'Post Not Found' };
-  return {
-    title: `${post.title} | code2career_ai`,
-    description: post.excerpt,
-    alternates: { canonical: `https://code2careerai.com/blog/${slug}` },
-    openGraph: {
-      title: post.title,
-      description: post.excerpt,
-      url: `https://code2careerai.com/blog/${slug}`,
-      type: 'article',
-      publishedTime: post.date,
-    },
-  };
-}
+export default function BlogPostReaderPage({ params }: PageProps) {
+  // Safe unwrap using React.use() hook pattern required for Next.js async params handling
+  const resolvedParams = use(params);
+  const currentSlug = resolvedParams.slug;
+  
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
-}
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-const CATEGORY_COLORS: Record<string, string> = {
-  Roadmap: '#22d3ee',
-  Technical: '#818cf8',
-  Career: '#34d399',
-};
+  const post = BLOG_POSTS_DATA.find((p) => p.slug === currentSlug);
 
-export default async function BlogPostPage({ params }: Props) {
-  const { slug } = await params;
-  const post = getBlogPost(slug);
-  if (!post) notFound();
+  // Fallback state if path parameter fails matching lookups
+  if (!post) {
+    return (
+      <div className="min-h-screen bg-[#0f172a] text-white flex flex-col justify-center items-center p-6 text-center">
+        <h1 className="text-3xl font-black mb-2">404: Architecture Log Missing</h1>
+        <p className="text-slate-400 mb-6 text-sm">The specific configuration blueprint data could not be indexed.</p>
+        <Link href="/blog/" className="bg-cyan-500 text-black px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider">
+          Return to Blog Central
+        </Link>
+      </div>
+    );
+  }
 
-  const related = blogPosts.filter((p) => p.slug !== slug && p.category === post.category).slice(0, 2);
-
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: post.title,
-    description: post.excerpt,
-    datePublished: post.date,
-    author: { '@type': 'Organization', name: 'code2career_ai', url: 'https://code2careerai.com' },
-    publisher: { '@type': 'Organization', name: 'code2career_ai', url: 'https://code2careerai.com' },
-    url: `https://code2careerai.com/blog/${slug}`,
-    keywords: post.tags.join(', '),
-  };
+  const navItems = [
+    { label: 'Home', href: '/', dynamicPage: true },
+    { label: 'Roadmaps & Resources', href: '/resources/', dynamicPage: true },
+    { label: 'Projects', href: '/projects/', dynamicPage: true },
+    { label: 'Pricing', href: '/pricing/', dynamicPage: true },
+  ];
 
   return (
-    <main style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#f9fafb' }}>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-
-      {/* Nav */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(15,23,42,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(51,65,85,0.5)', padding: '0 2rem', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link href="/" style={{ color: '#22d3ee', fontFamily: 'monospace', fontSize: '1rem', textDecoration: 'none' }}>
-          &lt;&gt; code2career_ai
-        </Link>
-        <Link href="/blog" style={{ color: '#94a3b8', fontSize: '0.875rem', textDecoration: 'none' }}>
-          &larr; All Posts
-        </Link>
-      </nav>
-
-      <article style={{ maxWidth: '740px', margin: '0 auto', padding: '4rem 1.5rem 6rem' }}>
-
-        {/* Meta row */}
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '0.7rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: CATEGORY_COLORS[post.category] || '#22d3ee', fontWeight: 600, border: `1px solid ${CATEGORY_COLORS[post.category] || '#22d3ee'}33`, borderRadius: '999px', padding: '0.2rem 0.6rem' }}>
-            {post.category}
-          </span>
-          <span style={{ color: '#475569', fontSize: '0.8rem' }}>{formatDate(post.date)}</span>
-          <span style={{ color: '#334155', fontSize: '0.8rem' }}>·</span>
-          <span style={{ color: '#475569', fontSize: '0.8rem' }}>{post.readingTime}</span>
-        </div>
-
-        {/* Title */}
-        <h1 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.6rem)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '1.25rem', color: '#f9fafb' }}>
-          {post.title}
-        </h1>
-
-        {/* Excerpt */}
-        <p style={{ fontSize: '1.1rem', color: '#94a3b8', lineHeight: 1.7, marginBottom: '2.5rem', borderLeft: '3px solid #22d3ee', paddingLeft: '1rem' }}>
-          {post.excerpt}
-        </p>
-
-        {/* Tags */}
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
-          {post.tags.map((tag) => (
-            <span key={tag} style={{ fontSize: '0.72rem', padding: '0.25rem 0.65rem', borderRadius: '999px', border: '1px solid rgba(51,65,85,0.8)', color: '#64748b', letterSpacing: '0.06em' }}>
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {/* Content */}
-        <div
-          style={{
-            fontSize: '1rem',
-            lineHeight: 1.8,
-            color: '#cbd5e1',
-          }}
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-
-        {/* Divider */}
-        <div style={{ borderTop: '1px solid rgba(51,65,85,0.5)', margin: '3rem 0' }} />
-
-        {/* Author */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '3rem' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'linear-gradient(135deg, #22d3ee, #38bdf8)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', fontWeight: 800, color: '#020617', flexShrink: 0 }}>R</div>
-          <div>
-            <p style={{ fontWeight: 600, color: '#f9fafb', fontSize: '0.9rem', margin: 0 }}>code2career_ai</p>
-            <p style={{ color: '#64748b', fontSize: '0.8rem', margin: 0 }}>AI Career Platform for Freshers &bull; Hinjawadi, Pune</p>
+    <>
+      {/* Top Navigation Bar */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#0f172a]/95 backdrop-blur-sm border-b border-cyan-500/20' : 'bg-[#0f172a]/90 backdrop-blur-sm'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
+          <Link href="/" className="flex items-center gap-2 text-cyan-400 font-bold text-base sm:text-lg shrink-0" onClick={() => setMobileMenuOpen(false)}>
+            <span className="text-gray-400">&lt;&gt;</span>
+            <span>code2career_ai</span>
+          </Link>
+          <div className="hidden lg:flex items-center gap-6">
+            {navItems.map((item) => (
+              <Link key={item.label} href={item.href} className="text-gray-300 hover:text-cyan-400 transition-colors text-sm font-medium">{item.label}</Link>
+            ))}
           </div>
+          <Link href="/contact/" className="hidden lg:block bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-5 py-2 rounded-full text-sm transition-colors tracking-wide">GET IN TOUCH</Link>
+          <button type="button" onClick={() => setMobileMenuOpen((p) => !p)} className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-full border border-cyan-500/30 text-cyan-400 bg-[#111c3a]/80">
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
-
-        {/* Related Posts */}
-        {related.length > 0 && (
-          <div>
-            <h2 style={{ fontSize: '0.75rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#64748b', marginBottom: '1rem' }}>Related Articles</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {related.map((r) => (
-                <Link key={r.slug} href={`/blog/${r.slug}`} style={{ textDecoration: 'none', borderRadius: '12px', border: '1px solid rgba(51,65,85,0.7)', background: 'rgba(15,23,42,0.8)', padding: '1rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '0.9rem', color: '#f9fafb', fontWeight: 500 }}>{r.title}</span>
-                  <span style={{ color: '#22d3ee', flexShrink: 0 }}>&rarr;</span>
-                </Link>
-              ))}
-            </div>
+        {mobileMenuOpen && (
+          <div className="lg:hidden border-t border-cyan-500/20 bg-[#0b1220]/98 p-4 flex flex-col gap-2">
+            {navItems.map((item) => (
+              <Link key={item.href} href={item.href} onClick={() => setMobileMenuOpen(false)} className="text-gray-200 hover:text-cyan-400 px-4 py-3 text-sm font-medium rounded-xl hover:bg-cyan-500/10">{item.label}</Link>
+            ))}
+            <Link href="/contact/" onClick={() => setMobileMenuOpen(false)} className="bg-cyan-500 text-black text-center font-bold py-3 rounded-full text-sm mt-2">GET IN TOUCH</Link>
           </div>
         )}
+      </nav>
 
-        {/* CTA */}
-        <div style={{ marginTop: '3.5rem', borderRadius: '20px', border: '1px solid rgba(30,64,175,0.7)', background: 'radial-gradient(circle at top left, rgba(56,189,248,0.12), transparent 60%), rgba(15,23,42,0.97)', padding: '2rem', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem' }}>Want a personalized AI roadmap?</h2>
-          <p style={{ color: '#94a3b8', marginBottom: '1.25rem', fontSize: '0.9rem' }}>Start free. No credit card required.</p>
-          <Link href="/contact?plan=explore" style={{ background: 'linear-gradient(135deg, #22d3ee, #38bdf8)', color: '#020617', fontWeight: 700, padding: '0.7rem 1.75rem', borderRadius: '999px', textDecoration: 'none', fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            Start Free
+      {/* Main Reading Viewport Layout */}
+      <main className="pt-24 min-h-screen bg-[#0f172a] flex flex-col justify-between">
+        <div className="max-w-4xl mx-auto w-full px-6 py-12 flex-grow">
+          
+          {/* Back to Index Nav Hook */}
+          <Link href="/blog/" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 hover:text-cyan-400 transition-colors mb-8 group">
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+            <span>Back to Chronicles</span>
           </Link>
-        </div>
-      </article>
 
-      {/* Blog post content styles */}
-      <style>{`
-        article h2 { font-size: 1.4rem; font-weight: 700; color: #f9fafb; margin: 2rem 0 0.75rem; letter-spacing: -0.02em; }
-        article h3 { font-size: 1.1rem; font-weight: 600; color: #e5e7eb; margin: 1.5rem 0 0.5rem; }
-        article p { margin-bottom: 1.25rem; }
-        article ul, article ol { padding-left: 1.5rem; margin-bottom: 1.25rem; }
-        article li { margin-bottom: 0.5rem; }
-        article a { color: #22d3ee; text-decoration: underline; text-underline-offset: 3px; }
-        article strong { color: #f9fafb; font-weight: 700; }
-      `}</style>
-    </main>
+          {/* Article Typography Meta Segment */}
+          <header className="mb-10">
+            <span className={`text-xs font-black tracking-widest uppercase ${post.color} bg-slate-950 px-3 py-1.5 rounded-md border border-slate-800/80`}>
+              {post.category}
+            </span>
+            <h1 className="text-3xl md:text-5xl font-black text-white mt-6 mb-4 tracking-tight leading-tight">
+              {post.title}
+            </h1>
+            
+            <div className="flex flex-wrap items-center gap-4 text-slate-500 text-xs font-mono pt-2">
+              <div className="flex items-center gap-1.5">
+                <Calendar className="w-4 h-4" />
+                <span>Published: {post.date}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Clock className="w-4 h-4" />
+                <span>{post.readingTime}</span>
+              </div>
+            </div>
+          </header>
+
+          {/* Explicit Layout Image Visualization Component Box */}
+          <div className="w-full h-64 md:h-96 bg-[#090f20] border border-slate-800 rounded-2xl flex flex-col justify-center items-center text-center p-6 mb-12 shadow-inner">
+            <div className="w-12 h-12 rounded-xl bg-slate-900/90 border border-slate-800/80 flex items-center justify-center text-cyan-400 mb-4 shadow-md shadow-cyan-500/5">
+              <ImageIcon className="w-6 h-6 animate-pulse" />
+            </div>
+            <p className="text-xs md:text-sm font-mono text-slate-400 max-w-xl leading-relaxed">
+              {post.imgPlaceholder}
+            </p>
+            <span className="text-[10px] text-slate-600 tracking-widest uppercase mt-4 block">
+              Ecosystem Blueprint Schema // code2career_ai
+            </span>
+          </div>
+
+          {/* Render Loop Parsing Core Body Content Paragraph Sheets */}
+          <article className="space-y-6 text-slate-300 text-base md:text-lg leading-relaxed font-normal tracking-wide border-b border-slate-800/60 pb-16">
+            {post.content.map((paragraph, index) => (
+              <p key={index} className="first-letter:text-xl first-letter:font-bold first-letter:text-white">
+                {paragraph}
+              </p>
+            ))}
+          </article>
+
+          {/* Next Read Footer Segment Block */}
+          <div className="mt-16 bg-gradient-to-r from-slate-900 via-[#0a142e] to-slate-900 border border-slate-800 rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            <div>
+              <h3 className="text-lg font-bold text-white mb-1">Ready to design this architecture live?</h3>
+              <p className="text-slate-400 text-xs">Schedule an implementation critique review session directly with enterprise AI developers.</p>
+            </div>
+            <Link href="/contact?ref=blog-deep-dive" className="bg-cyan-500 hover:bg-cyan-400 text-black font-black px-6 py-3 rounded-full text-xs tracking-widest uppercase whitespace-nowrap shadow-lg shadow-cyan-500/10 transition-colors">
+              Request System Audit
+            </Link>
+          </div>
+
+        </div>
+
+        {/* Global Structural Copyright Footer */}
+        <footer className="border-t border-white/10 py-8 px-6 bg-[#090f1e] w-full">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <span className="text-cyan-400 font-bold">code2career_ai</span>
+            <p className="text-gray-500 text-sm" suppressHydrationWarning>
+              &copy; {new Date().getFullYear()} ALL RIGHTS RESERVED
+            </p>
+            <p className="text-gray-600 text-xs">Architected for Freshers &amp; AI Enthusiasts</p>
+          </div>
+        </footer>
+      </main>
+    </>
   );
 }
