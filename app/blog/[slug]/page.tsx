@@ -5,13 +5,20 @@ import Link from 'next/link';
 import { 
   Clock, 
   ArrowLeft, 
-  BookOpen, 
   Calendar, 
   Image as ImageIcon,
   Menu,
   X 
 } from 'lucide-react';
 import { BLOG_POSTS_DATA } from '../../../lib/blog-data';
+
+// --- CRITICAL STATIC EXPORT CONFIGURATION ---
+// This tells the Next.js compiler exactly what HTML pages to generate during "npm run build"
+export function generateStaticParams() {
+  return BLOG_POSTS_DATA.map((post) => ({
+    slug: post.slug,
+  }));
+}
 
 interface PageProps {
   params: Promise<{ slug: string }>;
