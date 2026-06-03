@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 // ---------------------------------------------------------------
 const VIDEOS = [
   {
-    id: 'dQw4w9WgXcQ', // <-- replace with your real video ID
+    id: '2Vrs1QXlU6M', // <-- replace with your real video ID
     title: 'How to Build a RAG Chatbot from Scratch — Full Project Walkthrough',
     description: 'Step-by-step guide to building a production-style RAG system using LangChain, Pinecone, and a Next.js frontend.',
     category: 'Project Build',
@@ -29,7 +29,7 @@ const VIDEOS = [
     uploadDate: '2026-05-18',
   },
   {
-    id: 'dQw4w9WgXcQ', // <-- replace with your real video ID
+    id: '2Vrs1QXlU6M', // <-- replace with your real video ID
     title: 'AI Roadmap for Freshers in 2025 — Where to Actually Start',
     description: 'A clear, opinionated breakdown of what to learn first, what to skip, and what actually gets you hired in AI roles.',
     category: 'Career Advice',
@@ -37,7 +37,7 @@ const VIDEOS = [
     uploadDate: '2026-05-10',
   },
   {
-    id: 'dQw4w9WgXcQ', // <-- replace with your real video ID
+    id: '2Vrs1QXlU6M', // <-- replace with your real video ID
     title: 'GitHub Profile Audit for AI Freshers — What Recruiters Actually Look For',
     description: 'Live audit of a real fresher GitHub profile with actionable improvements to make your repos look production-ready.',
     category: 'Career Advice',
@@ -45,7 +45,7 @@ const VIDEOS = [
     uploadDate: '2026-04-28',
   },
   {
-    id: 'dQw4w9WgXcQ', // <-- replace with your real video ID
+    id: '2Vrs1QXlU6M', // <-- replace with your real video ID
     title: 'LangGraph Multi-Agent System — Build a Real Agentic Workflow',
     description: 'Hands-on walkthrough of building a multi-agent orchestration system with LangGraph and Python.',
     category: 'Project Build',
