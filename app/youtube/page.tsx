@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { VIDEOS_DATA, CATEGORY_LABELS, AICategory, VideoItem } from './videos';
+import { VIDEOS_DATA, CATEGORY_LABELS, AICategory, VideoItem, GLOBAL_VIDEO_URL } from './videos';
 
 export default function YouTubeGatewayPage() {
   const [activeTab, setActiveTab] = useState<AICategory | 'all'>('all');
@@ -19,7 +19,7 @@ export default function YouTubeGatewayPage() {
         <header className="mb-12 text-center md:text-left">
           <div className="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-widest uppercase bg-red-500/10 text-red-400 border border-red-500/20 px-3 py-1.5 rounded-md mb-4">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            Video core initialization
+            Video core initialized
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight">
             code2career_ai // Video Classrooms
@@ -29,7 +29,7 @@ export default function YouTubeGatewayPage() {
           </p>
         </header>
 
-        {/* --- STEP 2.1: INTERACTIVE TAB NAVIGATION TRACK --- */}
+        {/* --- DYNAMIC INTERACTIVE TAB NAVIGATION TRACK --- */}
         <div className="flex items-center border-b border-slate-800 pb-px mb-10 overflow-x-auto no-scrollbar scroll-smooth">
           <div className="flex space-x-1 min-w-max pb-3">
             {(Object.keys(CATEGORY_LABELS) as Array<AICategory | 'all'>).map((key) => {
@@ -51,47 +51,76 @@ export default function YouTubeGatewayPage() {
           </div>
         </div>
 
-        {/* --- STEP 2.2: DYNAMIC CLICKABLE CARDS GRID --- */}
+        {/* --- DYNAMIC CLICKABLE CARDS GRID WITH THUMBNAIL BACKDROPS --- */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredVideos.map((video: VideoItem) => (
-            <a
-              key={video.id}
-              href={video.youtubeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col justify-between bg-slate-900/30 border border-slate-800/80 hover:border-cyan-500/30 rounded-2xl p-6 transition-all duration-300 backdrop-blur-sm cursor-pointer hover:bg-slate-900/60 hover:-translate-y-1 shadow-md"
-            >
-              <div className="flex-1">
-                {/* Meta Indicator Row */}
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-slate-500 bg-slate-950/60 px-2.5 py-1 rounded-md border border-slate-800/50">
-                    {CATEGORY_LABELS[video.category]}
-                  </span>
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest bg-cyan-500/10 px-2.5 py-1 rounded text-cyan-400 border border-cyan-500/10">
-                    {video.isComingSoon ? '⏳ Coming Soon' : '🍿 Watch Now'}
-                  </span>
+          {filteredVideos.map((video: VideoItem) => {
+            // Dynamically construct the standard high-resolution YouTube thumbnail placeholder url
+            const thumbnailUrl = `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`;
+
+            return (
+              <a
+                key={video.id}
+                href={GLOBAL_VIDEO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col justify-between bg-slate-900/30 border border-slate-800/80 hover:border-cyan-500/40 rounded-2xl p-0 overflow-hidden transition-all duration-300 backdrop-blur-sm cursor-pointer hover:bg-slate-900/60 hover:-translate-y-1 shadow-md"
+              >
+                {/* Visual Thumbnail Segment */}
+                <div className="relative w-full aspect-video bg-slate-950 overflow-hidden border-b border-slate-800/80">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img 
+                    src={thumbnailUrl} 
+                    alt={video.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-70 group-hover:opacity-90"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+                  
+                  {/* Floating Absolute Tags over Video Preview Image */}
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+                    <span className="text-[9px] font-mono font-bold tracking-widest uppercase text-slate-300 bg-slate-950/80 px-2 py-0.5 rounded border border-slate-700/50 backdrop-blur-sm">
+                      {CATEGORY_LABELS[video.category]}
+                    </span>
+                    <span className="text-[9px] font-mono font-bold uppercase tracking-widest bg-cyan-500/20 px-2 py-0.5 rounded text-cyan-300 border border-cyan-400/20 backdrop-blur-sm">
+                      {video.isComingSoon ? '⏳ Coming Soon' : '🍿 Watch'}
+                    </span>
+                  </div>
+
+                  {/* Play Action Icon Centerpiece overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-12 h-12 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                      <svg className="w-5 h-5 fill-current ml-0.5" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Title and Summary Block */}
-                <h3 className="text-base font-bold text-slate-100 leading-snug tracking-wide group-hover:text-cyan-400 transition-colors duration-200 mb-2">
-                  {video.title}
-                </h3>
-                <p className="text-xs text-slate-400 leading-relaxed line-clamp-3 group-hover:text-slate-300 transition-colors duration-200">
-                  {video.description}
-                </p>
-              </div>
+                {/* Content Block Details */}
+                <div className="flex-1 p-6 flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-base font-bold text-slate-100 leading-snug tracking-wide group-hover:text-cyan-400 transition-colors duration-200 mb-2">
+                      {video.title}
+                    </h3>
+                    <p className="text-xs text-slate-400 leading-relaxed line-clamp-3 group-hover:text-slate-300 transition-colors duration-200">
+                      {video.description}
+                    </p>
+                  </div>
 
-              {/* Bottom Interactive Anchor Visualizer */}
-              <div className="mt-6 pt-4 border-t border-slate-800/50 flex items-center justify-between">
-                <span className="text-xs font-mono font-black tracking-wider text-red-400 group-hover:text-red-300 transition-colors">
-                  ▶ YouTube Video
-                </span>
-                <span className="text-xs font-bold text-slate-600 group-hover:text-cyan-400 transition-transform duration-300 translate-x-0 group-hover:translate-x-1 font-mono">
-                  Subscribe to Watch →
-                </span>
-              </div>
-            </a>
-          ))}
+                  {/* Bottom Interactive Anchor Visualizer */}
+                  <div className="mt-6 pt-4 border-t border-slate-800/50 flex items-center justify-between">
+                    <span className="text-xs font-mono font-black tracking-wider text-red-400 group-hover:text-red-300 transition-colors">
+                      ▶ Watch Breakdown
+                    </span>
+                    <span className="text-xs font-bold text-slate-600 group-hover:text-cyan-400 transition-transform duration-300 translate-x-0 group-hover:translate-x-1 font-mono">
+                      Subscribe →
+                    </span>
+                  </div>
+                </div>
+
+              </a>
+            );
+          })}
         </div>
 
         {/* Graceful Fallback Frame when no item records are mapped */}
