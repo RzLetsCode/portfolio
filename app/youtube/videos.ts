@@ -4,7 +4,7 @@ export interface VideoItem {
   id: string;
   title: string;
   description: string;
-  category: AICategory; // Updated to match your exact domain targets
+  category: AICategory;
   youtubeUrl: string;
   isComingSoon: boolean;
 }
@@ -12,7 +12,6 @@ export interface VideoItem {
 export const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@Code2Career_AI';
 
 export const VIDEOS_DATA: VideoItem[] = [
-  // 1. ROADMAPS
   {
     id: 'roadmap-2026',
     title: 'The Definitive 90-Day AI Engineer Roadmap for 2026',
@@ -21,7 +20,6 @@ export const VIDEOS_DATA: VideoItem[] = [
     youtubeUrl: YOUTUBE_CHANNEL_URL,
     isComingSoon: true,
   },
-  // 2. INTERVIEW TIPS
   {
     id: 'interview-scenarios',
     title: 'Deconstructing the AI Engineering Interview Question Bank',
@@ -30,7 +28,6 @@ export const VIDEOS_DATA: VideoItem[] = [
     youtubeUrl: YOUTUBE_CHANNEL_URL,
     isComingSoon: true,
   },
-  // 3. RAG BASED
   {
     id: 'layout-aware-rag',
     title: 'Production RAG: Layout-Aware Hierarchical Chunking over PDFs',
@@ -39,7 +36,6 @@ export const VIDEOS_DATA: VideoItem[] = [
     youtubeUrl: YOUTUBE_CHANNEL_URL,
     isComingSoon: true,
   },
-  // 4. AI OPS
   {
     id: 'aiops-concurrency',
     title: 'High-Throughput Async Pipelines & Rate-Limit Backoffs',
@@ -48,7 +44,6 @@ export const VIDEOS_DATA: VideoItem[] = [
     youtubeUrl: YOUTUBE_CHANNEL_URL,
     isComingSoon: true,
   },
-  // 5. ARCHITECTURE
   {
     id: 'langgraph-agents',
     title: 'Orchestrating Stateful, Cyclical Multi-Agent Swarms with LangGraph',
@@ -59,21 +54,11 @@ export const VIDEOS_DATA: VideoItem[] = [
   }
 ];
 
-// Structural Helper Functions
-export function getAllVideos() {
-  return VIDEOS_DATA;
-}
-
-export function getVideosByCategory(category: string) {
-  return VIDEOS_DATA.filter(video => video.category === category.toLowerCase());
-}
-
-export function getGroupedVideos() {
-  return VIDEOS_DATA.reduce((acc, video) => {
-    if (!acc[video.category]) {
-      acc[video.category] = [];
-    }
-    acc[video.category].push(video);
-    return acc;
-  }, {} as Record<AICategory, VideoItem[]>);
-}
+export const CATEGORY_LABELS: Record<AICategory | 'all', string> = {
+  all: 'All Ecosystems',
+  roadmaps: 'AI Roadmaps',
+  interviews: 'Interview Tips',
+  rag: 'RAG Based',
+  aiops: 'AI Ops',
+  architecture: 'Architecture',
+};
