@@ -5,11 +5,12 @@ export interface VideoItem {
   title: string;
   description: string;
   category: AICategory;
-  youtubeUrl: string;
+  youtubeId: string; // Storing the explicit video ID for thumbnail rendering
   isComingSoon: boolean;
 }
 
-export const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@Code2Career_AI';
+// Centralized video link target requested for global fallback
+export const GLOBAL_VIDEO_URL = 'https://www.youtube.com/watch?v=OUALaL1iAPc';
 
 export const VIDEOS_DATA: VideoItem[] = [
   {
@@ -17,7 +18,7 @@ export const VIDEOS_DATA: VideoItem[] = [
     title: 'The Definitive 90-Day AI Engineer Roadmap for 2026',
     description: 'The exact milestone progression to move from simple API wrapping to production-grade cognitive system engineering.',
     category: 'roadmaps',
-    youtubeUrl: YOUTUBE_CHANNEL_URL,
+    youtubeId: 'OUALaL1iAPc',
     isComingSoon: true,
   },
   {
@@ -25,7 +26,7 @@ export const VIDEOS_DATA: VideoItem[] = [
     title: 'Deconstructing the AI Engineering Interview Question Bank',
     description: 'How to articulate code layout, token constraints, evaluation validation steps, and latency trade-offs during system design loops.',
     category: 'interviews',
-    youtubeUrl: YOUTUBE_CHANNEL_URL,
+    youtubeId: 'OUALaL1iAPc',
     isComingSoon: true,
   },
   {
@@ -33,7 +34,7 @@ export const VIDEOS_DATA: VideoItem[] = [
     title: 'Production RAG: Layout-Aware Hierarchical Chunking over PDFs',
     description: 'Stop using naive character splits. Parse complex enterprise multi-column documentation via structural node parsing grids to eliminate hallucinations.',
     category: 'rag',
-    youtubeUrl: YOUTUBE_CHANNEL_URL,
+    youtubeId: 'OUALaL1iAPc',
     isComingSoon: true,
   },
   {
@@ -41,7 +42,7 @@ export const VIDEOS_DATA: VideoItem[] = [
     title: 'High-Throughput Async Pipelines & Rate-Limit Backoffs',
     description: 'Architecting local inference infrastructure using Python asyncio and Pydantic validation queues that don\'t choke under scale.',
     category: 'aiops',
-    youtubeUrl: YOUTUBE_CHANNEL_URL,
+    youtubeId: 'OUALaL1iAPc',
     isComingSoon: true,
   },
   {
@@ -49,7 +50,7 @@ export const VIDEOS_DATA: VideoItem[] = [
     title: 'Orchestrating Stateful, Cyclical Multi-Agent Swarms with LangGraph',
     description: 'Designing graph state communication networks featuring safe Human-in-the-Loop validation boundary barriers.',
     category: 'architecture',
-    youtubeUrl: YOUTUBE_CHANNEL_URL,
+    youtubeId: 'OUALaL1iAPc',
     isComingSoon: true,
   }
 ];
