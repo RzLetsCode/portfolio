@@ -15,18 +15,55 @@ export default function YouTubeGatewayPage() {
     <main className="min-h-screen bg-[#0f172a] text-slate-100 py-16 px-4 sm:px-6 lg:px-8 selection:bg-cyan-500/30">
       <div className="max-w-6xl mx-auto">
         
-        {/* Terminal Header Area */}
-        <header className="mb-12 text-center md:text-left">
-          <div className="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-widest uppercase bg-red-500/10 text-red-400 border border-red-500/20 px-3 py-1.5 rounded-md mb-4">
-            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            Video core initialized
+        {/* ========================================== */}
+        {/* PREMIUM ENTERPRISE HERO HEADER SECTION  */}
+        {/* ========================================== */}
+        <header className="relative mb-16 rounded-3xl border border-slate-800/80 bg-gradient-to-br from-slate-900/60 via-slate-900/30 to-transparent p-8 md:p-12 overflow-hidden backdrop-blur-md shadow-2xl">
+          {/* Subtle Technical Grid Background Artifact */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-15 pointer-events-none" />
+          
+          <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6 z-10">
+            <div className="space-y-4 max-w-3xl">
+              
+              {/* Core Initialization Status Badge */}
+              <div className="inline-flex items-center gap-2.5 rounded-full border border-cyan-500/30 bg-cyan-950/40 px-3.5 py-1.5 text-xs font-mono font-bold tracking-widest text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.08)]">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                </span>
+                VIDEO_CORE_INITIALIZED // ENGINE_ONLINE
+              </div>
+              
+              {/* Brand Title with High-Contrast Split Effect */}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-none">
+                code2career<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-200 to-white">_ai</span>
+                <span className="block text-xl md:text-2xl font-mono font-bold text-slate-500 tracking-wider mt-3 uppercase">
+                  // Video Classrooms
+                </span>
+              </h1>
+              
+              {/* Premium Sub-text Description with Sharp Copy */}
+              <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-2xl font-normal pt-1">
+                Demystifying <span className="text-slate-200 font-semibold">enterprise cognitive architectures</span>, multi-cluster <span className="text-slate-200 font-semibold">vector grids</span>, and production-grade <span className="text-slate-200 font-semibold">high-throughput execution flows</span> broken down step-by-step for the modern software engineer.
+              </p>
+            </div>
+
+            {/* Micro Global Metrics Panel for Aesthetic Depth */}
+            <div className="hidden lg:flex flex-col gap-3 p-4 bg-slate-950/50 border border-slate-800/80 rounded-2xl font-mono text-[10px] text-slate-500 min-w-[200px]">
+              <div className="flex justify-between border-b border-slate-900 pb-1.5">
+                <span>SYSTEM TARGET:</span>
+                <span className="text-cyan-400 font-bold">PRODUCTION</span>
+              </div>
+              <div className="flex justify-between border-b border-slate-900 pb-1.5">
+                <span>INDEXED SEGMENTS:</span>
+                <span className="text-slate-300">05_MODULES</span>
+              </div>
+              <div className="flex justify-between">
+                <span>PIPELINE STATUS:</span>
+                <span className="text-red-400 animate-pulse font-bold">AWAITING_DROP</span>
+              </div>
+            </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight">
-            code2career_ai // Video Classrooms
-          </h1>
-          <p className="text-slate-400 mt-3 max-w-2xl text-sm md:text-base leading-relaxed">
-            Enterprise cognitive architectures, vector grids, and high-throughput execution flows broken down step-by-step.
-          </p>
         </header>
 
         {/* --- DYNAMIC INTERACTIVE TAB NAVIGATION TRACK --- */}
@@ -54,7 +91,6 @@ export default function YouTubeGatewayPage() {
         {/* --- DYNAMIC CLICKABLE CARDS GRID WITH THUMBNAIL BACKDROPS --- */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredVideos.map((video: VideoItem) => {
-            // Dynamically construct the standard high-resolution YouTube thumbnail placeholder url
             const thumbnailUrl = `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`;
 
             return (
@@ -104,7 +140,7 @@ export default function YouTubeGatewayPage() {
                     </h3>
                     <p className="text-xs text-slate-400 leading-relaxed line-clamp-3 group-hover:text-slate-300 transition-colors duration-200">
                       {video.description}
-                    </p>
+                </p>
                   </div>
 
                   {/* Bottom Interactive Anchor Visualizer */}
