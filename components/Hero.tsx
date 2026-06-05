@@ -33,8 +33,7 @@ export default function Hero() {
             >
               Start your AI journey
             </Link>
-            v>
-        </div>
+            </div>        </div>
 
         {/* Right side: High-Converting Value Card */}
         <div className={styles.heroSide}>
