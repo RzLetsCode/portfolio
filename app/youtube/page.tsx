@@ -29,7 +29,7 @@ export default function YouTubeGatewayPage() {
               </p>
             </div>
             <a
-              href="https://www.youtube.com/@code2careerai"
+              href="https://www.youtube.com/@Code2Career_AI"
               target="_blank"
               rel="noopener noreferrer"
               className="shrink-0 inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 transition-colors text-white font-semibold text-sm px-5 py-3 rounded-xl"
