@@ -33,13 +33,7 @@ export default function Hero() {
             >
               Start your AI journey
             </Link>
-            <Link
-              href="#projects"
-              className={`${styles.btn} ${styles.btnSecondary}`}
-            >
-              Explore project ecosystem
-            </Link>
-          </div>
+            div>
         </div>
 
         {/* Right side: High-Converting Value Card */}
