@@ -174,7 +174,7 @@ export default function Home() {
         <section className="py-20 px-6 bg-[#0f172a] border-t border-slate-800/80">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              
+
               {/* Blog Gateway */}
               <div className="border border-slate-800 bg-[#111c3a]/40 rounded-2xl p-8 flex flex-col justify-between items-start">
                 <div>
@@ -183,8 +183,11 @@ export default function Home() {
                     <span className="text-blue-400 text-xs font-bold uppercase tracking-wider">Tech Blog</span>
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-3">Production AI Insights</h3>
+                  {/* UPDATED: Replaced jargon-heavy copy with outcome-driven, fresher-friendly language */}
                   <p className="text-gray-400 mb-6 leading-relaxed">
-                    Read comprehensive structural guides exploring enterprise data orchestration, semantic indexing tuning, vector DB deployments, and agent code optimizations.
+                    Deep-dive articles on building production AI systems — RAG pipelines,
+                    multi-agent architectures, vector databases, and real-world engineering
+                    decisions explained for builders at every level.
                   </p>
                 </div>
                 <Link href="/blog/" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold group mt-4">
@@ -201,8 +204,11 @@ export default function Home() {
                     <span className="text-red-400 text-xs font-bold uppercase tracking-wider">Video Hub</span>
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-3">Code2Career_AI on YouTube</h3>
+                  {/* UPDATED: Clear builder-focused value prop for freshers and career switchers */}
                   <p className="text-gray-400 mb-6 leading-relaxed">
-                    Watch end-to-end architecture code sessions, system flow breakdowns, and practical live updates outlining engineering requirements for generative systems.
+                    Watch full end-to-end build sessions — from blank repo to deployed AI system.
+                    Architecture walkthroughs, live coding, and career-focused breakdowns
+                    for freshers and career switchers.
                   </p>
                 </div>
                 <Link href="/youtube/" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold group mt-4">
@@ -223,28 +229,33 @@ export default function Home() {
               <span className="text-cyan-400 text-xs font-bold tracking-widest uppercase">Take the next step</span>
             </div>
 
+            {/* UPDATED: Specific, personal heading replacing generic "Next Generation of AI" */}
             <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
-              Ready to build the{' '}
+              Your AI portfolio{' '}
               <span className="relative inline-block">
-                <span className="text-cyan-400">Next Generation</span>
+                <span className="text-cyan-400">starts here.</span>
                 <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400/50" />
-              </span>{' '}
-              of AI?
+              </span>
             </h2>
 
+            {/* UPDATED: Fresher + career-switcher framing with concrete deliverables */}
             <p className="text-gray-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
-              Whether you&apos;re starting from scratch or leveling up your AI projects, we can turn vague goals into a concrete roadmap, portfolio and narrative.
+              Whether you&apos;re a fresher finding your path or a professional pivoting into AI —
+              get a concrete roadmap, production-grade portfolio projects, and
+              1:1 mentorship built around your goals.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              {/* UPDATED: "Book a Free Strategy Call" replaces "Initiate Contact" — drives real conversions */}
               <Link
                 href="/contact/"
                 className="group bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-4 rounded-full text-lg transition-all duration-200 flex items-center gap-2"
               >
-                Initiate Contact
+                Book a Free Strategy Call
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <p className="text-gray-500 text-sm">Response within 24 hours &bull; 1:1 guidance</p>
+              {/* UPDATED: Added "Free 30-min call · No commitment" to reduce hesitation */}
+              <p className="text-gray-500 text-sm">Free 30-min call &bull; Response within 24 hours &bull; No commitment</p>
             </div>
 
             <div className="flex items-center justify-center gap-6 mt-16">
@@ -269,7 +280,8 @@ export default function Home() {
           <p className="text-gray-500 text-sm" suppressHydrationWarning>
             &copy; {new Date().getFullYear()} ALL RIGHTS RESERVED
           </p>
-          <p className="text-gray-600 text-xs">Architected for Freshers &amp; AI Enthusiasts</p>
+          {/* UPDATED: "AI Career Builders" is more aspirational than "AI Enthusiasts" */}
+          <p className="text-gray-600 text-xs">Built for Freshers &amp; AI Career Builders</p>
         </div>
       </footer>
 
