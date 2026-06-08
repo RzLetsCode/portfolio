@@ -14,7 +14,6 @@ import {
   X
 } from 'lucide-react';
 
-// Section components (Mentorship import removed during refactor)
 import Hero from '../components/Hero';
 import Journey from '../components/Journey';
 import Audience from '../components/Audience';
@@ -157,38 +156,7 @@ export default function Home() {
       <main className="pt-20 bg-[#0f172a]">
         {/* About / Hero */}
         <section id="about" style={{ scrollMarginTop: '70px' }}>
-          {/*
-            ============================================================
-            HERO SECTION — inline override via wrapper
-            Since Hero is an imported component, we layer a text block
-            ABOVE it inside the same section if Hero renders its own
-            copy internally. If Hero accepts props, pass them directly.
-
-            RECOMMENDED: Pass these as props to Hero instead of hardcoding here.
-            ============================================================
-
-            UPDATED HEADLINE COPY:
-            OLD: "Learn AI. Build Production AI Projects for Your Portfolio. Get Career-Ready for AI Roles."
-            NEW: Split into a tight one-two punch — primary hook + outcome
-
-            UPDATED BODY COPY:
-            OLD: "A comprehensive, beginner-friendly ecosystem for students, freshers,
-                  and tech professionals aiming to transition. Gain actionable AI roadmaps,
-                  build enterprise-ready repositories, and receive production-minded mentorship
-                  to secure your next role."
-            NEW: Sharper, outcome-first, removes filler words like "comprehensive" and "ecosystem"
-
-            UPDATED CTA:
-            OLD: "Start Your AI Journey"  →  feels vague, no urgency
-            NEW: "See the Roadmap"        →  specific, low-friction, curiosity-driven
-          */}
-          <Hero
-            headline1="Learn AI Engineering."
-            headline2="Ship Real Projects. Land Your First AI Role."
-            body="Stop watching tutorials and start building. Get a structured roadmap, hands-on production projects you can put on GitHub, and 1:1 mentorship — designed specifically for freshers and career switchers breaking into AI."
-            ctaLabel="See the Roadmap"
-            ctaHref="#career-path"
-          />
+          <Hero />
         </section>
 
         {/* Audience */}
@@ -214,7 +182,6 @@ export default function Home() {
                     <span className="text-blue-400 text-xs font-bold uppercase tracking-wider">Tech Blog</span>
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-3">Production AI Insights</h3>
-                  {/* UPDATED: Replaced jargon-heavy copy with outcome-driven, fresher-friendly language */}
                   <p className="text-gray-400 mb-6 leading-relaxed">
                     Deep-dive articles on building production AI systems — RAG pipelines,
                     multi-agent architectures, vector databases, and real-world engineering
@@ -238,7 +205,6 @@ export default function Home() {
                     <span className="text-red-400 text-xs font-bold uppercase tracking-wider">Video Hub</span>
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-3">Code2Career_AI on YouTube</h3>
-                  {/* UPDATED: Clear builder-focused value prop for freshers and career switchers */}
                   <p className="text-gray-400 mb-6 leading-relaxed">
                     Watch full end-to-end build sessions — from blank repo to deployed AI system.
                     Architecture walkthroughs, live coding, and career-focused breakdowns
@@ -253,6 +219,7 @@ export default function Home() {
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
+
             </div>
           </div>
         </section>
@@ -263,10 +230,11 @@ export default function Home() {
 
           <div className="relative max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/20 rounded-full px-4 py-1.5 mb-8">
-              <span className="text-cyan-400 text-xs font-bold tracking-widest uppercase">Take the next step</span>
+              <span className="text-cyan-400 text-xs font-bold tracking-widest uppercase">
+                Take the next step
+              </span>
             </div>
 
-            {/* UPDATED: Specific, personal heading replacing generic "Next Generation of AI" */}
             <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
               Your AI portfolio{' '}
               <span className="relative inline-block">
@@ -275,15 +243,13 @@ export default function Home() {
               </span>
             </h2>
 
-            {/* UPDATED: Fresher + career-switcher framing with concrete deliverables */}
             <p className="text-gray-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
               Whether you&apos;re a fresher finding your path or a professional pivoting into AI —
-              get a concrete roadmap, production-grade portfolio projects, and
-              1:1 mentorship built around your goals.
+              get a concrete roadmap, production-grade portfolio projects, and 1:1 mentorship
+              built around your goals.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              {/* UPDATED: "Book a Free Strategy Call" replaces "Initiate Contact" */}
               <Link
                 href="/contact/"
                 className="group bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-4 rounded-full text-lg transition-all duration-200 flex items-center gap-2"
@@ -291,7 +257,6 @@ export default function Home() {
                 Book a Free Strategy Call
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              {/* UPDATED: Reduces hesitation with "Free · No commitment" framing */}
               <p className="text-gray-500 text-sm">
                 Free 30-min call &bull; Response within 24 hours &bull; No commitment
               </p>
@@ -314,4 +279,33 @@ export default function Home() {
               >
                 <Linkedin className="w-5 h-5" />
               </a>
-              
+              <Link
+                href="/blog/"
+                className="text-gray-500 hover:text-cyan-400 transition-colors"
+              >
+                <Globe className="w-5 h-5" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-white/10 py-8 px-6 bg-[#090f1e]">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <span className="text-cyan-400 font-bold">code2career_ai</span>
+          <p className="text-gray-500 text-sm" suppressHydrationWarning>
+            &copy; {new Date().getFullYear()} ALL RIGHTS RESERVED
+          </p>
+          <p className="text-gray-600 text-xs">Built for Freshers &amp; AI Career Builders</p>
+        </div>
+      </footer>
+
+      <style jsx global>{`
+        html {
+          scroll-behavior: smooth;
+        }
+      `}</style>
+    </>
+  );
+}
