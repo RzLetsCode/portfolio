@@ -157,7 +157,38 @@ export default function Home() {
       <main className="pt-20 bg-[#0f172a]">
         {/* About / Hero */}
         <section id="about" style={{ scrollMarginTop: '70px' }}>
-          <Hero />
+          {/*
+            ============================================================
+            HERO SECTION — inline override via wrapper
+            Since Hero is an imported component, we layer a text block
+            ABOVE it inside the same section if Hero renders its own
+            copy internally. If Hero accepts props, pass them directly.
+
+            RECOMMENDED: Pass these as props to Hero instead of hardcoding here.
+            ============================================================
+
+            UPDATED HEADLINE COPY:
+            OLD: "Learn AI. Build Production AI Projects for Your Portfolio. Get Career-Ready for AI Roles."
+            NEW: Split into a tight one-two punch — primary hook + outcome
+
+            UPDATED BODY COPY:
+            OLD: "A comprehensive, beginner-friendly ecosystem for students, freshers,
+                  and tech professionals aiming to transition. Gain actionable AI roadmaps,
+                  build enterprise-ready repositories, and receive production-minded mentorship
+                  to secure your next role."
+            NEW: Sharper, outcome-first, removes filler words like "comprehensive" and "ecosystem"
+
+            UPDATED CTA:
+            OLD: "Start Your AI Journey"  →  feels vague, no urgency
+            NEW: "See the Roadmap"        →  specific, low-friction, curiosity-driven
+          */}
+          <Hero
+            headline1="Learn AI Engineering."
+            headline2="Ship Real Projects. Land Your First AI Role."
+            body="Stop watching tutorials and start building. Get a structured roadmap, hands-on production projects you can put on GitHub, and 1:1 mentorship — designed specifically for freshers and career switchers breaking into AI."
+            ctaLabel="See the Roadmap"
+            ctaHref="#career-path"
+          />
         </section>
 
         {/* Audience */}
@@ -190,7 +221,10 @@ export default function Home() {
                     decisions explained for builders at every level.
                   </p>
                 </div>
-                <Link href="/blog/" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold group mt-4">
+                <Link
+                  href="/blog/"
+                  className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold group mt-4"
+                >
                   Explore written articles
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -211,7 +245,10 @@ export default function Home() {
                     for freshers and career switchers.
                   </p>
                 </div>
-                <Link href="/youtube/" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold group mt-4">
+                <Link
+                  href="/youtube/"
+                  className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold group mt-4"
+                >
                   Watch step-by-step builds
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -246,7 +283,7 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              {/* UPDATED: "Book a Free Strategy Call" replaces "Initiate Contact" — drives real conversions */}
+              {/* UPDATED: "Book a Free Strategy Call" replaces "Initiate Contact" */}
               <Link
                 href="/contact/"
                 className="group bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-4 rounded-full text-lg transition-all duration-200 flex items-center gap-2"
@@ -254,42 +291,27 @@ export default function Home() {
                 Book a Free Strategy Call
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              {/* UPDATED: Added "Free 30-min call · No commitment" to reduce hesitation */}
-              <p className="text-gray-500 text-sm">Free 30-min call &bull; Response within 24 hours &bull; No commitment</p>
+              {/* UPDATED: Reduces hesitation with "Free · No commitment" framing */}
+              <p className="text-gray-500 text-sm">
+                Free 30-min call &bull; Response within 24 hours &bull; No commitment
+              </p>
             </div>
 
             <div className="flex items-center justify-center gap-6 mt-16">
-              <a href="https://www.youtube.com/@Code2Career_AI" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-red-400 transition-colors">
+              <a
+                href="https://www.youtube.com/@Code2Career_AI"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-red-400 transition-colors"
+              >
                 <Youtube className="w-5 h-5" />
               </a>
-              <a href="https://www.linkedin.com/company/code2career-ai/" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-400 transition-colors">
+              <a
+                href="https://www.linkedin.com/company/code2career-ai/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-blue-400 transition-colors"
+              >
                 <Linkedin className="w-5 h-5" />
               </a>
-              <Link href="/blog/" className="text-gray-500 hover:text-cyan-400 transition-colors">
-                <Globe className="w-5 h-5" />
-              </Link>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-white/10 py-8 px-6 bg-[#090f1e]">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="text-cyan-400 font-bold">code2career_ai</span>
-          <p className="text-gray-500 text-sm" suppressHydrationWarning>
-            &copy; {new Date().getFullYear()} ALL RIGHTS RESERVED
-          </p>
-          {/* UPDATED: "AI Career Builders" is more aspirational than "AI Enthusiasts" */}
-          <p className="text-gray-600 text-xs">Built for Freshers &amp; AI Career Builders</p>
-        </div>
-      </footer>
-
-      <style jsx global>{`
-        html {
-          scroll-behavior: smooth;
-        }
-      `}</style>
-    </>
-  );
-}
+              
