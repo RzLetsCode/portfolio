@@ -8,7 +8,6 @@ import {
   Youtube,
   Globe,
   ChevronRight,
-  BookOpen,
   PlayCircle,
   Menu,
   X
@@ -39,11 +38,11 @@ export default function Home() {
     };
   }, [mobileMenuOpen]);
 
+  // Removed the Tech Blog item from navigation arrays
   const navItems = [
     { label: 'About', href: '#about', external: false },
     { label: 'Roadmaps & Resources', href: '/resources/', external: false, dynamicPage: true },
     { label: 'Projects', href: '/projects/', external: false, dynamicPage: true },
-    { label: 'Tech Blog', href: '/blog/', external: false, dynamicPage: true },
     { label: 'Interviews', href: '/interviews/', external: false, dynamicPage: true },
     { label: 'YouTube', href: '/youtube/', external: false, dynamicPage: true },
     { label: 'Pricing', href: '/pricing/', external: false, dynamicPage: true },
@@ -85,8 +84,6 @@ export default function Home() {
                 <a
                   key={item.label}
                   href={item.href}
-                  target={item.external ? '_blank' : undefined}
-                  rel={item.external ? 'noopener noreferrer' : undefined}
                   className="text-gray-300 hover:text-cyan-400 transition-colors text-sm font-medium"
                 >
                   {item.label}
@@ -132,8 +129,6 @@ export default function Home() {
                   <a
                     key={item.label}
                     href={item.href}
-                    target={item.external ? '_blank' : undefined}
-                    rel={item.external ? 'noopener noreferrer' : undefined}
                     onClick={closeMobileMenu}
                     className="text-gray-200 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors text-sm font-medium rounded-xl px-4 py-3"
                   >
@@ -170,36 +165,13 @@ export default function Home() {
           <Journey />
         </section>
 
-        {/* Mid-Page Ecosystem Gateways */}
+        {/* Mid-Page Ecosystem Gateways — Converted layout to 1-column layout for the single YouTube card */}
         <section className="py-20 px-6 bg-[#0f172a] border-t border-slate-800/80">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="max-w-3xl mx-auto">
 
-              {/* Blog Gateway */}
-              <div className="border border-slate-800 bg-[#111c3a]/40 rounded-2xl p-8 flex flex-col justify-between items-start">
-                <div>
-                  <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-md px-3 py-1 mb-4">
-                    <BookOpen className="w-4 h-4 text-blue-400" />
-                    <span className="text-blue-400 text-xs font-bold uppercase tracking-wider">Tech Blog</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-3">Production AI Insights</h3>
-                  <p className="text-gray-400 mb-6 leading-relaxed">
-                    Deep-dive articles on building production AI systems — RAG pipelines,
-                    multi-agent architectures, vector databases, and real-world engineering
-                    decisions explained for builders at every level.
-                  </p>
-                </div>
-                <Link
-                  href="/blog/"
-                  className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-semibold group mt-4"
-                >
-                  Explore written articles
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-
-              {/* YouTube Gateway */}
-              <div className="border border-slate-800 bg-[#111c3a]/40 rounded-2xl p-8 flex flex-col justify-between items-start">
+              {/* YouTube Gateway Component */}
+              <div className="border border-slate-800 bg-[#111c3a]/40 rounded-2xl p-8 flex flex-col justify-between items-start w-full">
                 <div>
                   <div className="inline-flex items-center gap-2 bg-red-500/10 border border-red-500/20 rounded-md px-3 py-1 mb-4">
                     <PlayCircle className="w-4 h-4 text-red-400" />
