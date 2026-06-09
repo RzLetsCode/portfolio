@@ -1,8 +1,6 @@
-'use client';
+// app/interviews/[slug]/page.tsx
 
-import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, BookOpen, Award } from 'lucide-react';
 import { INTERVIEW_QUESTIONS_DATA } from '../../../lib/interview-data';
@@ -11,12 +9,20 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default function InterviewQuestionPage({ params }: PageProps) {
-  const [slug, setSlug] = useState('');
+// 1. This generates static paths for your static export at build time
+export async function generateStaticParams() {
+  return INTERVIEW_QUESTIONS_DATA.map((question) => ({
+    slug: question.slug,
+  }));
+}
+
+// 2. The main page component behaves as a clean Server Component
+export default async function InterviewQuestionPage({ params }: PageProps) {
+  // Properly unwrap the params Promise as required by Next.js 15
+  const { slug } = await params;
   
-  // This is a simplified version - in production you'd use the actual params
-  // For now, we'll just render the first question as an example
-  const question = INTERVIEW_QUESTIONS_DATA[0];
+  // Find the exact question that matches the URL slug dynamically
+  const question = INTERVIEW_QUESTIONS_DATA.find((q) => q.slug === slug);
 
   if (!question) {
     notFound();
