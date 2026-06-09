@@ -44,6 +44,7 @@ export default function Home() {
     { label: 'Roadmaps & Resources', href: '/resources/', external: false, dynamicPage: true },
     { label: 'Projects', href: '/projects/', external: false, dynamicPage: true },
     { label: 'Tech Blog', href: '/blog/', external: false, dynamicPage: true },
+    { label: 'Interviews', href: '/interviews/', external: false, dynamicPage: true },
     { label: 'YouTube', href: '/youtube/', external: false, dynamicPage: true },
     { label: 'Pricing', href: '/pricing/', external: false, dynamicPage: true },
   ];
