@@ -52,9 +52,6 @@ export default function InterviewsPage() {
             <Link href="/" className="text-sm text-slate-400 hover:text-white transition-colors font-medium">
               Home
             </Link>
-            <Link href="/blog" className="text-sm text-slate-400 hover:text-white transition-colors font-medium">
-              Blog
-            </Link>
             <Link href="/interviews" className="text-sm text-cyan-400 font-bold relative after:absolute after:bottom-[-22px] after:left-0 after:right-0 after:h-[2px] after:bg-cyan-500">
               Interviews
             </Link>
@@ -75,9 +72,6 @@ export default function InterviewsPage() {
           <div className="md:hidden absolute top-full left-0 right-0 bg-[#0f172a]/98 backdrop-blur-md border-b border-slate-800/80 p-6 flex flex-col gap-4 shadow-xl animate-in fade-in slide-in-from-top-4 duration-200">
             <Link href="/" onClick={() => setMobileMenuOpen(false)} className="text-base text-slate-400 hover:text-white font-medium transition-colors py-1">
               Home
-            </Link>
-            <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="text-base text-slate-400 hover:text-white font-medium transition-colors py-1">
-              Blog
             </Link>
             <Link href="/interviews" onClick={() => setMobileMenuOpen(false)} className="text-base text-cyan-400 font-bold transition-colors py-1">
               Interviews
