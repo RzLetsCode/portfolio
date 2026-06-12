@@ -50,7 +50,7 @@ export default function ResourcesPage() {
       <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(15,23,42,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(51,65,85,0.5)', padding: '0 2rem', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ color: '#22d3ee', fontFamily: 'monospace', fontSize: '1rem', textDecoration: 'none' }}>&lt;&gt; code2career_ai</Link>
         <div style={{ display: 'flex', gap: '1.5rem' }}>
-          {[['Blog', '/blog'], ['YouTube', '/youtube'], ['Roadmap', '/roadmap'], ['Contact', '/contact']].map(([l, h]) => (
+          {[ ['YouTube', '/youtube'], ['Roadmap', '/roadmap'], ['Contact', '/contact']].map(([l, h]) => (
             <Link key={h} href={h} style={{ color: '#94a3b8', fontSize: '0.875rem', textDecoration: 'none' }}>{l}</Link>
           ))}
         </div>
