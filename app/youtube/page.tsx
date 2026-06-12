@@ -18,7 +18,6 @@ export default function YouTubeGatewayPage() {
     { label: 'About', href: '/#about' },
     { label: 'Roadmaps', href: '/resources/' },
     { label: 'Projects', href: '/projects/' },
-    { label: 'Blog', href: '/blog/' },
     { label: 'Pricing', href: '/pricing/' },
   ];
 
