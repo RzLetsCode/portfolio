@@ -28,9 +28,6 @@ export default function PricingPage() {
             <Link href="/projects/" className="text-gray-300 hover:text-cyan-400 transition-colors text-sm font-medium">
               Projects
             </Link>
-            <Link href="/blog/" className="text-gray-300 hover:text-cyan-400 transition-colors text-sm font-medium">
-              Blog
-            </Link>
           </div>
           <Link
             href="/contact/"
