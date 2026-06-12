@@ -167,7 +167,6 @@ export default function ProjectsPage() {
   const navItems = [
     { label: 'Home', href: '/', external: false, dynamicPage: true },
     { label: 'Roadmaps & Resources', href: '/resources/', external: false, dynamicPage: true },
-    { label: 'Tech Blog', href: '/blog/', external: false, dynamicPage: true },
     { label: 'YouTube', href: '/youtube/', external: false, dynamicPage: true },
     { label: 'Pricing', href: '/pricing/', external: false, dynamicPage: true },
   ];
